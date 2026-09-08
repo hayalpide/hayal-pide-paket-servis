@@ -496,7 +496,7 @@ main {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import { getDatabase, ref, set, update, onValue, push } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+import { getDatabase, ref, set, update, onValue, push, remove } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
@@ -1008,6 +1008,30 @@ async function updateOrderStatus(id, newStatus) {
   }
 }
 
+// SİPARİŞ SİLME FONKSİYONU
+async function deleteOrder(id) {
+  const order = allOrders[id];
+  if (!order) {
+    toast("Sipariş bulunamadı.");
+    return;
+  }
+  if (!confirm(`"${order.customerName}" adlı müşterinin siparişini kalıcı olarak silmek istediğinize emin misiniz?`)) return;
+  
+  try {
+    const updates = {};
+    updates[`orders/${id}`] = null;
+    if (order.courierId) {
+      updates[`courierOrders/${order.courierId}/${id}`] = null;
+    }
+    await update(ref(db), updates);
+    toast("🗑️ Sipariş silindi.");
+    // Gerekirse localStorage'dan da temizlik yapılabilir.
+  } catch (e) {
+    console.error(e);
+    toast("Sipariş silinirken bir hata oluştu.");
+  }
+}
+
 document.addEventListener("click", e => {
   const btnPrint = e.target.closest("[data-print]");
   if (btnPrint) {
@@ -1018,6 +1042,12 @@ document.addEventListener("click", e => {
   if (btnRoad) updateOrderStatus(btnRoad.dataset.road, "yolda");
   const btnDeliver = e.target.closest("[data-deliver]");
   if (btnDeliver) updateOrderStatus(btnDeliver.dataset.deliver, "teslim_edildi");
+  
+  // YENİ: Sipariş Silme
+  const btnDeleteOrder = e.target.closest("[data-del-order]");
+  if (btnDeleteOrder) {
+    deleteOrder(btnDeleteOrder.dataset.delOrder);
+  }
 });
 
 function orderCardHtml(o) {
@@ -1054,6 +1084,7 @@ function orderCardHtml(o) {
         <a class="btn btn-dark btn-sm" href="${waUrl}" target="_blank">💬 WhatsApp</a>
         ${actions}
         <button class="btn btn-dark btn-sm admin-only" data-print="${o.id}">🖨️ Fiş Bas</button>
+        <button class="btn btn-danger btn-sm admin-only" data-del-order="${o.id}">🗑️ Sil</button>
       </div>
     </div>
   `;
@@ -1077,20 +1108,98 @@ function renderHistory() {
 
 $("historySearch").oninput = renderHistory;
 
+// MÜŞTERİ REHBERİ - DÜZENLEME VE SİLME İŞLEVLERİ
 function renderCustomers() {
   const container = $("customerList");
   const searchQ = ($("customerSearch").value || "").toLocaleLowerCase("tr");
   let list = Object.values(customers);
   if (searchQ) list = list.filter(c => (c.name || '').toLocaleLowerCase('tr').includes(searchQ) || (c.phone || '').includes(searchQ));
   
-  container.innerHTML = list.length ? list.map(c => `
-    <div class="order">
-      <div class="order-head"><strong>${c.name || 'İsimsiz'}</strong><span class="badge yolda">${c.phone || ''}</span></div>
-      <div class="order-meta" style="margin-top:6px;">📍 ${c.address || ''}</div>
-    </div>
-  `).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Kayıtlı müşteri bulunamadı.</div>`;
+  container.innerHTML = list.length ? list.map(c => {
+    const phoneKey = norm(c.phone);
+    return `
+      <div class="order">
+        <div class="order-head">
+          <strong>${c.name || 'İsimsiz'}</strong>
+          <span class="badge yolda">${c.phone || ''}</span>
+        </div>
+        <div class="order-meta" style="margin-top:6px;">📍 ${c.address || ''}</div>
+        <div class="order-buttons" style="margin-top:8px;">
+          <button class="btn btn-dark btn-sm admin-only" data-edit-customer="${phoneKey}">✏️ Düzenle</button>
+          <button class="btn btn-danger btn-sm admin-only" data-del-customer="${phoneKey}">🗑️ Sil</button>
+        </div>
+      </div>
+    `;
+  }).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Kayıtlı müşteri bulunamadı.</div>`;
 }
+
 $("customerSearch").oninput = renderCustomers;
+
+// Müşteri Düzenleme ve Silme için event delegation
+document.addEventListener("click", e => {
+  const editBtn = e.target.closest("[data-edit-customer]");
+  if (editBtn) {
+    const phoneKey = editBtn.dataset.editCustomer;
+    const customer = customers[phoneKey];
+    if (!customer) {
+      toast("Müşteri bulunamadı.");
+      return;
+    }
+    openModal("Müşteri Düzenle", `
+      <div class="field"><label>Ad Soyad</label><input id="editCustName" value="${customer.name || ''}"></div>
+      <div class="field"><label>Telefon</label><input id="editCustPhone" value="${customer.phone || ''}"></div>
+      <div class="field"><label>Adres</label><textarea id="editCustAddress" rows="3">${customer.address || ''}</textarea></div>
+    `, async () => {
+      const newName = $("editCustName").value.trim();
+      const newPhone = $("editCustPhone").value.trim();
+      const newAddress = $("editCustAddress").value.trim();
+      if (!newName || !newPhone || !newAddress) {
+        toast("Tüm alanlar zorunludur!");
+        return false;
+      }
+      const newPhoneKey = norm(newPhone);
+      if (newPhoneKey !== phoneKey) {
+        // Telefon değiştiyse eski kaydı sil, yeni kayıt oluştur
+        try {
+          await set(ref(db, "customers/" + phoneKey), null);
+          await set(ref(db, "customers/" + newPhoneKey), { name: newName, phone: newPhone, address: newAddress, updatedAt: Date.now() });
+          toast("✓ Müşteri güncellendi.");
+          return true;
+        } catch (e) {
+          toast("Güncelleme başarısız!");
+          return false;
+        }
+      } else {
+        // Telefon aynı ise mevcut anahtarı güncelle
+        try {
+          await update(ref(db, "customers/" + phoneKey), { name: newName, phone: newPhone, address: newAddress, updatedAt: Date.now() });
+          toast("✓ Müşteri güncellendi.");
+          return true;
+        } catch (e) {
+          toast("Güncelleme başarısız!");
+          return false;
+        }
+      }
+    });
+  }
+
+  const delBtn = e.target.closest("[data-del-customer]");
+  if (delBtn) {
+    const phoneKey = delBtn.dataset.delCustomer;
+    const customer = customers[phoneKey];
+    if (!customer) {
+      toast("Müşteri bulunamadı.");
+      return;
+    }
+    if (!confirm(`"${customer.name}" adlı müşteriyi kalıcı olarak silmek istediğinize emin misiniz?`)) return;
+    try {
+      await set(ref(db, "customers/" + phoneKey), null);
+      toast("🗑️ Müşteri silindi.");
+    } catch (e) {
+      toast("Silme işlemi başarısız!");
+    }
+  }
+});
 
 function renderReports() {
   const list = Object.values(allOrders);
