@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -731,11 +732,14 @@ function listenMenu() {
 
 function listenData(u) {
   listenMenu();
+  
+  // Hem Yönetici hem de Kurye "orders" node'unu dinler
+  onValue(ref(db, "orders"), s => {
+    allOrders = s.val() || {};
+    handleOrdersUpdate();
+  });
+
   if (u.uid === ADMIN) {
-    onValue(ref(db, "orders"), s => {
-      allOrders = s.val() || {};
-      handleOrdersUpdate();
-    });
     onValue(ref(db, "customers"), s => {
       customers = s.val() || {};
       renderCustomers();
@@ -744,16 +748,19 @@ function listenData(u) {
       allEndOfDays = s.val() || {};
       if(!$("page-eod").classList.contains("hidden")) renderEOD();
     });
-  } else {
-    onValue(ref(db, "courierOrders/" + u.uid), s => {
-      allOrders = s.val() || {};
-      handleOrdersUpdate();
-    });
   }
 }
 
 function handleOrdersUpdate() {
-  const activeList = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
+  const currentUser = auth.currentUser;
+  const isAdmin = currentUser && currentUser.uid === ADMIN;
+
+  const activeList = Object.values(allOrders).filter(o => {
+    const isPending = o.status === "kurye_bekliyor" || o.status === "yolda";
+    if (!isPending) return false;
+    return isAdmin || o.courierId === currentUser.uid;
+  });
+
   const badge = $("activeBadge");
   
   if (activeList.length > 0) {
@@ -770,12 +777,14 @@ function handleOrdersUpdate() {
       let order = allOrders[id];
       let prevStatus = previousStatuses[id];
 
-      // Yeni Sipariş Bildirimi
+      // Yeni Sipariş Bildirimi (Kurye ise sadece kendisine ait siparişi uyarır)
       if (!prevStatus && order.status === "kurye_bekliyor") {
-         hasNewOrder = true;
+         if (isAdmin || order.courierId === currentUser.uid) {
+           hasNewOrder = true;
+         }
       }
 
-      // Kurye Yola Çıktığında Sesli Uharı
+      // Kurye Yola Çıktığında Sesli Uyarı
       if (prevStatus && prevStatus !== "yolda" && order.status === "yolda") {
          playBikeSound();
          toast(`🛵 Sipariş Yola Çıktı: ${order.customerName || 'Müşteri'}`);
@@ -1026,7 +1035,7 @@ $("createOrder").onclick = async () => {
   }
 };
 
-// MÜŞTERİLER SAYFASI, DÜZENLEME VE TIKLAYIP SİPARİŞ YAZMA
+// MÜŞTERİLER SAYFASI, DÜZENLEME, SİLME VE TIKLAYIP SİPARİŞ YAZMA
 function renderCustomers() {
   const container = $("customerList");
   if (!container) return;
@@ -1052,6 +1061,7 @@ function renderCustomers() {
         <strong style="font-size:15px; color:var(--gold);">${c.name || 'İsimsiz'}</strong>
         <div style="display:flex; gap:6px;">
           <button class="btn btn-dark btn-sm edit-cust-btn">✏️ Düzenle</button>
+          <button class="btn btn-danger btn-sm del-cust-btn">🗑️ Sil</button>
           <button class="btn btn-primary btn-sm new-order-cust-btn">🛒 Sipariş Yaz</button>
         </div>
       </div>
@@ -1059,7 +1069,7 @@ function renderCustomers() {
       <div style="font-size:12px; color:var(--muted);">📍 ${c.address || 'Adres bilgisi yok'}</div>
     `;
 
-    // Müşteriye Tıklayınca Sipariş Yazma
+    // Sipariş Yazma
     card.querySelector(".new-order-cust-btn").onclick = (e) => {
       e.stopPropagation();
       selectCustomerForOrder(c);
@@ -1075,6 +1085,12 @@ function renderCustomers() {
       openEditCustomerModal(id, c);
     };
 
+    // Müşteri Silme İşlemi
+    card.querySelector(".del-cust-btn").onclick = (e) => {
+      e.stopPropagation();
+      deleteCustomer(id, c.name);
+    };
+
     container.appendChild(card);
   });
 }
@@ -1085,6 +1101,16 @@ function selectCustomerForOrder(c) {
   $("custAddress").value = c.address || "";
   showPage("new");
   toast(`${c.name || 'Müşteri'} bilgileri sipariş formuna aktarıldı.`);
+}
+
+async function deleteCustomer(id, name) {
+  if (!confirm(`${name || 'Bu müşteriyi'} silmek istediğinize emin misiniz?`)) return;
+  try {
+    await remove(ref(db, "customers/" + id));
+    toast("Müşteri kaydı silindi ✓");
+  } catch (err) {
+    toast("Silme hatası: " + err.message);
+  }
 }
 
 function openEditCustomerModal(id, c) {
@@ -1139,7 +1165,15 @@ function renderActiveOrders() {
   const container = $("activeOrders");
   container.innerHTML = "";
 
-  const active = Object.entries(allOrders).filter(([id, o]) => o.status === "kurye_bekliyor" || o.status === "yolda");
+  const currentUser = auth.currentUser;
+  const isAdmin = currentUser && currentUser.uid === ADMIN;
+
+  const active = Object.entries(allOrders).filter(([id, o]) => {
+    const isPending = o.status === "kurye_bekliyor" || o.status === "yolda";
+    if (!isPending) return false;
+    if (isAdmin) return true;
+    return o.courierId === currentUser.uid;
+  });
 
   if (active.length === 0) {
     container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px; grid-column:1/-1;">Aktif sipariş bulunmuyor.</div>`;
@@ -1488,3 +1522,4 @@ function printReceipt(o) {
 </script>
 </body>
 </html>
+```
