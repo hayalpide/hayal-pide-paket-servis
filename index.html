@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -87,7 +86,8 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 .page-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:4px; }
 .page-sub { color:var(--muted); margin-bottom:20px; font-size:13px; }
 
-.grid { display:grid; grid-template-columns:1fr minmax(300px, 350px); gap:20px; align-items:start; width:100%; }
+/* DÜZENLEME: Sol taraf Sepet ve Müşteri, Sağ taraf tam genişlik Kataloğ */
+.grid { display:grid; grid-template-columns:minmax(330px, 380px) 1fr; gap:20px; align-items:start; width:100%; }
 .panel { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.2); width:100%; box-sizing:border-box; }
 .panel h3 { margin:0 0 16px; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:space-between; }
 
@@ -97,123 +97,10 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
   margin-bottom:12px; -webkit-overflow-scrolling:touch; width:100%;
 }
 .chip {
-  flex-shrink:0 !important; white-space:nowrap; border:1px solid var(--line); background:var(--surface2);
-  color:var(--muted); border-radius:30px; padding:8px 16px; font-size:13px; font-weight:700;
-  display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; cursor:pointer;
-}
-.chip:hover { border-color:var(--gold); color:#fff; }
-.chip.active { background:var(--gold); border-color:var(--gold); color:#111; font-weight:800; box-shadow:0 4px 12px rgba(245,184,61,0.25); }
-
-/* AKORDİON YAPISI */
-.accordion-group { display:flex; flex-direction:column; gap:12px; }
-.acc-item { border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--surface2); transition:border-color 0.2s; }
-.acc-item.open { border-color:rgba(245,184,61,0.4); }
-.acc-header {
-  padding:14px 18px; font-weight:800; font-size:15px; background:var(--surface2);
-  display:flex; justify-content:space-between; align-items:center; cursor:pointer;
-  user-select:none; transition:background 0.2s;
-}
-.acc-header:hover { background:var(--surface3); color:var(--gold); }
-.acc-header .acc-title { display:flex; align-items:center; gap:10px; }
-.acc-header .acc-count { background:rgba(255,255,255,0.08); color:var(--muted); padding:3px 9px; border-radius:12px; font-size:12px; font-weight:700; }
-.acc-header .chevron { transition:transform 0.25s ease; font-size:12px; color:var(--muted); }
-.acc-item.open .chevron { transform:rotate(180deg); color:var(--gold); }
-
-.acc-content { padding:14px; background:var(--surface); border-top:1px solid var(--line); }
-
-.products { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
-.product {
-  background:var(--surface2); border:1px solid var(--line); border-radius:14px; padding:14px;
-  min-height:105px; display:flex; flex-direction:column; justify-content:space-between;
-  position:relative; transition:all 0.15s ease; cursor:pointer; user-select:none;
-}
-.product:hover { border-color:var(--gold); transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.3); }
-.product:active { transform:scale(0.98); }
-.product-name { font-size:14px; font-weight:700; line-height:1.35; color:#eee; }
-.product-bottom { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
-.price { color:var(--gold-hover); font-size:15px; font-weight:900; }
-.product-badge {
-  position:absolute; top:-6px; right:-6px; background:var(--gold); color:#111;
-  width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:900; box-shadow:0 2px 8px rgba(0,0,0,0.5); border:2px solid var(--surface);
-}
-
-/* SEPET */
-.cart { position:sticky; top:84px; }
-.cart-list { max-height:42vh; overflow-y:auto; padding-right:4px; }
-.cart-row { padding:12px 0; border-bottom:1px solid var(--line); }
-.cart-top { display:flex; justify-content:space-between; gap:10px; font-weight:700; font-size:14px; }
-.qty { display:flex; align-items:center; gap:8px; margin-top:8px; }
-.qty button { width:32px; height:32px; border-radius:8px; background:var(--surface3); color:#fff; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:center; }
-.qty button:hover { background:var(--gold); color:#111; }
-.qty b { min-width:24px; text-align:center; font-size:15px; }
-.total { display:flex; justify-content:space-between; align-items:center; border-top:2px dashed var(--line); margin-top:16px; padding-top:16px; font-size:22px; font-weight:900; }
-
-/* SİPARİŞ KARTLARI */
-.orders { display:grid; gap:14px; width:100%; }
-.order { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px; position:relative; }
-.order-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
-.order-head strong { font-size:16px; font-weight:800; }
-.badge { display:inline-block; border-radius:20px; padding:4px 10px; font-size:11px; font-weight:800; text-transform:uppercase; }
-.badge.kurye_bekliyor { background:#3d2e14; color:#ffd873; border:1px solid rgba(255,216,115,0.3); }
-.badge.yolda { background:var(--blue-bg); color:var(--blue); border:1px solid rgba(93,174,255,0.3); }
-.badge.teslim_edildi { background:var(--green-bg); color:var(--green); border:1px solid rgba(43,216,137,0.3); }
-.order-meta { color:var(--muted); font-size:13px; margin-top:8px; line-height:1.5; }
-.order-items { background:var(--surface2); padding:10px 14px; border-radius:10px; margin-top:10px; font-size:13px; line-height:1.5; border:1px solid rgba(255,255,255,0.03); }
-.order-buttons { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-
-/* MÜŞTERİ ÖNERİLERİ */
-.suggestions {
-  position:absolute; left:0; right:0; top:100%; z-index:60; background:#181920;
-  border:1px solid var(--line); border-radius:12px; overflow:hidden; box-shadow:0 10px 30px #000;
-  max-height:220px; overflow-y:auto; margin-top:4px;
-}
-.suggestion { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; cursor:pointer; }
-.suggestion:hover { background:var(--surface3); }
-
-/* STATS */
-.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px; }
-.stat { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:20px; }
-.stat small { color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; }
-.stat strong { display:block; font-size:26px; font-weight:900; margin-top:8px; color:var(--gold); }
-
-/* MENÜ YÖNETİMİ DÜZENİ */
-.menu-mgr-grid { display:grid; grid-template-columns:260px 1fr; gap:20px; width:100%; }
-.menu-cat-item { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:var(--surface2); border:1px solid var(--line); border-radius:12px; margin-bottom:8px; cursor:pointer; font-weight:600; font-size:14px; transition:all 0.15s; }
-.menu-cat-item:hover { border-color:var(--gold); }
-.menu-cat-item.active { border-color:var(--gold); background:rgba(245,184,61,0.12); color:var(--gold); font-weight:800; }
-.prod-table { width:100%; border-collapse:collapse; table-layout:fixed; }
-.prod-table th, .prod-table td { padding:14px 12px; text-align:left; border-bottom:1px solid var(--line); font-size:14px; word-wrap:break-word; }
-.prod-table th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
-
-/* MODAL / POPUP SİSTEMİ */
-.modal-overlay {
-  position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(6px); z-index:100; display:flex; align-items:center; justify-content:center; padding:20px;
-  animation:fadeIn 0.15s ease;
-}
-.modal-card {
-  width:min(450px, 100%); background:var(--surface); border:1px solid var(--line);
-  border-radius:20px; padding:24px; box-shadow:var(--shadow); position:relative;
-}
-.modal-title { font-size:18px; font-weight:800; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; }
-.modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
-
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-/* TOAST */
-.toast {
-  position:fixed; z-index:200; bottom:24px; left:50%; transform:translateX(-50%);
-  background:var(--surface3); border:1px solid var(--gold); color:#fff; padding:12px 24px;
-  border-radius:30px; box-shadow:0 10px 40px rgba(0,0,0,0.8); font-weight:700; font-size:14px;
-  display:flex; align-items:center; gap:8px; animation:slideUp 0.2s ease;
-}
-@keyframes slideUp { from { transform:translate(-50%, 20px); opacity:0; } to { transform:translate(-50%, 0); opacity:1; } }
-
-/* TERMAL YAZDIRMA (DİK DÜZ - OTOMATİK UZUNLUK) */
+/* TERMAL YAZDIRMA (DİK DÜZ - OTOMATİK UZUNLUK & TEK SAYFA DÜZELTMESİ) */
 @page {
   size: 80mm auto;
-  margin: 0;
+  margin: 0mm;
 }
 @media print {
   html, body {
@@ -224,26 +111,32 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
     background: #fff !important;
     color: #000 !important;
     height: auto !important;
-    overflow: visible !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
   }
-  body * {
+  
+  /* Yazdırılırken arka plandaki tüm uygulama ekranlarını ve modal'ları gizle */
+  #login, #app, .modal-overlay, .toast, header, aside, main {
     display: none !important;
   }
-  #print-area, #print-area * {
-    display: block !important;
-  }
+
   #print-area {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 74mm !important;
-    margin: 0 3mm !important;
-    padding: 4mm 0 !important;
+    display: block !important;
+    position: static !important;
+    width: 72mm !important;
+    margin: 0 auto !important;
+    padding: 4mm 2mm !important;
     font-family: 'Courier New', Courier, monospace !important;
     font-size: 11px !important;
     line-height: 1.3 !important;
     color: #000 !important;
     background: #fff !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-after: avoid !important;
+  }
+  #print-area * {
+    display: block !important;
   }
   #print-area .receipt-row {
     display: flex !important;
@@ -311,9 +204,10 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
  <div class="page-sub">Müşteri arayın, menüden ürünleri seçin ve siparişi anında onaylayın.</div>
 
  <div class="grid">
-  <div>
+  <!-- SOL KOLON: MÜŞTERİ BİLGİLERİ VE SEPET -->
+  <div style="display:flex; flex-direction:column; gap:16px;">
    <!-- Müşteri Bilgileri -->
-   <div class="panel" style="margin-bottom:16px; position:relative;">
+   <div class="panel" style="position:relative;">
     <h3>👤 Müşteri Bilgileri</h3>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
      <div class="field" style="position:relative; margin:0;">
@@ -326,7 +220,35 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
     </div>
    </div>
 
-   <!-- Menü & Kategoriler -->
+   <!-- Sipariş Sepeti & Ödeme -->
+   <div class="panel cart">
+    <h3>🛒 Sipariş Sepeti <button id="clearCart" class="btn btn-dark btn-sm" style="font-size:11px;">Temizle</button></h3>
+    <div id="cartList" class="cart-list"></div>
+    
+    <div style="margin-top:16px;">
+     <div class="field"><label>Ödeme Türü</label>
+       <select id="payment">
+         <option value="Nakit">💵 Nakit Ödeme</option>
+         <option value="Kredi Kartı">💳 Kredi / Banka Kartı</option>
+         <option value="Online Ödeme">🌐 Online Ödeme</option>
+       </select>
+     </div>
+     <div class="field"><label>Görevli Kurye</label><select id="courier"><option value="EkrRQkpLKXby9vDwlmap6EA6ZkD3">Kurye 1 (Saha)</option></select></div>
+     <div class="field"><label>Sipariş Notu</label><textarea id="orderNote" rows="2" placeholder="Örn: Acılı olsun, zili çalmayın..."></textarea></div>
+     
+     <div class="total">
+       <span>Toplam</span>
+       <span id="total" style="color:var(--gold-hover);">₺0</span>
+     </div>
+     <div style="display:grid; gap:8px; margin-top:14px;">
+       <button id="createOrder" class="btn btn-primary" style="width:100%; font-size:16px;">✓ Siparişi Onayla ve Gönder</button>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- SAĞ KOLON: ÜRÜN KATALOĞU (TÜM EKAN GENİŞLİĞİNİ KAPLAR) -->
+  <div>
    <div class="panel">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
       <h3 style="margin:0;">🍽️ Ürün Kataloğu</h3>
@@ -345,32 +267,6 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
     
     <!-- Akordiyon Ürün Kataloğu -->
     <div id="accordionCatalog" class="accordion-group"></div>
-   </div>
-  </div>
-
-  <!-- Sepet & Ödeme -->
-  <div class="panel cart">
-   <h3>🛒 Sipariş Sepeti <button id="clearCart" class="btn btn-dark btn-sm" style="font-size:11px;">Temizle</button></h3>
-   <div id="cartList" class="cart-list"></div>
-   
-   <div style="margin-top:16px;">
-    <div class="field"><label>Ödeme Türü</label>
-      <select id="payment">
-        <option value="Nakit">💵 Nakit Ödeme</option>
-        <option value="Kredi Kartı">💳 Kredi / Banka Kartı</option>
-        <option value="Online Ödeme">🌐 Online Ödeme</option>
-      </select>
-    </div>
-    <div class="field"><label>Görevli Kurye</label><select id="courier"><option value="EkrRQkpLKXby9vDwlmap6EA6ZkD3">Kurye 1 (Saha)</option></select></div>
-    <div class="field"><label>Sipariş Notu</label><textarea id="orderNote" rows="2" placeholder="Örn: Acılı olsun, zili çalmayın..."></textarea></div>
-    
-    <div class="total">
-      <span>Toplam</span>
-      <span id="total" style="color:var(--gold-hover);">₺0</span>
-    </div>
-    <div style="display:grid; gap:8px; margin-top:14px;">
-      <button id="createOrder" class="btn btn-primary" style="width:100%; font-size:16px;">✓ Siparişi Onayla ve Gönder</button>
-    </div>
    </div>
   </div>
  </div>
@@ -1407,4 +1303,3 @@ renderCategories();
 renderAccordionCatalog();
 renderCart();
 </script>
-```
