@@ -19,38 +19,40 @@
             font-family: Arial, sans-serif;
             background: #111;
             color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .container {
             width: 100%;
-            max-width: 420px;
-            padding: 24px;
-            text-align: center;
+            max-width: 500px;
+            margin: auto;
+            padding: 25px 18px;
         }
 
         .logo {
+            text-align: center;
             font-size: 32px;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-top: 35px;
         }
 
         .subtitle {
+            text-align: center;
             color: #aaa;
+            margin-top: 8px;
             margin-bottom: 30px;
         }
 
         .card {
             background: #1c1c1c;
+            border: 1px solid #2d2d2d;
             border-radius: 20px;
             padding: 24px;
-            border: 1px solid #2d2d2d;
+            margin-bottom: 20px;
         }
 
-        .card h2 {
+        h2 {
             margin-top: 0;
+            text-align: center;
         }
 
         input {
@@ -63,6 +65,10 @@
             color: white;
             font-size: 16px;
             outline: none;
+        }
+
+        input:focus {
+            border-color: #ff7a00;
         }
 
         button {
@@ -82,10 +88,47 @@
             transform: scale(.98);
         }
 
+        button:disabled {
+            opacity: .6;
+        }
+
+        .logout {
+            background: #333;
+        }
+
+        .welcome {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .role {
+            text-align: center;
+            color: #ff7a00;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            background: #111;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 12px;
+            color: #bbb;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
         #message {
             margin-top: 15px;
             color: #aaa;
+            text-align: center;
             min-height: 20px;
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -94,96 +137,274 @@
 
 <div class="container">
 
-    <div class="logo">HAYAL PİDE</div>
-    <div class="subtitle">Paket Servis Yönetim Sistemi</div>
+    <!-- GİRİŞ EKRANI -->
+    <div id="loginScreen">
 
-    <div class="card">
+        <div class="logo">HAYAL PİDE</div>
 
-        <h2>Giriş Yap</h2>
+        <div class="subtitle">
+            Paket Servis Yönetim Sistemi
+        </div>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="E-posta adresi"
-            autocomplete="username"
-        >
+        <div class="card">
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Şifre"
-            autocomplete="current-password"
-        >
+            <h2>Giriş Yap</h2>
 
-        <button id="loginBtn">
-            GİRİŞ YAP
-        </button>
+            <input
+                type="email"
+                id="email"
+                placeholder="E-posta adresi"
+                autocomplete="username"
+            >
 
-        <div id="message"></div>
+            <input
+                type="password"
+                id="password"
+                placeholder="Şifre"
+                autocomplete="current-password"
+            >
+
+            <button id="loginBtn">
+                GİRİŞ YAP
+            </button>
+
+            <div id="message"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADMİN EKRANI -->
+    <div id="adminScreen" class="hidden">
+
+        <div class="logo">
+            HAYAL PİDE
+        </div>
+
+        <div class="subtitle">
+            Paket Servis Yönetim Sistemi
+        </div>
+
+        <div class="card">
+
+            <div class="role">
+                YÖNETİCİ
+            </div>
+
+            <div class="welcome">
+                Hoş geldiniz 👋
+            </div>
+
+            <div class="info">
+                Yönetici hesabıyla giriş yaptınız.
+            </div>
+
+            <div class="info">
+                Buraya birazdan sipariş oluşturma,
+                aktif siparişler, kurye seçimi ve
+                sipariş takip ekranını ekleyeceğiz.
+            </div>
+
+            <button class="logout" id="adminLogoutBtn">
+                ÇIKIŞ YAP
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- KURYE EKRANI -->
+    <div id="courierScreen" class="hidden">
+
+        <div class="logo">
+            HAYAL PİDE
+        </div>
+
+        <div class="subtitle">
+            Paket Servis
+        </div>
+
+        <div class="card">
+
+            <div class="role">
+                KURYE 🛵
+            </div>
+
+            <div class="welcome">
+                Hoş geldiniz.
+            </div>
+
+            <div class="info">
+                Size atanmış siparişler burada görünecek.
+            </div>
+
+            <div class="info">
+                Birazdan adresi haritada açma,
+                müşteriyi arama,
+                WhatsApp ve
+                “Teslim Aldım / Yola Çıktım”
+                özelliklerini ekleyeceğiz.
+            </div>
+
+            <button class="logout" id="courierLogoutBtn">
+                ÇIKIŞ YAP
+            </button>
+
+        </div>
 
     </div>
 
 </div>
 
+
 <script type="module">
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { initializeApp }
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
     import {
         getAuth,
-        signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut
+    }
+    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-    // Firebase proje bilgileri
+
+    // FIREBASE AYARLARI
+
     const firebaseConfig = {
+
         apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
-        authDomain: "hayal-pide-paket-servis.firebaseapp.com",
-        projectId: "hayal-pide-paket-servis",
-        storageBucket: "hayal-pide-paket-servis.firebasestorage.app",
-        messagingSenderId: "551700082149",
-        appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c",
-        measurementId: "G-8PEXMYJN3L"
+
+        authDomain:
+            "hayal-pide-paket-servis.firebaseapp.com",
+
+        projectId:
+            "hayal-pide-paket-servis",
+
+        storageBucket:
+            "hayal-pide-paket-servis.firebasestorage.app",
+
+        messagingSenderId:
+            "551700082149",
+
+        appId:
+            "1:551700082149:web:6d7f5aea7f8c51ff55930c",
+
+        measurementId:
+            "G-8PEXMYJN3L"
     };
 
-    // Firebase'i başlat
+
     const app = initializeApp(firebaseConfig);
 
-    // Authentication
     const auth = getAuth(app);
 
-    const loginBtn = document.getElementById("loginBtn");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const message = document.getElementById("message");
+
+    // KULLANICI UID'LERİ
+
+    const ADMIN_UID =
+        "Rmf7DZGAsLRuQ00JAJOwERvPIGC3";
+
+    const COURIER_UID =
+        "EkrRQkpLKXby9vDwlmap6EA6ZkD3";
+
+
+    // EKRANLAR
+
+    const loginScreen =
+        document.getElementById("loginScreen");
+
+    const adminScreen =
+        document.getElementById("adminScreen");
+
+    const courierScreen =
+        document.getElementById("courierScreen");
+
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const message =
+        document.getElementById("message");
+
+
+    // EKRAN DEĞİŞTİRME
+
+    function showLogin() {
+
+        loginScreen.classList.remove("hidden");
+
+        adminScreen.classList.add("hidden");
+
+        courierScreen.classList.add("hidden");
+    }
+
+
+    function showAdmin() {
+
+        loginScreen.classList.add("hidden");
+
+        adminScreen.classList.remove("hidden");
+
+        courierScreen.classList.add("hidden");
+    }
+
+
+    function showCourier() {
+
+        loginScreen.classList.add("hidden");
+
+        adminScreen.classList.add("hidden");
+
+        courierScreen.classList.remove("hidden");
+    }
+
+
+    // GİRİŞ
 
     loginBtn.addEventListener("click", async () => {
 
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
 
         if (!email || !password) {
-            message.textContent = "E-posta ve şifreyi girin.";
+
+            message.textContent =
+                "E-posta ve şifreyi girin.";
+
             return;
         }
 
+
         loginBtn.disabled = true;
-        loginBtn.textContent = "GİRİŞ YAPILIYOR...";
+
+        loginBtn.textContent =
+            "GİRİŞ YAPILIYOR...";
+
         message.textContent = "";
+
 
         try {
 
-            const userCredential =
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-            const user = userCredential.user;
-
-            message.textContent =
-                "Giriş başarılı. Kullanıcı: " + user.email;
-
-            console.log("Firebase UID:", user.uid);
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
         } catch (error) {
 
@@ -192,14 +413,85 @@
             message.textContent =
                 "Giriş başarısız. E-posta veya şifreyi kontrol edin.";
 
-        } finally {
-
             loginBtn.disabled = false;
-            loginBtn.textContent = "GİRİŞ YAP";
 
+            loginBtn.textContent =
+                "GİRİŞ YAP";
         }
 
     });
+
+
+    // OTURUM KONTROLÜ
+
+    onAuthStateChanged(auth, (user) => {
+
+        if (!user) {
+
+            showLogin();
+
+            loginBtn.disabled = false;
+
+            loginBtn.textContent =
+                "GİRİŞ YAP";
+
+            return;
+        }
+
+
+        console.log("Giriş yapan UID:", user.uid);
+
+
+        // ADMİN
+
+        if (user.uid === ADMIN_UID) {
+
+            showAdmin();
+
+            return;
+        }
+
+
+        // KURYE
+
+        if (user.uid === COURIER_UID) {
+
+            showCourier();
+
+            return;
+        }
+
+
+        // TANIMSIZ KULLANICI
+
+        signOut(auth);
+
+        showLogin();
+
+        message.textContent =
+            "Bu kullanıcının sisteme erişim yetkisi yok.";
+
+    });
+
+
+    // ÇIKIŞ BUTONLARI
+
+    document
+        .getElementById("adminLogoutBtn")
+        .addEventListener("click", () => {
+
+            signOut(auth);
+
+        });
+
+
+    document
+        .getElementById("courierLogoutBtn")
+        .addEventListener("click", () => {
+
+            signOut(auth);
+
+        });
 
 </script>
 
