@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -159,6 +158,15 @@ main { padding:24px; min-width:0; }
 .stat small { color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; }
 .stat strong { display:block; font-size:24px; font-weight:900; margin-top:6px; color:var(--gold); }
 
+/* MENÜ YÖNETİMİ ÖZEL DÜZENİ */
+.menu-mgr-grid { display:grid; grid-template-columns:280px 1fr; gap:20px; }
+.menu-cat-item { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--surface2); border:1px solid var(--line); border-radius:10px; margin-bottom:8px; cursor:pointer; font-weight:600; font-size:14px; transition:all 0.15s; }
+.menu-cat-item:hover { border-color:var(--gold); }
+.menu-cat-item.active { border-color:var(--gold); background:rgba(245,184,61,0.12); color:var(--gold); font-weight:800; }
+.prod-table { width:100%; border-collapse:collapse; }
+.prod-table th, .prod-table td { padding:12px; text-align:left; border-bottom:1px solid var(--line); font-size:14px; }
+.prod-table th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
+
 /* TOAST BİLDİRİM */
 .toast {
   position:fixed; z-index:200; bottom:24px; left:50%; transform:translateX(-50%);
@@ -168,11 +176,11 @@ main { padding:24px; min-width:0; }
 }
 @keyframes slideUp { from { transform:translate(-50%, 20px); opacity:0; } to { transform:translate(-50%, 0); opacity:1; } }
 
-/* YAZDIRMA (THERMAL RECEIPT) */
+/* YAZDIRMA (THERMAL RECEIPT) DÜZELTME */
 @media print {
-  body * { visibility:hidden; }
-  #print-area, #print-area * { visibility:visible; }
-  #print-area { position:absolute; left:0; top:0; width:80mm; color:#000; background:#fff; padding:10px; font-family:monospace; font-size:12px; }
+  body * { visibility:hidden !important; }
+  #print-area, #print-area * { visibility:visible !important; }
+  #print-area { position:fixed !important; left:0 !important; top:0 !important; width:80mm !important; color:#000 !important; background:#fff !important; padding:10px !important; font-family:monospace !important; font-size:12px !important; line-height:1.4 !important; }
 }
 
 @media(max-width:900px) {
@@ -187,6 +195,7 @@ main { padding:24px; min-width:0; }
   .grid { display:flex; flex-direction:column; }
   .cart { position:static; }
   .stats { grid-template-columns:1fr; }
+  .menu-mgr-grid { display:flex; flex-direction:column; }
 }
 </style>
 </head>
@@ -222,6 +231,7 @@ main { padding:24px; min-width:0; }
  <button class="navbtn" data-page="history"><span>🧾 Geçmiş Siparişler</span></button>
  <button class="navbtn admin-only" data-page="customers"><span>👥 Müşteriler</span></button>
  <button class="navbtn admin-only" data-page="reports"><span>📊 Günlük Rapor</span></button>
+ <button class="navbtn admin-only" data-page="menu-manage"><span>🍔 Menü Yönetimi</span></button>
 </aside>
 
 <main>
@@ -327,6 +337,41 @@ main { padding:24px; min-width:0; }
   <div id="deliveredOrders" class="orders"></div>
  </div>
 </section>
+
+<!-- 6. MENÜ YÖNETİMİ -->
+<section id="page-menu-manage" class="hidden">
+ <div class="page-title">Menü & Fiyat Yönetimi</div>
+ <div class="page-sub">Kategorileri ve ürünleri düzenleyin, yeni ürün/fiyat ekleyin veya silin.</div>
+ 
+ <div class="menu-mgr-grid">
+  <!-- Sol: Kategori Yönetimi -->
+  <div class="panel">
+   <h3>Kategoriler <button id="addCatBtn" class="btn btn-primary btn-sm">+ Yeni</button></h3>
+   <div id="menuCatList" style="margin-top:14px;"></div>
+  </div>
+
+  <!-- Sağ: Seçili Kategori Ürünleri -->
+  <div class="panel">
+   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+    <h3 id="selectedCatTitle" style="margin:0;">Ürünler</h3>
+    <button id="addProdBtn" class="btn btn-green btn-sm">+ Yeni Ürün Ekle</button>
+   </div>
+   <input id="menuSearch" class="search" placeholder="🔎 Menüde ürün veya fiyat ara..." style="margin-bottom:12px;">
+   <div style="overflow-x:auto;">
+     <table class="prod-table">
+      <thead>
+       <tr>
+        <th>Ürün Adı</th>
+        <th>Fiyat</th>
+        <th style="text-align:right;">İşlem</th>
+       </tr>
+      </thead>
+      <tbody id="menuProdTableBody"></tbody>
+     </table>
+   </div>
+  </div>
+ </div>
+</section>
 </main>
 </div>
 </div>
@@ -359,8 +404,8 @@ const $ = id => document.getElementById(id);
 const money = n => "₺" + Number(n || 0).toLocaleString("tr-TR");
 const norm = v => String(v || "").replace(/\D/g, "");
 
-// KATALOG VERİSİ
-const catalog = {
+// VARSAYILAN KATALOG
+const defaultCatalog = {
   "Trabzon Yağlıları": [["Trabzon Yağlısı Kavurmalı", 400], ["Trabzon Yağlısı Kavurmalı Yumurtalı", 420], ["Trabzon Yağlısı Kavurmalı Kaşarlı", 440], ["Trabzon Yağlısı Kaşarlı", 350], ["Trabzon Yağlısı Kaşarlı Yumurtalı", 370], ["Trabzon Yağlısı Kuşbaşılı", 400], ["Trabzon Yağlısı Kuşbaşı Yumurtalı", 420], ["Trabzon Yağlısı Kuşbaşı Kaşarlı", 440]],
   "Sivas Usulü Pide": [["Sivas Pidesi Kıymalı", 420], ["Sivas Pidesi Kıymalı Yumurtalı", 440], ["Sivas Pidesi Kıymalı Kaşarlı", 460], ["Sivas Pidesi Kuşbaşılı", 520], ["Sivas Pidesi Kuşbaşı Yumurtalı", 540], ["Sivas Pidesi Kuşbaşı Kaşarlı", 560]],
   "Kıymalı Pideler": [["Kıymalı Sade Pide", 260], ["Kıymalı Yumurtalı Pide", 285], ["Kıymalı Kaşarlı Pide", 305], ["Kıymalı Kaşarlı Sucuklu Pide", 325]],
@@ -377,6 +422,8 @@ const catalog = {
   "İçecekler": [["Pepsi (33 cl)", 100], ["Yedigün (33 cl)", 100], ["Pepsi (1 lt)", 120], ["Yedigün (1 lt)", 120], ["Tombul Ayran", 65], ["Küçük Ayran", 45], ["Su (50 cl)", 30], ["Sade Soda", 45]]
 };
 
+let catalog = JSON.parse(JSON.stringify(defaultCatalog));
+let selectedMenuCat = "Trabzon Yağlıları";
 let cart = [];
 let selectedCategory = "Tümü";
 let allOrders = {};
@@ -384,239 +431,155 @@ let customers = {};
 let soundEnabled = true;
 let previousOrderCount = -1;
 
-// SES BİLDİRİMİ (WEB AUDIO API)
-function playNotificationSound() {
-  if (!soundEnabled) return;
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15); // A5
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.4);
-  } catch (e) { console.log(e); }
-}
-
-$("soundToggleBtn").onclick = () => {
-  soundEnabled = !soundEnabled;
-  $("soundToggleBtn").textContent = soundEnabled ? "🔔 Ses: Açık" : "🔕 Ses: Kapalı";
-};
-
-function toast(msg) {
-  const existing = document.querySelector(".toast");
-  if (existing) existing.remove();
-  const el = document.createElement("div");
-  el.className = "toast";
-  el.innerHTML = `<span>✨</span> <span>${msg}</span>`;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 2600);
-}
-
-// KATEGORİ RENDER
-function renderCategories() {
-  const cats = ["Tümü", ...Object.keys(catalog)];
-  const catContainer = $("categories");
-  
-  catContainer.innerHTML = cats.map(c => {
-    let count = 0;
-    if (c === "Tümü") {
-      Object.values(catalog).forEach(arr => count += arr.length);
+function listenMenu() {
+  onValue(ref(db, "menu"), s => {
+    const val = s.val();
+    if (val && Object.keys(val).length > 0) {
+      catalog = val;
     } else {
-      count = catalog[c] ? catalog[c].length : 0;
+      set(ref(db, "menu"), defaultCatalog);
+      catalog = JSON.parse(JSON.stringify(defaultCatalog));
     }
-    const isActive = c === selectedCategory ? "active" : "";
-    return `<button class="chip ${isActive}" data-cat="${c}">${c} <span class="chip-count">${count}</span></button>`;
-  }).join("");
-
-  document.querySelectorAll("[data-cat]").forEach(btn => {
-    btn.onclick = () => {
-      selectedCategory = btn.dataset.cat;
-      renderCategories();
-      renderProducts();
-    };
+    renderCategories();
+    renderProducts();
+    if ($("page-menu-manage") && !$("page-menu-manage").classList.contains("hidden")) {
+      renderMenuManagement();
+    }
   });
 }
 
-// ÜRÜN RENDER
-function renderProducts() {
-  const query = $("productSearch").value.toLocaleLowerCase("tr");
-  const items = [];
-
-  Object.entries(catalog).forEach(([catName, productList]) => {
-    if (selectedCategory !== "Tümü" && selectedCategory !== catName) return;
-    productList.forEach(([pName, pPrice]) => {
-      if (!query || pName.toLocaleLowerCase("tr").includes(query)) {
-        items.push({ name: pName, price: pPrice });
-      }
-    });
-  });
-
-  const productsContainer = $("products");
-  if (items.length === 0) {
-    productsContainer.innerHTML = `<div style="grid-column:1/-1; padding:30px; text-align:center; color:var(--muted);">Aramanıza uygun ürün bulunamadı.</div>`;
-    return;
+async function saveMenuToDB() {
+  try {
+    await set(ref(db, "menu"), catalog);
+    toast("✓ Menü başarıyla güncellendi");
+  } catch (e) {
+    console.error(e);
+    toast("Menü kaydedilemedi!");
   }
-
-  productsContainer.innerHTML = items.map(p => {
-    const inCart = cart.find(x => x.name === p.name);
-    const qtyBadge = inCart ? `<div class="product-badge">${inCart.qty}</div>` : '';
-    return `
-      <div class="product" data-name="${p.name}" data-price="${p.price}">
-        ${qtyBadge}
-        <div class="product-name">${p.name}</div>
-        <div class="product-bottom">
-          <span class="price">${money(p.price)}</span>
-          <button class="btn btn-dark btn-sm" style="padding:4px 8px;">+ Ekle</button>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  document.querySelectorAll(".product").forEach(el => {
-    el.onclick = () => addToCart(el.dataset.name, +el.dataset.price);
-  });
 }
 
-function addToCart(name, price) {
-  const item = cart.find(i => i.name === name);
-  if (item) item.qty++;
-  else cart.push({ name, price, qty: 1 });
-  renderCart();
-  renderProducts();
-}
-
-function renderCart() {
-  const container = $("cartList");
-  if (!cart.length) {
-    container.innerHTML = `<div style="padding:30px 10px; text-align:center; color:var(--muted); line-height:1.6;">Sepetiniz henüz boş.<br>Menüden ürün ekleyin.</div>`;
-  } else {
-    container.innerHTML = cart.map((item, idx) => `
-      <div class="cart-row">
-        <div class="cart-top">
-          <span>${item.name}</span>
-          <span style="color:var(--gold-hover);">${money(item.price * item.qty)}</span>
-        </div>
-        <div class="qty">
-          <button data-action="minus" data-idx="${idx}">−</button>
-          <b>${item.qty}</b>
-          <button data-action="plus" data-idx="${idx}">+</button>
-          <button data-action="del" data-idx="${idx}" style="margin-left:auto; background:transparent; color:var(--muted);">✕</button>
-        </div>
-      </div>
-    `).join("");
-
-    document.querySelectorAll("[data-action]").forEach(btn => {
-      btn.onclick = (e) => {
-        e.stopPropagation();
-        const idx = +btn.dataset.idx;
-        const act = btn.dataset.action;
-        if (act === "minus") {
-          cart[idx].qty--;
-          if (cart[idx].qty <= 0) cart.splice(idx, 1);
-        } else if (act === "plus") {
-          cart[idx].qty++;
-        } else if (act === "del") {
-          cart.splice(idx, 1);
-        }
-        renderCart();
-        renderProducts();
-      };
-    });
+function renderMenuManagement() {
+  const cats = Object.keys(catalog);
+  if (!cats.includes(selectedMenuCat) && cats.length > 0) {
+    selectedMenuCat = cats[0];
   }
 
-  const totalSum = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
-  $("total").textContent = money(totalSum);
-}
-
-// MÜŞTERİ OTOMATİK TAMAMLAMA
-function showCustomerSuggestions() {
-  const val = $("custPhone").value.trim();
-  const suggestionsBox = $("suggestions");
-  if (!val) { suggestionsBox.classList.add("hidden"); return; }
-
-  const q = val.toLocaleLowerCase("tr");
-  const matches = Object.values(customers).filter(c => 
-    (c.name || "").toLocaleLowerCase("tr").includes(q) || (c.phone || "").includes(q)
-  ).slice(0, 5);
-
-  if (matches.length === 0) {
-    suggestionsBox.classList.add("hidden");
-    return;
-  }
-
-  suggestionsBox.innerHTML = matches.map(c => `
-    <div class="suggestion" data-phone="${c.phone}">
-      <div>
-        <strong style="display:block; font-size:13px;">${c.name || "İsimsiz Müşteri"}</strong>
-        <small style="color:var(--muted); font-size:12px;">${c.phone}</small>
-      </div>
-      <span style="color:var(--gold); font-size:12px; font-weight:700;">Seç</span>
+  // Render Kategori Listesi
+  const catListEl = $("menuCatList");
+  catListEl.innerHTML = cats.map(c => `
+    <div class="menu-cat-item ${c === selectedMenuCat ? 'active' : ''}" data-mgr-cat="${c}">
+      <span>${c} (${catalog[c].length})</span>
+      <button class="btn btn-danger btn-sm" data-del-cat="${c}" style="padding:2px 6px; font-size:11px;" title="Kategoriyi Sil">✕</button>
     </div>
   `).join("");
 
-  suggestionsBox.classList.remove("hidden");
+  document.querySelectorAll("[data-mgr-cat]").forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.closest("[data-del-cat]")) return;
+      selectedMenuCat = el.dataset.mgrCat;
+      renderMenuManagement();
+    };
+  });
 
-  document.querySelectorAll(".suggestion").forEach(el => {
-    el.onclick = () => {
-      const c = customers[norm(el.dataset.phone)];
-      if (c) {
-        $("custPhone").value = c.phone || "";
-        $("custName").value = c.name || "";
-        $("custAddress").value = c.address || "";
-        suggestionsBox.classList.add("hidden");
-        toast("Müşteri bilgileri dolduruldu");
+  document.querySelectorAll("[data-del-cat]").forEach(btn => {
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      const catToDelete = btn.dataset.delCat;
+      if (confirm(`"${catToDelete}" kategorisini ve altındaki tüm ürünleri silmek istediğinize emin misiniz?`)) {
+        delete catalog[catToDelete];
+        await saveMenuToDB();
+        renderMenuManagement();
+      }
+    };
+  });
+
+  // Render Ürün Tablosu
+  $("selectedCatTitle").textContent = selectedMenuCat ? `"${selectedMenuCat}" Ürünleri` : "Ürün Bulunmuyor";
+  const searchQ = ($("menuSearch")?.value || "").toLocaleLowerCase("tr");
+  const tableBody = $("menuProdTableBody");
+
+  const items = catalog[selectedMenuCat] || [];
+  const filtered = items.filter(([pName, pPrice]) => !searchQ || pName.toLocaleLowerCase("tr").includes(searchQ));
+
+  if (filtered.length === 0) {
+    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:20px;">Bu kategoride ürün bulunmuyor.</td></tr>`;
+    return;
+  }
+
+  tableBody.innerHTML = filtered.map(([pName, pPrice]) => `
+    <tr>
+      <td style="font-weight:700;">${pName}</td>
+      <td style="color:var(--gold-hover); font-weight:800;">${money(pPrice)}</td>
+      <td style="text-align:right; white-space:nowrap;">
+        <button class="btn btn-dark btn-sm" data-edit-prod="${pName}" data-price="${pPrice}">✏️ Düzenle</button>
+        <button class="btn btn-danger btn-sm" data-del-prod="${pName}">🗑️ Sil</button>
+      </td>
+    </tr>
+  `).join("");
+
+  // Ürün Düzenleme
+  document.querySelectorAll("[data-edit-prod]").forEach(btn => {
+    btn.onclick = async () => {
+      const oldName = btn.dataset.editProd;
+      const oldPrice = btn.dataset.price;
+      const newName = prompt("Ürün Adı:", oldName);
+      if (newName === null) return;
+      const newPriceStr = prompt("Yeni Fiyat (₺):", oldPrice);
+      if (newPriceStr === null) return;
+      const newPrice = parseFloat(newPriceStr);
+      if (isNaN(newPrice) || newPrice < 0) return toast("Geçersiz fiyat!");
+
+      const arr = catalog[selectedMenuCat];
+      const itemIdx = arr.findIndex(x => x[0] === oldName);
+      if (itemIdx !== -1) {
+        arr[itemIdx] = [newName.trim() || oldName, newPrice];
+        await saveMenuToDB();
+        renderMenuManagement();
+      }
+    };
+  });
+
+  // Ürün Silme
+  document.querySelectorAll("[data-del-prod]").forEach(btn => {
+    btn.onclick = async () => {
+      const pName = btn.dataset.delProd;
+      if (confirm(`"${pName}" ürününü silmek istediğinize emin misiniz?`)) {
+        catalog[selectedMenuCat] = catalog[selectedMenuCat].filter(x => x[0] !== pName);
+        await saveMenuToDB();
+        renderMenuManagement();
       }
     };
   });
 }
 
-$("custPhone").addEventListener("input", showCustomerSuggestions);
-$("custPhone").addEventListener("focus", showCustomerSuggestions);
-document.addEventListener("click", e => {
-  if (!e.target.closest("#custPhone") && !e.target.closest("#suggestions")) {
-    $("suggestions").classList.add("hidden");
-  }
-});
-
-$("productSearch").oninput = renderProducts;
-$("clearCart").onclick = () => { cart = []; renderCart(); renderProducts(); };
-
-// AUTHENTICATION
-$("loginBtn").onclick = async () => {
-  try {
-    $("loginErr").textContent = "";
-    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
-  } catch (e) {
-    $("loginErr").textContent = "Giriş başarısız! Bilgilerinizi kontrol edin.";
-  }
+// Yeni Kategori Ekleme
+$("addCatBtn").onclick = async () => {
+  const catName = prompt("Yeni Kategori Adı:");
+  if (!catName || !catName.trim()) return;
+  const trimmed = catName.trim();
+  if (catalog[trimmed]) return toast("Bu kategori zaten mevcut!");
+  catalog[trimmed] = [];
+  selectedMenuCat = trimmed;
+  await saveMenuToDB();
+  renderMenuManagement();
 };
-$("logoutBtn").onclick = () => signOut(auth);
 
-onAuthStateChanged(auth, u => {
-  if (!u) {
-    $("login").classList.remove("hidden");
-    $("app").classList.add("hidden");
-    return;
-  }
-  $("login").classList.add("hidden");
-  $("app").classList.remove("hidden");
+// Yeni Ürün Ekleme
+$("addProdBtn").onclick = async () => {
+  if (!selectedMenuCat || !catalog[selectedMenuCat]) return toast("Lütfen önce geçerli bir kategori seçin!");
+  const pName = prompt("Yeni Ürün Adı:");
+  if (!pName || !pName.trim()) return;
+  const pPriceStr = prompt("Ürün Fiyatı (₺):", "100");
+  if (!pPriceStr) return;
+  const pPrice = parseFloat(pPriceStr);
+  if (isNaN(pPrice) || pPrice < 0) return toast("Geçersiz fiyat!");
 
-  const isAdmin = u.uid === ADMIN;
-  $("roleBadge").textContent = isAdmin ? "Yönetici" : "Kurye Panel";
-  document.querySelectorAll(".admin-only").forEach(el => el.classList.toggle("hidden", !isAdmin));
-  
-  if (!isAdmin) {
-    document.querySelector('[data-page="new"]').classList.add("hidden");
-    showPage("active");
-  }
-  listenData(u);
-});
+  catalog[selectedMenuCat].push([pName.trim(), pPrice]);
+  await saveMenuToDB();
+  renderMenuManagement();
+};
+
+$("menuSearch").oninput = renderMenuManagement;
 
 // YENİ SİPARİŞ OLUŞTURMA
 $("createOrder").onclick = async () => {
@@ -648,14 +611,14 @@ $("createOrder").onclick = async () => {
     await update(ref(db), updates);
     await set(ref(db, "customers/" + norm(phone)), { name, phone, address, updatedAt: now });
 
-    // Fiş Yazdır
-    printReceipt(orderData);
+    // Fişi Doldur ve Otomatik Yazdır
+    printReceipt(orderData, true);
 
     cart = [];
     renderCart();
     renderProducts();
     ["custPhone", "custName", "custAddress", "orderNote"].forEach(id => $(id).value = "");
-    toast("✓ Sipariş başarıyla oluşturuldu");
+    toast("✓ Sipariş başarıyla oluşturuldu ve yazdırıldı");
     showPage("active");
   } catch (e) {
     console.error(e);
@@ -664,30 +627,43 @@ $("createOrder").onclick = async () => {
 };
 
 // THERMAL RECEIPT PRINTER
-function printReceipt(o) {
+function printReceipt(o, autoPrint = false) {
   const printBox = $("print-area");
-  const itemsHtml = o.items.map(i => `<div>${i.qty} x ${i.name} - ${money(i.price * i.qty)}</div>`).join("");
+  const itemsHtml = (o.items || []).map(i => `
+    <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+      <span>${i.qty} x ${i.name}</span>
+      <span>${money(i.price * i.qty)}</span>
+    </div>
+  `).join("");
+
   printBox.innerHTML = `
     <div style="text-align:center; font-weight:bold; font-size:16px;">HAYAL PİDE</div>
-    <div style="text-align:center; margin-bottom:10px;">Paket Servis Adisyonu</div>
-    <hr>
-    <div><b>Tarih:</b> ${new Date(o.createdAt).toLocaleString("tr-TR")}</div>
-    <div><b>Müşteri:</b> ${o.customerName}</div>
-    <div><b>Tel:</b> ${o.phone}</div>
-    <div><b>Adres:</b> ${o.address}</div>
-    <hr>
+    <div style="text-align:center; margin-bottom:8px; font-size:11px;">Paket Servis Adisyonu</div>
+    <hr style="border:none; border-top:1px dashed #000; margin:6px 0;">
+    <div><b>Tarih:</b> ${new Date(o.createdAt || Date.now()).toLocaleString("tr-TR")}</div>
+    <div><b>Müşteri:</b> ${o.customerName || ''}</div>
+    <div><b>Tel:</b> ${o.phone || ''}</div>
+    <div><b>Adres:</b> ${o.address || ''}</div>
+    <hr style="border:none; border-top:1px dashed #000; margin:6px 0;">
     ${itemsHtml}
-    <hr>
-    <div><b>Ödeme:</b> ${o.payment}</div>
+    <hr style="border:none; border-top:1px dashed #000; margin:6px 0;">
+    <div><b>Ödeme:</b> ${o.payment || ''}</div>
     <div style="font-size:16px; font-weight:bold; margin-top:5px;">TOPLAM: ${money(o.total)}</div>
     ${o.note ? `<div style="margin-top:5px;"><b>Not:</b> ${o.note}</div>` : ''}
-    <hr>
+    <hr style="border:none; border-top:1px dashed #000; margin:6px 0;">
     <div style="text-align:center; margin-top:10px;">Afiyet Olsun!</div>
   `;
+
+  if (autoPrint) {
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  }
 }
 
 // REALTIME DATABASE DİNLEME
 function listenData(u) {
+  listenMenu();
   if (u.uid === ADMIN) {
     onValue(ref(db, "orders"), s => {
       allOrders = s.val() || {};
@@ -703,31 +679,6 @@ function listenData(u) {
       handleOrdersUpdate();
     });
   }
-}
-
-function handleOrdersUpdate() {
-  const activeCount = Object.values(allOrders).filter(o => !["teslim_edildi", "iptal"].includes(o.status)).length;
-  const activeBadge = $("activeBadge");
-  
-  if (activeCount > 0) {
-    activeBadge.textContent = activeCount;
-    activeBadge.classList.remove("hidden");
-  } else {
-    activeBadge.classList.add("hidden");
-  }
-
-  if (previousOrderCount !== -1 && activeCount > previousOrderCount) {
-    playNotificationSound();
-    toast("🔔 Yeni sipariş düştü!");
-  }
-  previousOrderCount = activeCount;
-
-  renderOrders();
-  renderHistory();
-}
-
-function statusText(s) {
-  return { kurye_bekliyor: "Kurye Bekliyor", yolda: "Yolda", teslim_edildi: "Teslim Edildi", iptal: "İptal" }[s] || s;
 }
 
 function orderCardHtml(o) {
@@ -763,76 +714,10 @@ function orderCardHtml(o) {
         <a class="btn btn-dark btn-sm" href="${telUrl}">📞 Ara</a>
         <a class="btn btn-dark btn-sm" href="${waUrl}" target="_blank">💬 WhatsApp</a>
         ${actions}
-        <button class="btn btn-dark btn-sm" onclick="printReceipt(${JSON.stringify(o).replace(/"/g, '&quot;')}); window.print();">🖨️ Fiş Bas</button>
+        <button class="btn btn-dark btn-sm" data-print="${o.id}">🖨️ Fiş Bas</button>
       </div>
     </div>
   `;
-}
-
-function renderOrders() {
-  const arr = Object.values(allOrders).sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
-  const active = arr.filter(o => !["teslim_edildi", "iptal"].includes(o.status));
-  
-  $("activeOrders").innerHTML = active.map(orderCardHtml).join("") || `<div style="padding:40px; text-align:center; color:var(--muted);">Henüz aktif sipariş bulunmuyor.</div>`;
-  
-  const delivered = arr.filter(o => o.status === "teslim_edildi");
-  $("deliveredOrders").innerHTML = delivered.slice(0, 15).map(orderCardHtml).join("") || `<div style="padding:20px; text-align:center; color:var(--muted);">Henüz teslim edilmiş sipariş yok.</div>`;
-
-  const today = new Date(); today.setHours(0,0,0,0);
-  const todayOrders = arr.filter(o => (o.createdAt || 0) >= today.getTime());
-  const todayDelivered = delivered.filter(o => (o.deliveredAt || o.createdAt) >= today.getTime());
-
-  $("statOrders").textContent = todayOrders.length;
-  $("statDelivered").textContent = todayDelivered.length;
-  $("statRevenue").textContent = money(todayDelivered.reduce((s, o) => s + (+o.total || 0), 0));
-}
-
-function renderHistory() {
-  const q = ($("historySearch")?.value || "").toLocaleLowerCase("tr");
-  const arr = Object.values(allOrders).sort((a,b) => (b.createdAt||0) - (a.createdAt||0)).filter(o => 
-    !q || ((o.customerName||"") + " " + (o.phone||"") + " " + (o.address||"")).toLocaleLowerCase("tr").includes(q)
-  );
-
-  $("historyList").innerHTML = arr.map(o => `
-    <div class="order">
-      <div class="order-head">
-        <div>
-          <strong>${o.customerName || "Müşteri"}</strong>
-          <div class="order-meta">${new Date(o.createdAt || 0).toLocaleString("tr-TR")}</div>
-        </div>
-        <span class="badge ${o.status}">${statusText(o.status)}</span>
-      </div>
-      <div class="order-items">${(o.items || []).map(x => `${x.qty}x ${x.name}`).join(", ")}</div>
-      <div style="margin-top:8px; font-weight:800; color:var(--gold-hover);">${money(o.total)} · ${o.payment}</div>
-    </div>
-  `).join("") || `<div style="padding:30px; text-align:center; color:var(--muted);">Sipariş kaydı bulunamadı.</div>`;
-}
-
-function renderCustomers() {
-  const q = ($("customerSearch")?.value || "").toLocaleLowerCase("tr");
-  const arr = Object.values(customers).filter(c => ((c.name||"") + " " + (c.phone||"")).toLocaleLowerCase("tr").includes(q));
-
-  $("customerList").innerHTML = arr.map(c => `
-    <div class="order" style="display:flex; justify-content:space-between; align-items:center;">
-      <div>
-        <strong>${c.name || "İsimsiz Müşteri"}</strong>
-        <div class="order-meta">📞 ${c.phone}<br>📍 ${c.address || ''}</div>
-      </div>
-      <button class="btn btn-dark btn-sm" data-select-customer="${c.phone}">Sipariş Başlat</button>
-    </div>
-  `).join("") || `<div style="padding:30px; text-align:center; color:var(--muted);">Müşteri kaydı bulunamadı.</div>`;
-
-  document.querySelectorAll("[data-select-customer]").forEach(btn => {
-    btn.onclick = () => {
-      const c = customers[norm(btn.dataset.selectCustomer)];
-      if (!c) return;
-      $("custPhone").value = c.phone || "";
-      $("custName").value = c.name || "";
-      $("custAddress").value = c.address || "";
-      showPage("new");
-      toast("Müşteri bilgileri sipariş formuna aktarıldı");
-    };
-  });
 }
 
 // SAYFA DEĞİŞİMİ
@@ -846,14 +731,21 @@ function showPage(pageId) {
   document.querySelectorAll(".navbtn").forEach(btn => btn.classList.toggle("active", btn.dataset.page === pageId));
   if (pageId === "history") renderHistory();
   if (pageId === "customers") renderCustomers();
+  if (pageId === "menu-manage") renderMenuManagement();
 }
 
-// DURUM GÜNCELLEME
+// DURUM GÜNCELLEME & FİŞ YAZDIRMA
 document.addEventListener("click", e => {
   const road = e.target.closest("[data-road]");
   const del = e.target.closest("[data-deliver]");
+  const prt = e.target.closest("[data-print]");
+
   if (road) changeStatus(road.dataset.road, "yolda");
   if (del) changeStatus(del.dataset.deliver, "teslim_edildi");
+  if (prt) {
+    const o = allOrders[prt.dataset.print];
+    if (o) printReceipt(o, true);
+  }
 });
 
 async function changeStatus(id, status) {
@@ -865,17 +757,27 @@ async function changeStatus(id, status) {
   const now = Date.now();
 
   try {
-    if (u.uid === ADMIN) {
-      await update(ref(db, "orders/" + id), { status, [stamp]: now });
-      await update(ref(db, "courierOrders/" + o.courierId + "/" + id), { status, [stamp]: now });
-    } else {
-      await update(ref(db, "courierOrders/" + u.uid + "/" + id), { status, [stamp]: now });
-      await update(ref(db, "orders/" + id), { status, [stamp]: now });
+    const updates = {};
+    updates["orders/" + id + "/status"] = status;
+    updates["orders/" + id + "/" + stamp] = now;
+    if (o.courierId) {
+      updates["courierOrders/" + o.courierId + "/" + id + "/status"] = status;
+      updates["courierOrders/" + o.courierId + "/" + id + "/" + stamp] = now;
     }
+    await update(ref(db), updates);
     toast(status === "yolda" ? "🛵 Sipariş yola çıkarıldı" : "✓ Sipariş teslim edildi");
   } catch (e) {
-    console.error(e);
-    toast("Durum güncellenemedi!");
+    console.error("Multi-update hatası, tekli güncelleme deneniyor:", e);
+    try {
+      if (u.uid !== ADMIN) {
+        await update(ref(db, "courierOrders/" + u.uid + "/" + id), { status, [stamp]: now });
+      }
+      await update(ref(db, "orders/" + id), { status, [stamp]: now });
+      toast(status === "yolda" ? "🛵 Sipariş yola çıkarıldı" : "✓ Sipariş teslim edildi");
+    } catch (err) {
+      console.error(err);
+      toast("Durum güncellenemedi!");
+    }
   }
 }
 
@@ -889,4 +791,3 @@ renderCart();
 </script>
 </body>
 </html>
-```
