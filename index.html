@@ -1,9 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#08090b">
 <title>Hayal Pide | Profesyonel POS & Paket Servis</title>
 <style>
@@ -23,194 +22,284 @@
   --blue-bg: #132e48;
   --red: #ff5b5b;
   --red-bg: #3d1b1e;
-  --radius: 16px;
-  --shadow: 0 12px 32px rgba(0,0,0,0.4);
+  --radius: 12px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; overflow-x:hidden; width:100%; max-width:100vw; }
-body { font-size:15px; -webkit-font-smoothing:antialiased; }
-button, input, select, textarea { font:inherit; color:inherit; }
-button { cursor:pointer; border:none; outline:none; }
-.hidden { display:none !important; }
-
-.app { min-height:100vh; width:100%; max-width:100%; margin:auto; display:flex; flex-direction:column; }
-.login { min-height:100vh; display:grid; place-items:center; padding:20px; background:radial-gradient(circle at 50% 0%, #2e2311 0%, #08090b 60%); }
-.login-card { width:min(420px,100%); background:var(--surface); border:1px solid var(--line); border-radius:24px; padding:32px; box-shadow:var(--shadow); }
-.brand { font-weight:900; letter-spacing:-0.5px; font-size:26px; }
-.brand b { color:var(--gold); }
-.sub { color:var(--muted); margin:6px 0 24px; font-size:14px; }
-
-.field { margin-bottom:14px; }
-.field label { display:block; font-size:12px; font-weight:700; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
-.field input, .field select, .field textarea, .search {
-  width:100%; min-height:46px; border:1px solid var(--line); background:#0d0e12; color:#fff;
-  border-radius:12px; padding:10px 14px; transition:all 0.2s ease; box-sizing:border-box;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-.field input:focus, .field textarea:focus, .search:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(245,184,61,0.15); outline:none; }
+body { font-size: 14px; -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; border: none; outline: none; }
+.hidden { display: none !important; }
+
+.app {
+  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 0%, #2e2311 0%, #08090b 60%);
+}
+.login-card {
+  width: min(400px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.brand { font-weight: 900; letter-spacing: -0.5px; font-size: 22px; }
+.brand b { color: var(--gold); }
+.sub { color: var(--muted); margin: 4px 0 20px; font-size: 13px; }
+
+.field { margin-bottom: 12px; }
+.field label {
+  display: block; font-size: 11px; font-weight: 700; color: var(--muted);
+  margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.field input, .field select, .field textarea, .search {
+  width: 100%; min-height: 42px; border: 1px solid var(--line); background: #0d0e12; color: #fff;
+  border-radius: 10px; padding: 8px 12px; transition: all 0.2s ease; box-sizing: border-box;
+}
+.field input:focus, .field textarea:focus, .search:focus {
+  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,184,61,0.15); outline: none;
+}
 
 .btn {
-  min-height:44px; border-radius:12px; padding:10px 18px; font-weight:700; font-size:14px;
-  display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:all 0.15s ease;
-  user-select:none;
+  min-height: 40px; border-radius: 10px; padding: 8px 16px; font-weight: 700; font-size: 13px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.15s ease;
+  user-select: none;
 }
-.btn:active { transform:scale(0.97); }
-.btn-primary { background:var(--gold); color:#111; }
-.btn-primary:hover { background:var(--gold-hover); }
-.btn-dark { background:var(--surface3); color:#fff; border:1px solid var(--line); }
-.btn-dark:hover { background:#2f313d; }
-.btn-green { background:var(--green-bg); color:var(--green); border:1px solid rgba(43,216,137,0.3); }
-.btn-danger { background:var(--red-bg); color:var(--red); border:1px solid rgba(255,91,91,0.3); }
-.btn-sm { min-height:36px; padding:6px 12px; font-size:13px; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--gold); color: #111; }
+.btn-primary:hover { background: var(--gold-hover); }
+.btn-dark { background: var(--surface3); color: #fff; border: 1px solid var(--line); }
+.btn-dark:hover { background: #2f313d; }
+.btn-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(43,216,137,0.3); }
+.btn-danger { background: var(--red-bg); color: var(--red); border: 1px solid rgba(255,91,91,0.3); }
+.btn-sm { min-height: 32px; padding: 4px 10px; font-size: 12px; }
 
 header {
-  position:sticky; top:0; z-index:40; height:64px; padding:0 24px;
-  display:flex; align-items:center; justify-content:space-between;
-  background:rgba(9, 10, 12, 0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--line);
+  height: 52px; padding: 0 16px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(9, 10, 12, 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line);
+  z-index: 40;
 }
-.userbox { display:flex; align-items:center; gap:12px; }
-.user-badge { background:var(--surface2); padding:6px 12px; border-radius:20px; border:1px solid var(--line); font-size:12px; font-weight:700; color:var(--gold); }
+.userbox { display: flex; align-items: center; gap: 10px; }
+.user-badge { background: var(--surface2); padding: 4px 10px; border-radius: 16px; border: 1px solid var(--line); font-size: 11px; font-weight: 700; color: var(--gold); }
 
-.layout { display:grid; grid-template-columns:220px 1fr; min-height:calc(100vh - 64px); width:100%; }
-aside { border-right:1px solid var(--line); padding:20px 14px; position:sticky; top:64px; height:calc(100vh - 64px); display:flex; flex-direction:column; gap:8px; }
+.layout {
+  display: flex;
+  height: calc(100vh - 52px);
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+aside {
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--line);
+  padding: 12px 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  background: var(--surface);
+}
+
 .navbtn {
-  width:100%; text-align:left; border:0; background:transparent; color:var(--muted);
-  border-radius:12px; padding:12px 14px; font-weight:700; font-size:14px;
-  display:flex; align-items:center; justify-content:space-between; transition:all 0.2s;
+  width: 100%; text-align: left; border: 0; background: transparent; color: var(--muted);
+  border-radius: 10px; padding: 10px 12px; font-weight: 700; font-size: 13px;
+  display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;
 }
-.navbtn:hover { background:var(--surface2); color:#fff; }
-.navbtn.active { background:var(--surface2); color:var(--gold); border:1px solid rgba(245,184,61,0.25); box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-.nav-badge { background:var(--red); color:#fff; font-size:11px; padding:2px 7px; border-radius:10px; font-weight:900; }
+.navbtn:hover { background: var(--surface2); color: #fff; }
+.navbtn.active { background: var(--surface2); color: var(--gold); border: 1px solid rgba(245,184,61,0.25); }
+.nav-badge { background: var(--red); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 900; }
 
-main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
-.page-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:4px; }
-.page-sub { color:var(--muted); margin-bottom:20px; font-size:13px; }
+main {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  padding: 14px 16px 24px 16px;
+  box-sizing: border-box;
+}
 
-/* SOL & SAĞ YAPI (Sepet Solda, Menü Sağda Tam Genişlik) */
-.grid { display:grid; grid-template-columns:minmax(330px, 380px) 1fr; gap:20px; align-items:start; width:100%; }
-.panel { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.2); width:100%; box-sizing:border-box; }
-.panel h3 { margin:0 0 16px; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:space-between; }
+.page-title { font-size: 20px; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 2px; }
+.page-sub { color: var(--muted); margin-bottom: 12px; font-size: 12px; }
+
+/* DÜZELTİLMİŞ SOL & SAĞ YAPI (Sıkıştırılmış, Taşmayan Izgara) */
+.grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 14px;
+  align-items: start;
+  width: 100%;
+  min-width: 0;
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.panel h3 { margin: 0 0 12px; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; }
 
 .catbar {
-  display:flex; gap:8px; overflow-x:auto; scrollbar-width:thin; padding:2px 2px 12px 2px;
-  margin-bottom:12px; -webkit-overflow-scrolling:touch; width:100%;
+  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; padding: 2px 2px 8px 2px;
+  margin-bottom: 10px; -webkit-overflow-scrolling: touch; width: 100%;
 }
 .chip {
-  background:var(--surface2); border:1px solid var(--line); padding:8px 16px;
-  border-radius:20px; font-size:13px; font-weight:600; white-space:nowrap;
-  cursor:pointer; transition:all 0.2s;
+  background: var(--surface2); border: 1px solid var(--line); padding: 6px 12px;
+  border-radius: 16px; font-size: 12px; font-weight: 600; white-space: nowrap;
+  cursor: pointer; transition: all 0.2s;
 }
-.chip:hover { background:var(--surface3); }
-.chip.active { background:var(--gold); color:#000; border-color:var(--gold); }
+.chip:hover { background: var(--surface3); }
+.chip.active { background: var(--gold); color: #000; border-color: var(--gold); }
 
-.accordion-group { display:flex; flex-direction:column; gap:12px; }
-.acc-item { background:var(--surface2); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.accordion-group { display: flex; flex-direction: column; gap: 10px; }
+.acc-item { background: var(--surface2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .acc-header {
-  padding:14px 16px; display:flex; justify-content:space-between; align-items:center;
-  cursor:pointer; background:var(--surface2); transition:all 0.2s; user-select:none;
+  padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; background: var(--surface2); transition: all 0.2s; user-select: none;
 }
-.acc-header:hover { background:var(--surface3); }
-.acc-title { font-weight:800; font-size:15px; display:flex; align-items:center; gap:8px; }
-.acc-count { font-size:11px; background:var(--surface); padding:2px 8px; border-radius:10px; color:var(--muted); font-weight:600; }
-.acc-item.open .acc-header { border-bottom:1px solid var(--line); background:var(--surface3); }
-.acc-content { padding:16px; background:var(--surface); display:none; }
-.acc-item.open .acc-content { display:block; }
-.chevron { transition:transform 0.2s; font-size:12px; color:var(--muted); }
-.acc-item.open .chevron { transform:rotate(180deg); color:var(--gold); }
+.acc-header:hover { background: var(--surface3); }
+.acc-title { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.acc-count { font-size: 10px; background: var(--surface); padding: 2px 6px; border-radius: 8px; color: var(--muted); font-weight: 600; }
+.acc-item.open .acc-header { border-bottom: 1px solid var(--line); background: var(--surface3); }
+.acc-content { padding: 10px; background: var(--surface); display: none; }
+.acc-item.open .acc-content { display: block; }
+.chevron { transition: transform 0.2s; font-size: 11px; color: var(--muted); }
+.acc-item.open .chevron { transform: rotate(180deg); color: var(--gold); }
 
-.products { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
+.products { display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); gap: 8px; }
 .product {
-  background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:12px;
-  cursor:pointer; position:relative; transition:all 0.2s ease; display:flex; flex-direction:column; justify-content:space-between; min-height:100px;
+  background: var(--surface2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px;
+  cursor: pointer; position: relative; transition: all 0.15s ease; display: flex; flex-direction: column; justify-content: space-between; min-height: 75px;
 }
-.product:hover { border-color:var(--gold); transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.3); }
-.product:active { transform:scale(0.95); }
-.product-name { font-size:13px; font-weight:700; line-height:1.3; margin-bottom:8px; }
-.product-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:auto; }
-.price { font-weight:900; color:var(--gold); font-size:14px; }
+.product:hover { border-color: var(--gold); transform: translateY(-1px); }
+.product:active { transform: scale(0.96); }
+.product-name { font-size: 12px; font-weight: 700; line-height: 1.25; margin-bottom: 6px; word-break: break-word; }
+.product-bottom { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; }
+.price { font-weight: 900; color: var(--gold); font-size: 13px; }
 .product-badge {
-  position:absolute; top:-8px; right:-8px; background:var(--gold); color:#000;
-  width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
-  font-weight:900; font-size:12px; box-shadow:0 2px 8px rgba(0,0,0,0.5); border:2px solid var(--surface);
+  position: absolute; top: -6px; right: -6px; background: var(--gold); color: #000;
+  width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 900; font-size: 11px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); border: 2px solid var(--surface);
 }
 
-.cart-row { display:flex; flex-direction:column; gap:6px; padding:12px 0; border-bottom:1px solid var(--line); }
-.cart-top { display:flex; justify-content:space-between; font-weight:700; font-size:13px; }
-.qty { display:flex; align-items:center; gap:12px; }
-.qty button { width:28px; height:28px; border-radius:6px; background:var(--surface3); border:1px solid var(--line); font-weight:bold; display:flex; align-items:center; justify-content:center; }
-.qty button:hover { background:var(--gold); color:#000; border-color:var(--gold); }
-.total { font-size:20px; font-weight:900; display:flex; justify-content:space-between; margin-top:16px; padding-top:16px; border-top:1px dashed var(--line); }
+.cart-row { display: flex; flex-direction: column; gap: 4px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.cart-top { display: flex; justify-content: space-between; font-weight: 700; font-size: 12px; }
+.qty { display: flex; align-items: center; gap: 10px; }
+.qty button { width: 24px; height: 24px; border-radius: 4px; background: var(--surface3); border: 1px solid var(--line); font-weight: bold; display: flex; align-items: center; justify-content: center; }
+.qty button:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+.total { font-size: 18px; font-weight: 900; display: flex; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
 
-.orders { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
-.order { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:10px; }
-.order-head { display:flex; justify-content:space-between; align-items:flex-start; }
-.badge { padding:4px 8px; border-radius:6px; font-size:11px; font-weight:800; text-transform:uppercase; }
-.badge.kurye_bekliyor { background:var(--red-bg); color:var(--red); border:1px solid rgba(255,91,91,0.3); }
-.badge.yolda { background:var(--blue-bg); color:var(--blue); border:1px solid rgba(93,174,255,0.3); }
-.badge.teslim_edildi { background:var(--green-bg); color:var(--green); border:1px solid rgba(43,216,137,0.3); }
-.order-meta { font-size:13px; color:var(--muted); line-height:1.4; }
-.order-items { background:var(--surface2); padding:10px; border-radius:8px; font-size:13px; line-height:1.6; }
-.order-buttons { display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; }
-.order-buttons a, .order-buttons button { flex:1; min-width:80px; text-align:center; text-decoration:none; }
+.orders { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.order { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.order-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.badge { padding: 3px 6px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+.badge.kurye_bekliyor { background: var(--red-bg); color: var(--red); border: 1px solid rgba(255,91,91,0.3); }
+.badge.yolda { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(93,174,255,0.3); }
+.badge.teslim_edildi { background: var(--green-bg); color: var(--green); border: 1px solid rgba(43,216,137,0.3); }
+.order-meta { font-size: 12px; color: var(--muted); line-height: 1.3; }
+.order-items { background: var(--surface2); padding: 8px; border-radius: 6px; font-size: 12px; line-height: 1.5; }
+.order-buttons { display: flex; gap: 4px; flex-wrap: wrap; margin-top: auto; }
+.order-buttons a, .order-buttons button { flex: 1; min-width: 70px; text-align: center; text-decoration: none; }
 
-.stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px; }
-.stat { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.stat small { color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; margin-bottom:8px; }
-.stat strong { font-size:28px; font-weight:900; color:var(--gold); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.stat small { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+.stat strong { font-size: 24px; font-weight: 900; color: var(--gold); }
 
-.menu-mgr-grid { display:grid; grid-template-columns:250px 1fr; gap:20px; align-items:start; }
-.menu-cat-item { padding:10px 14px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:14px; margin-bottom:6px; }
-.menu-cat-item:hover { background:var(--surface2); }
-.menu-cat-item.active { background:var(--gold); color:#000; }
-.prod-table { width:100%; border-collapse:collapse; font-size:14px; }
-.prod-table th, .prod-table td { padding:12px; text-align:left; border-bottom:1px solid var(--line); }
-.prod-table th { color:var(--muted); font-weight:700; text-transform:uppercase; font-size:12px; }
+.menu-mgr-grid { display: grid; grid-template-columns: 220px 1fr; gap: 14px; align-items: start; }
+.menu-cat-item { padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.menu-cat-item:hover { background: var(--surface2); }
+.menu-cat-item.active { background: var(--gold); color: #000; }
+.prod-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.prod-table th, .prod-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--line); }
+.prod-table th { color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 11px; }
 
-.suggestions { position:absolute; top:100%; left:0; right:0; background:var(--surface2); border:1px solid var(--line); border-radius:12px; margin-top:4px; z-index:100; overflow:hidden; box-shadow:var(--shadow); }
-.suggestion { padding:12px 14px; cursor:pointer; border-bottom:1px solid var(--line); }
-.suggestion:hover { background:var(--surface3); }
-.suggestion:last-child { border-bottom:none; }
+.suggestions { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface2); border: 1px solid var(--line); border-radius: 10px; margin-top: 4px; z-index: 100; overflow: hidden; box-shadow: var(--shadow); }
+.suggestion { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid var(--line); font-size: 12px; }
+.suggestion:hover { background: var(--surface3); }
+.suggestion:last-child { border-bottom: none; }
 
-/* Modal & Toast */
-.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); z-index:999; display:flex; align-items:center; justify-content:center; padding:20px; }
-.modal-card { background:var(--surface); width:100%; max-width:400px; border-radius:24px; border:1px solid var(--line); overflow:hidden; box-shadow:var(--shadow); }
-.modal-title { padding:20px 24px; border-bottom:1px solid var(--line); font-weight:800; font-size:18px; display:flex; justify-content:space-between; align-items:center; }
-#modalBody { padding:24px; display:flex; flex-direction:column; gap:16px; }
-.modal-actions { padding:16px 24px; border-top:1px solid var(--line); background:var(--surface2); display:flex; justify-content:flex-end; gap:12px; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modal-card { background: var(--surface); width: 100%; max-width: 380px; border-radius: 18px; border: 1px solid var(--line); overflow: hidden; box-shadow: var(--shadow); }
+.modal-title { padding: 16px 20px; border-bottom: 1px solid var(--line); font-weight: 800; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+#modalBody { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.modal-actions { padding: 12px 20px; border-top: 1px solid var(--line); background: var(--surface2); display: flex; justify-content: flex-end; gap: 8px; }
 
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--gold); color:#000; padding:12px 24px; border-radius:30px; font-weight:800; box-shadow:0 8px 24px rgba(245,184,61,0.4); z-index:9999; font-size:14px; transition:opacity 0.3s; pointer-events:none; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 10px 20px; border-radius: 24px; font-weight: 800; box-shadow: 0 6px 20px rgba(245,184,61,0.4); z-index: 9999; font-size: 13px; transition: opacity 0.3s; pointer-events: none; }
 
+/* YAZICI KAĞIT UZAMA HATASINI KESİN ÇÖZEN PRINT STİLLERİ */
 @media print {
   @page {
-    margin: 0;
+    size: 80mm auto;
+    margin: 0mm !important;
   }
   
   html, body {
     width: 80mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     background: #fff !important;
     color: #000 !important;
     margin: 0 !important;
     padding: 0 !important;
-    overflow: hidden !important; /* Uzayan gereksiz kağıdı önler */
+    overflow: visible !important;
   }
   
-  /* Bütün ana div'leri GİZLE (Sonsuz boş sayfaların asıl sebebi bunların height 100% almasıdır) */
+  /* Ana ekran div'lerini kesin olarak gizle */
   body > * {
     display: none !important;
   }
 
-  /* Sadece yazdırma alanını GÖSTER */
+  /* Sadece print-area gösterilsin ve boyutu kadar kağıt çekilsin */
   body > #print-area {
     display: block !important;
-    width: 76mm !important;
+    width: 72mm !important;
+    height: auto !important;
+    min-height: 0 !important;
     margin: 0 auto !important;
-    padding: 5mm 2mm !important;
+    padding: 2mm 0 !important;
     font-family: 'Courier New', Courier, monospace !important;
-    font-size: 12px !important;
-    line-height: 1.3 !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
     color: #000 !important;
     background: #fff !important;
-    position: static !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
   
   .receipt-row {
@@ -220,19 +309,18 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 }
 
 @media(max-width:960px) {
-  .layout { display:block; min-height:calc(100vh - 60px); }
+  .layout { display: block; height: auto; overflow: visible; }
   aside {
-    position:fixed; z-index:50; left:0; right:0; bottom:0; top:auto; height:auto;
-    flex-direction:row; padding:8px; background:rgba(18, 19, 24, 0.95);
-    backdrop-filter:blur(16px); border-top:1px solid var(--line); border-right:none;
-    justify-content:space-around;
+    position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; top: auto; height: auto;
+    flex-direction: row; padding: 6px; background: rgba(18, 19, 24, 0.96);
+    backdrop-filter: blur(16px); border-top: 1px solid var(--line); border-right: none;
+    justify-content: space-around;
   }
-  .navbtn { flex-direction:column; justify-content:center; padding:8px 4px; font-size:11px; text-align:center; gap:4px; }
-  main { padding:16px 16px 90px 16px; }
-  .grid { display:flex; flex-direction:column; }
-  .cart { position:static; }
-  .menu-mgr-grid { display:flex; flex-direction:column; }
-  .products { grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); }
+  .navbtn { flex-direction: column; justify-content: center; padding: 6px 2px; font-size: 10px; text-align: center; gap: 2px; }
+  main { padding: 12px 12px 80px 12px; height: auto; overflow: visible; }
+  .grid { display: flex; flex-direction: column; }
+  .menu-mgr-grid { display: flex; flex-direction: column; }
+  .products { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
 }
 </style>
 </head>
@@ -245,8 +333,8 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
   <div class="sub">Profesyonel POS & Paket Servis Sistemi</div>
   <div class="field"><label>E-posta</label><input id="email" type="email" placeholder="ornek@hayalpide.com" autocomplete="username"></div>
   <div class="field"><label>Şifre</label><input id="password" type="password" placeholder="••••••••" autocomplete="current-password"></div>
-  <button id="loginBtn" class="btn btn-primary" style="width:100%; margin-top:10px;">Sisteme Giriş Yap</button>
-  <div id="loginErr" style="color:var(--red); font-size:13px; margin-top:12px; text-align:center; font-weight:700;"></div>
+  <button id="loginBtn" class="btn btn-primary" style="width:100%; margin-top:8px;">Sisteme Giriş Yap</button>
+  <div id="loginErr" style="color:var(--red); font-size:12px; margin-top:10px; text-align:center; font-weight:700;"></div>
  </div>
 </div>
 
@@ -279,25 +367,25 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 
  <div class="grid">
   <!-- SOL KOLON: MÜŞTERİ BİLGİLERİ VE SEPET -->
-  <div style="display:flex; flex-direction:column; gap:16px;">
+  <div style="display:flex; flex-direction:column; gap:12px; min-width:0;">
    <!-- Müşteri Bilgileri -->
    <div class="panel" style="position:relative;">
     <h3>👤 Müşteri Bilgileri</h3>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-     <div class="field" style="position:relative; margin:0; grid-column:1/-1;">
+    <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+     <div class="field" style="position:relative; margin:0;">
       <label>Telefon</label>
       <input id="custPhone" inputmode="tel" placeholder="05xx xxx xx xx" autocomplete="off">
       <div id="suggestions" class="suggestions hidden"></div>
      </div>
-     <div class="field" style="margin:0; grid-column:1/-1;"><label>Ad Soyad</label><input id="custName" placeholder="Müşteri Adı Soyadı"></div>
-     <div class="field" style="grid-column:1/-1; margin:0;"><label>Adres</label><textarea id="custAddress" rows="2" placeholder="Mahalle, Cadde, Sokak, No/Daire..."></textarea></div>
+     <div class="field" style="margin:0;"><label>Ad Soyad</label><input id="custName" placeholder="Müşteri Adı Soyadı"></div>
+     <div class="field" style="margin:0;"><label>Adres</label><textarea id="custAddress" rows="2" placeholder="Mahalle, Cadde, Sokak, No/Daire..."></textarea></div>
     </div>
    </div>
 
    <!-- Sipariş Sepeti & Ödeme -->
    <div class="panel cart">
     <h3>🛒 Sipariş Sepeti <button id="clearCart" class="btn btn-dark btn-sm" style="font-size:11px;">Temizle</button></h3>
-    <div id="cartList" class="cart-list" style="margin-bottom:12px;"></div>
+    <div id="cartList" class="cart-list" style="margin-bottom:8px; max-height:180px; overflow-y:auto;"></div>
     
     <div>
      <div class="field"><label>Ödeme Türü</label>
@@ -314,25 +402,25 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
        <span>Toplam</span>
        <span id="total" style="color:var(--gold-hover);">₺0</span>
      </div>
-     <div style="display:grid; gap:8px; margin-top:14px;">
-       <button id="createOrder" class="btn btn-primary" style="width:100%; font-size:16px;">✓ Siparişi Onayla</button>
+     <div style="display:grid; gap:8px; margin-top:10px;">
+       <button id="createOrder" class="btn btn-primary" style="width:100%; font-size:15px;">✓ Siparişi Onayla</button>
      </div>
     </div>
    </div>
   </div>
 
   <!-- SAĞ KOLON: ÜRÜN KATALOĞU (TÜM EKRAN GENİŞLİĞİNİ KAPLAR) -->
-  <div>
+  <div style="min-width:0;">
    <div class="panel">
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
       <h3 style="margin:0;">🍽️ Ürün Kataloğu</h3>
       <div style="display:flex; gap:6px;">
-        <button id="btnExpandAll" class="btn btn-dark btn-sm" style="font-size:12px; padding:4px 10px;">📂 Tümünü Aç</button>
-        <button id="btnCollapseAll" class="btn btn-dark btn-sm" style="font-size:12px; padding:4px 10px;">📁 Tümünü Kapat</button>
+        <button id="btnExpandAll" class="btn btn-dark btn-sm" style="font-size:11px; padding:3px 8px;">📂 Tümünü Aç</button>
+        <button id="btnCollapseAll" class="btn btn-dark btn-sm" style="font-size:11px; padding:3px 8px;">📁 Tümünü Kapat</button>
       </div>
     </div>
     
-    <div style="margin-bottom:12px;">
+    <div style="margin-bottom:10px;">
       <input id="productSearch" class="search" placeholder="🔎 Ürün veya kategori ara (Örn: Kıymalı, Ayran, Lahmacun)...">
     </div>
 
@@ -359,7 +447,7 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
  <div class="page-sub" id="historySub">Geçmiş tüm kayıtlar.</div>
  <div class="panel">
   <input id="historySearch" class="search" placeholder="🔎 Geçmiş siparişlerde arama yapın...">
-  <div id="historyList" class="orders" style="margin-top:14px;"></div>
+  <div id="historyList" class="orders" style="margin-top:12px;"></div>
  </div>
 </section>
 
@@ -369,7 +457,7 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
  <div class="page-sub">Kayıtlı müşteriler ve adres bilgileri.</div>
  <div class="panel">
   <input id="customerSearch" class="search" placeholder="🔎 Isim veya telefon ile müşteri arayın...">
-  <div id="customerList" class="orders" style="margin-top:14px;"></div>
+  <div id="customerList" class="orders" style="margin-top:12px;"></div>
  </div>
 </section>
 
@@ -395,17 +483,17 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
  <div class="menu-mgr-grid">
   <!-- Sol: Kategori Yönetimi -->
   <div class="panel">
-   <h3>Kategoriler <button id="addCatBtn" class="btn btn-primary btn-sm">+ Yeni Kategori</button></h3>
-   <div id="menuCatList" style="margin-top:14px;"></div>
+   <h3>Kategoriler <button id="addCatBtn" class="btn btn-primary btn-sm">+ Yeni</button></h3>
+   <div id="menuCatList" style="margin-top:10px;"></div>
   </div>
 
   <!-- Sağ: Seçili Kategori Ürünleri -->
   <div class="panel">
-   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
     <h3 id="selectedCatTitle" style="margin:0;">Ürünler</h3>
     <button id="addProdBtn" class="btn btn-green btn-sm">+ Yeni Ürün Ekle</button>
    </div>
-   <input id="menuSearch" class="search" placeholder="🔎 Menüde ürün veya fiyat ara..." style="margin-bottom:12px;">
+   <input id="menuSearch" class="search" placeholder="🔎 Menüde ürün veya fiyat ara..." style="margin-bottom:10px;">
    <div style="overflow-x:auto;">
      <table class="prod-table">
       <thead>
@@ -425,12 +513,12 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 </div>
 </div>
 
-<!-- ÖZEL MODAL DIALOG (FİYAT DÜZENLEME & YENİ ÜRÜN) -->
+<!-- ÖZEL MODAL DIALOG -->
 <div id="modalOverlay" class="modal-overlay hidden">
   <div class="modal-card">
     <div class="modal-title">
       <span id="modalHeaderTitle">Ürün Düzenle</span>
-      <button id="modalCloseX" style="background:transparent; color:var(--muted); font-size:20px; font-weight:bold;">✕</button>
+      <button id="modalCloseX" style="background:transparent; color:var(--muted); font-size:18px; font-weight:bold;">✕</button>
     </div>
     <div id="modalBody"></div>
     <div class="modal-actions">
@@ -441,7 +529,6 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 </div>
 
 <!-- GİZLİ YAZDIRMA ALANI (THERMAL PRINTER) -->
-<!-- Bu alan body'nin doğrudan çocuğu olmak zorundadır. @media print sadece bunu gösterecektir. -->
 <div id="print-area"></div>
 
 <!-- TOAST CONTAINER -->
@@ -678,7 +765,7 @@ function renderAccordionCatalog() {
   const catKeys = Object.keys(catalog);
 
   if (catKeys.length === 0) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px;">Menüde henüz kategori yok.</div>`;
+    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px;">Menüde henüz kategori yok.</div>`;
     return;
   }
 
@@ -715,7 +802,7 @@ function renderAccordionCatalog() {
   });
 
   if (!html) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px;">Aramanıza uygun ürün bulunamadı.</div>`;
+    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px;">Aramanıza uygun ürün bulunamadı.</div>`;
     return;
   }
   container.innerHTML = html;
@@ -755,7 +842,7 @@ function updateQty(name, delta) {
 function renderCart() {
   const listEl = $("cartList");
   if (!cart.length) {
-    listEl.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px 0;">Sepet henüz boş.</div>`;
+    listEl.innerHTML = `<div style="color:var(--muted); text-align:center; padding:16px 0; font-size:12px;">Sepet henüz boş.</div>`;
     $("total").textContent = money(0);
     return;
   }
@@ -847,30 +934,30 @@ $("createOrder").onclick = async () => {
 function printReceipt(o, autoPrint = false) {
   const printBox = $("print-area");
   const itemsHtml = (o.items || []).map(i => `
-    <div class="receipt-row" style="margin-bottom:3px;">
+    <div class="receipt-row" style="margin-bottom:2px;">
       <span style="font-weight:bold;">${i.qty} x ${i.name}</span>
       <span>${money(i.price * i.qty)}</span>
     </div>
   `).join("");
 
   printBox.innerHTML = `
-    <div style="text-align:center; font-weight:bold; font-size:16px; margin-bottom:2px;">HAYAL PİDE</div>
-    <div style="text-align:center; font-size:11px; margin-bottom:6px; text-transform:uppercase;">Paket Servis Adisyonu</div>
-    <div style="border-top:1px dashed #000; margin:4px 0;"></div>
+    <div style="text-align:center; font-weight:bold; font-size:15px; margin-bottom:2px;">HAYAL PİDE</div>
+    <div style="text-align:center; font-size:10px; margin-bottom:4px; text-transform:uppercase;">Paket Servis Adisyonu</div>
+    <div style="border-top:1px dashed #000; margin:3px 0;"></div>
     <div><b>Tarih:</b> ${new Date(o.createdAt || Date.now()).toLocaleString("tr-TR")}</div>
     <div><b>Müşteri:</b> ${o.customerName || ''}</div>
     <div><b>Tel:</b> ${o.phone || ''}</div>
     <div style="word-wrap:break-word;"><b>Adres:</b> ${o.address || ''}</div>
-    <div style="border-top:1px dashed #000; margin:4px 0;"></div>
+    <div style="border-top:1px dashed #000; margin:3px 0;"></div>
     ${itemsHtml}
-    <div style="border-top:1px dashed #000; margin:4px 0;"></div>
-    <div class="receipt-row" style="font-weight:bold; font-size:14px; margin-top:4px;">
+    <div style="border-top:1px dashed #000; margin:3px 0;"></div>
+    <div class="receipt-row" style="font-weight:bold; font-size:13px; margin-top:2px;">
       <span>Ödeme (${o.payment || ''}):</span>
       <span>${money(o.total)}</span>
     </div>
-    ${o.note ? `<div style="margin-top:6px; font-size:11px;"><b>Not:</b> ${o.note}</div>` : ''}
-    <div style="border-top:1px dashed #000; margin:8px 0;"></div>
-    <div style="text-align:center; font-weight:bold; margin-top:6px; font-size:12px;">Afiyet Olsun!</div>
+    ${o.note ? `<div style="margin-top:4px; font-size:10px;"><b>Not:</b> ${o.note}</div>` : ''}
+    <div style="border-top:1px dashed #000; margin:4px 0;"></div>
+    <div style="text-align:center; font-weight:bold; margin-top:4px; font-size:11px;">Afiyet Olsun!</div>
   `;
 
   if (autoPrint) {
@@ -959,7 +1046,7 @@ function renderActiveOrders() {
   const container = $("activeOrders");
   const list = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
   list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div class="panel" style="text-align:center; color:var(--muted); padding:30px;">Şu an aktif sipariş bulunmuyor.</div>`;
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div class="panel" style="text-align:center; color:var(--muted); padding:20px;">Şu an aktif sipariş bulunmuyor.</div>`;
 }
 
 function renderHistory() {
@@ -968,7 +1055,7 @@ function renderHistory() {
   let list = Object.values(allOrders);
   if (searchQ) list = list.filter(o => (o.customerName || '').toLocaleLowerCase('tr').includes(searchQ) || (o.phone || '').includes(searchQ) || (o.address || '').toLocaleLowerCase('tr').includes(searchQ));
   list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:30px;">Sipariş geçmişi bulunamadı.</div>`;
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Sipariş geçmişi bulunamadı.</div>`;
 }
 
 $("historySearch").oninput = renderHistory;
@@ -982,9 +1069,9 @@ function renderCustomers() {
   container.innerHTML = list.length ? list.map(c => `
     <div class="order">
       <div class="order-head"><strong>${c.name || 'İsimsiz'}</strong><span class="badge yolda">${c.phone || ''}</span></div>
-      <div class="order-meta" style="margin-top:8px;">📍 ${c.address || ''}</div>
+      <div class="order-meta" style="margin-top:6px;">📍 ${c.address || ''}</div>
     </div>
-  `).join("") : `<div style="text-align:center; color:var(--muted); padding:30px;">Kayıtlı müşteri bulunamadı.</div>`;
+  `).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Kayıtlı müşteri bulunamadı.</div>`;
 }
 $("customerSearch").oninput = renderCustomers;
 
@@ -1031,7 +1118,7 @@ function renderMenuManagement() {
   $("menuCatList").innerHTML = cats.map(c => `
     <div class="menu-cat-item ${c === selectedMenuCat ? 'active' : ''}" data-mgr-cat="${c}">
       <span>${c} (${(catalog[c] || []).length})</span>
-      <button class="btn btn-danger btn-sm" data-del-cat="${c}" style="padding:2px 6px; font-size:11px;" title="Sil">✕</button>
+      <button class="btn btn-danger btn-sm" data-del-cat="${c}" style="padding:2px 6px; font-size:10px;" title="Sil">✕</button>
     </div>
   `).join("");
 
@@ -1136,4 +1223,3 @@ $("addProdBtn").onclick = () => {
 </script>
 </body>
 </html>
-```
