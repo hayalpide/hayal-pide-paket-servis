@@ -1,142 +1,77 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Hayal Pide - Paket Servis</title>
-
-    <meta name="theme-color" content="#111111">
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 420px;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: #aaa;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: #1c1c1c;
-            border-radius: 20px;
-            padding: 24px;
-            border: 1px solid #2d2d2d;
-        }
-
-        .card h2 {
-            margin-top: 0;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            margin-top: 12px;
-            border: 1px solid #333;
-            border-radius: 12px;
-            background: #111;
-            color: white;
-            font-size: 16px;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 18px;
-            padding: 15px;
-            border: 0;
-            border-radius: 12px;
-            background: #ff7a00;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        button:active {
-            transform: scale(.98);
-        }
-
-        #message {
-            margin-top: 15px;
-            color: #aaa;
-            min-height: 20px;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="logo">HAYAL PİDE</div>
-    <div class="subtitle">Paket Servis Yönetim Sistemi</div>
-
-    <div class="card">
-
-        <h2>Giriş Yap</h2>
-
-        <input
-            type="email"
-            id="email"
-            placeholder="E-posta adresi"
-            autocomplete="username"
-        >
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Şifre"
-            autocomplete="current-password"
-        >
-
-        <button id="loginBtn">
-            GİRİŞ YAP
-        </button>
-
-        <div id="message"></div>
-
-    </div>
-
-</div>
-
 <script type="module">
 
-    // Firebase bağlantısını bir sonraki adımda ekleyeceğiz.
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-    document.getElementById("loginBtn").addEventListener("click", function () {
+    // Firebase proje bilgileri
+    const firebaseConfig = {
+        apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
+        authDomain: "hayal-pide-paket-servis.firebaseapp.com",
+        projectId: "hayal-pide-paket-servis",
+        storageBucket: "hayal-pide-paket-servis.firebasestorage.app",
+        messagingSenderId: "551700082149",
+        appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c",
+        measurementId: "G-8PEXMYJN3L"
+    };
 
-        document.getElementById("message").textContent =
-            "Firebase bağlantısı hazırlanıyor...";
+    // Firebase'i başlat
+    const app = initializeApp(firebaseConfig);
+
+    // Authentication
+    const auth = getAuth(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const message = document.getElementById("message");
+
+    loginBtn.addEventListener("click", async () => {
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email || !password) {
+            message.textContent = "E-posta ve şifreyi girin.";
+            return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtn.textContent = "GİRİŞ YAPILIYOR...";
+        message.textContent = "";
+
+        try {
+
+            const userCredential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            const user = userCredential.user;
+
+            message.textContent =
+                "Giriş başarılı. Kullanıcı: " + user.email;
+
+            console.log("Firebase UID:", user.uid);
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Giriş başarısız. E-posta veya şifreyi kontrol edin.";
+
+        } finally {
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = "GİRİŞ YAP";
+
+        }
 
     });
 
 </script>
-
-</body>
-</html>
