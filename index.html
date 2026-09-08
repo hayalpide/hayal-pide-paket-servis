@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -33,7 +34,6 @@ button, input, select, textarea { font:inherit; color:inherit; }
 button { cursor:pointer; border:none; outline:none; }
 .hidden { display:none !important; }
 
-/* LAYOUT */
 .app { min-height:100vh; width:100%; max-width:100%; margin:auto; display:flex; flex-direction:column; }
 .login { min-height:100vh; display:grid; place-items:center; padding:20px; background:radial-gradient(circle at 50% 0%, #2e2311 0%, #08090b 60%); }
 .login-card { width:min(420px,100%); background:var(--surface); border:1px solid var(--line); border-radius:24px; padding:32px; box-shadow:var(--shadow); }
@@ -86,59 +86,134 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 .page-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:4px; }
 .page-sub { color:var(--muted); margin-bottom:20px; font-size:13px; }
 
-/* DÜZENLEME: Sol taraf Sepet ve Müşteri, Sağ taraf tam genişlik Kataloğ */
+/* SOL & SAĞ YAPI (Sepet Solda, Menü Sağda Tam Genişlik) */
 .grid { display:grid; grid-template-columns:minmax(330px, 380px) 1fr; gap:20px; align-items:start; width:100%; }
 .panel { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.2); width:100%; box-sizing:border-box; }
 .panel h3 { margin:0 0 16px; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:space-between; }
 
-/* KATEGORİ CHIP'LERİ & AKORDİON */
 .catbar {
   display:flex; gap:8px; overflow-x:auto; scrollbar-width:thin; padding:2px 2px 12px 2px;
   margin-bottom:12px; -webkit-overflow-scrolling:touch; width:100%;
 }
 .chip {
-/* TERMAL YAZDIRMA (DİK DÜZ - OTOMATİK UZUNLUK & TEK SAYFA DÜZELTMESİ) */
-@page {
-  size: 80mm auto;
-  margin: 0mm;
+  background:var(--surface2); border:1px solid var(--line); padding:8px 16px;
+  border-radius:20px; font-size:13px; font-weight:600; white-space:nowrap;
+  cursor:pointer; transition:all 0.2s;
 }
+.chip:hover { background:var(--surface3); }
+.chip.active { background:var(--gold); color:#000; border-color:var(--gold); }
+
+.accordion-group { display:flex; flex-direction:column; gap:12px; }
+.acc-item { background:var(--surface2); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.acc-header {
+  padding:14px 16px; display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; background:var(--surface2); transition:all 0.2s; user-select:none;
+}
+.acc-header:hover { background:var(--surface3); }
+.acc-title { font-weight:800; font-size:15px; display:flex; align-items:center; gap:8px; }
+.acc-count { font-size:11px; background:var(--surface); padding:2px 8px; border-radius:10px; color:var(--muted); font-weight:600; }
+.acc-item.open .acc-header { border-bottom:1px solid var(--line); background:var(--surface3); }
+.acc-content { padding:16px; background:var(--surface); display:none; }
+.acc-item.open .acc-content { display:block; }
+.chevron { transition:transform 0.2s; font-size:12px; color:var(--muted); }
+.acc-item.open .chevron { transform:rotate(180deg); color:var(--gold); }
+
+.products { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
+.product {
+  background:var(--surface2); border:1px solid var(--line); border-radius:12px; padding:12px;
+  cursor:pointer; position:relative; transition:all 0.2s ease; display:flex; flex-direction:column; justify-content:space-between; min-height:100px;
+}
+.product:hover { border-color:var(--gold); transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.3); }
+.product:active { transform:scale(0.95); }
+.product-name { font-size:13px; font-weight:700; line-height:1.3; margin-bottom:8px; }
+.product-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:auto; }
+.price { font-weight:900; color:var(--gold); font-size:14px; }
+.product-badge {
+  position:absolute; top:-8px; right:-8px; background:var(--gold); color:#000;
+  width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
+  font-weight:900; font-size:12px; box-shadow:0 2px 8px rgba(0,0,0,0.5); border:2px solid var(--surface);
+}
+
+.cart-row { display:flex; flex-direction:column; gap:6px; padding:12px 0; border-bottom:1px solid var(--line); }
+.cart-top { display:flex; justify-content:space-between; font-weight:700; font-size:13px; }
+.qty { display:flex; align-items:center; gap:12px; }
+.qty button { width:28px; height:28px; border-radius:6px; background:var(--surface3); border:1px solid var(--line); font-weight:bold; display:flex; align-items:center; justify-content:center; }
+.qty button:hover { background:var(--gold); color:#000; border-color:var(--gold); }
+.total { font-size:20px; font-weight:900; display:flex; justify-content:space-between; margin-top:16px; padding-top:16px; border-top:1px dashed var(--line); }
+
+.orders { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.order { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:10px; }
+.order-head { display:flex; justify-content:space-between; align-items:flex-start; }
+.badge { padding:4px 8px; border-radius:6px; font-size:11px; font-weight:800; text-transform:uppercase; }
+.badge.kurye_bekliyor { background:var(--red-bg); color:var(--red); border:1px solid rgba(255,91,91,0.3); }
+.badge.yolda { background:var(--blue-bg); color:var(--blue); border:1px solid rgba(93,174,255,0.3); }
+.badge.teslim_edildi { background:var(--green-bg); color:var(--green); border:1px solid rgba(43,216,137,0.3); }
+.order-meta { font-size:13px; color:var(--muted); line-height:1.4; }
+.order-items { background:var(--surface2); padding:10px; border-radius:8px; font-size:13px; line-height:1.6; }
+.order-buttons { display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; }
+.order-buttons a, .order-buttons button { flex:1; min-width:80px; text-align:center; text-decoration:none; }
+
+.stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px; }
+.stat { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.stat small { color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; margin-bottom:8px; }
+.stat strong { font-size:28px; font-weight:900; color:var(--gold); }
+
+.menu-mgr-grid { display:grid; grid-template-columns:250px 1fr; gap:20px; align-items:start; }
+.menu-cat-item { padding:10px 14px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:14px; margin-bottom:6px; }
+.menu-cat-item:hover { background:var(--surface2); }
+.menu-cat-item.active { background:var(--gold); color:#000; }
+.prod-table { width:100%; border-collapse:collapse; font-size:14px; }
+.prod-table th, .prod-table td { padding:12px; text-align:left; border-bottom:1px solid var(--line); }
+.prod-table th { color:var(--muted); font-weight:700; text-transform:uppercase; font-size:12px; }
+
+.suggestions { position:absolute; top:100%; left:0; right:0; background:var(--surface2); border:1px solid var(--line); border-radius:12px; margin-top:4px; z-index:100; overflow:hidden; box-shadow:var(--shadow); }
+.suggestion { padding:12px 14px; cursor:pointer; border-bottom:1px solid var(--line); }
+.suggestion:hover { background:var(--surface3); }
+.suggestion:last-child { border-bottom:none; }
+
+/* Modal & Toast */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); z-index:999; display:flex; align-items:center; justify-content:center; padding:20px; }
+.modal-card { background:var(--surface); width:100%; max-width:400px; border-radius:24px; border:1px solid var(--line); overflow:hidden; box-shadow:var(--shadow); }
+.modal-title { padding:20px 24px; border-bottom:1px solid var(--line); font-weight:800; font-size:18px; display:flex; justify-content:space-between; align-items:center; }
+#modalBody { padding:24px; display:flex; flex-direction:column; gap:16px; }
+.modal-actions { padding:16px 24px; border-top:1px solid var(--line); background:var(--surface2); display:flex; justify-content:flex-end; gap:12px; }
+
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--gold); color:#000; padding:12px 24px; border-radius:30px; font-weight:800; box-shadow:0 8px 24px rgba(245,184,61,0.4); z-index:9999; font-size:14px; transition:opacity 0.3s; pointer-events:none; }
+
 @media print {
-  html, body {
-    width: 80mm !important;
-    max-width: 80mm !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #fff !important;
-    color: #000 !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
+  @page {
+    margin: 0;
   }
   
-  /* Yazdırılırken arka plandaki tüm uygulama ekranlarını ve modal'ları gizle */
-  #login, #app, .modal-overlay, .toast, header, aside, main {
+  html, body {
+    width: 80mm !important;
+    background: #fff !important;
+    color: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important; /* Uzayan gereksiz kağıdı önler */
+  }
+  
+  /* Bütün ana div'leri GİZLE (Sonsuz boş sayfaların asıl sebebi bunların height 100% almasıdır) */
+  body > * {
     display: none !important;
   }
 
-  #print-area {
+  /* Sadece yazdırma alanını GÖSTER */
+  body > #print-area {
     display: block !important;
-    position: static !important;
-    width: 72mm !important;
+    width: 76mm !important;
     margin: 0 auto !important;
-    padding: 4mm 2mm !important;
+    padding: 5mm 2mm !important;
     font-family: 'Courier New', Courier, monospace !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     line-height: 1.3 !important;
     color: #000 !important;
     background: #fff !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
-    break-after: avoid !important;
+    position: static !important;
   }
-  #print-area * {
-    display: block !important;
-  }
-  #print-area .receipt-row {
+  
+  .receipt-row {
     display: flex !important;
     justify-content: space-between !important;
   }
@@ -156,7 +231,6 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
   main { padding:16px 16px 90px 16px; }
   .grid { display:flex; flex-direction:column; }
   .cart { position:static; }
-  .stats { grid-template-columns:1fr; }
   .menu-mgr-grid { display:flex; flex-direction:column; }
   .products { grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); }
 }
@@ -210,12 +284,12 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
    <div class="panel" style="position:relative;">
     <h3>👤 Müşteri Bilgileri</h3>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-     <div class="field" style="position:relative; margin:0;">
+     <div class="field" style="position:relative; margin:0; grid-column:1/-1;">
       <label>Telefon</label>
       <input id="custPhone" inputmode="tel" placeholder="05xx xxx xx xx" autocomplete="off">
       <div id="suggestions" class="suggestions hidden"></div>
      </div>
-     <div class="field" style="margin:0;"><label>Ad Soyad</label><input id="custName" placeholder="Müşteri Adı Soyadı"></div>
+     <div class="field" style="margin:0; grid-column:1/-1;"><label>Ad Soyad</label><input id="custName" placeholder="Müşteri Adı Soyadı"></div>
      <div class="field" style="grid-column:1/-1; margin:0;"><label>Adres</label><textarea id="custAddress" rows="2" placeholder="Mahalle, Cadde, Sokak, No/Daire..."></textarea></div>
     </div>
    </div>
@@ -223,9 +297,9 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
    <!-- Sipariş Sepeti & Ödeme -->
    <div class="panel cart">
     <h3>🛒 Sipariş Sepeti <button id="clearCart" class="btn btn-dark btn-sm" style="font-size:11px;">Temizle</button></h3>
-    <div id="cartList" class="cart-list"></div>
+    <div id="cartList" class="cart-list" style="margin-bottom:12px;"></div>
     
-    <div style="margin-top:16px;">
+    <div>
      <div class="field"><label>Ödeme Türü</label>
        <select id="payment">
          <option value="Nakit">💵 Nakit Ödeme</option>
@@ -241,13 +315,13 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
        <span id="total" style="color:var(--gold-hover);">₺0</span>
      </div>
      <div style="display:grid; gap:8px; margin-top:14px;">
-       <button id="createOrder" class="btn btn-primary" style="width:100%; font-size:16px;">✓ Siparişi Onayla ve Gönder</button>
+       <button id="createOrder" class="btn btn-primary" style="width:100%; font-size:16px;">✓ Siparişi Onayla</button>
      </div>
     </div>
    </div>
   </div>
 
-  <!-- SAĞ KOLON: ÜRÜN KATALOĞU (TÜM EKAN GENİŞLİĞİNİ KAPLAR) -->
+  <!-- SAĞ KOLON: ÜRÜN KATALOĞU (TÜM EKRAN GENİŞLİĞİNİ KAPLAR) -->
   <div>
    <div class="panel">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -367,6 +441,7 @@ main { padding:24px; min-width:0; width:100%; box-sizing:border-box; }
 </div>
 
 <!-- GİZLİ YAZDIRMA ALANI (THERMAL PRINTER) -->
+<!-- Bu alan body'nin doğrudan çocuğu olmak zorundadır. @media print sadece bunu gösterecektir. -->
 <div id="print-area"></div>
 
 <!-- TOAST CONTAINER -->
@@ -384,8 +459,7 @@ const firebaseConfig = {
   projectId: "hayal-pide-paket-servis",
   storageBucket: "hayal-pide-paket-servis.firebasestorage.app",
   messagingSenderId: "551700082149",
-  appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c",
-  measurementId: "G-8PEXMYJN3L"
+  appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c"
 };
 
 const ADMIN = "Rmf7DZGAsLRuQ00JAJOwERvPIGC3";
@@ -425,27 +499,18 @@ function playBeep() {
 }
 
 const defaultCatalog = {
-  "Trabzon Yağlıları": [["Trabzon Yağlısı Kavurmalı", 400], ["Trabzon Yağlısı Kavurmalı Yumurtalı", 420], ["Trabzon Yağlısı Kavurmalı Kaşarlı", 440], ["Trabzon Yağlısı Kaşarlı", 350], ["Trabzon Yağlısı Kaşarlı Yumurtalı", 370], ["Trabzon Yağlısı Kuşbaşılı", 400], ["Trabzon Yağlısı Kuşbaşı Yumurtalı", 420], ["Trabzon Yağlısı Kuşbaşı Kaşarlı", 440]],
-  "Sivas Usulü Pide": [["Sivas Pidesi Kıymalı", 420], ["Sivas Pidesi Kıymalı Yumurtalı", 440], ["Sivas Pidesi Kıymalı Kaşarlı", 460], ["Sivas Pidesi Kuşbaşılı", 520], ["Sivas Pidesi Kuşbaşı Yumurtalı", 540], ["Sivas Pidesi Kuşbaşı Kaşarlı", 560]],
-  "Kıymalı Pideler": [["Kıymalı Sade Pide", 260], ["Kıymalı Yumurtalı Pide", 285], ["Kıymalı Kaşarlı Pide", 305], ["Kıymalı Kaşarlı Sucuklu Pide", 325]],
-  "Kuşbaşılı Pideler": [["Kuşbaşılı Sade Pide", 325], ["Kuşbaşılı Yumurtalı Pide", 345], ["Kuşbaşılı Kaşarlı Pide", 365], ["Kuşbaşılı Kaşarlı Sucuklu Pide", 385]],
-  "Kaşarlı Pideler": [["Kaşarlı Sade Pide", 260], ["Kaşarlı Yumurtalı Pide", 285], ["Kaşarlı Sucuklu Pide", 305]],
-  "Kavurmalı Pideler": [["Kavurmalı Sade Pide", 430], ["Kavurmalı Yumurtalı Pide", 450], ["Kavurmalı Kaşarlı Pide", 470]],
-  "Vejetaryen Pideler": [["Kaşarlı Pide", 260], ["Sebzeli Pide", 285], ["Kaşarlı Sebzeli Pide", 305], ["Mantarlı Kaşarlı Pide", 285], ["Karışık Vejetaryen Pide", 310]],
-  "Karışık Pideler": [["Karışık Pide", 470]],
-  "Kenarsız Pideler": [["Kenarsız Kıymalı Pide", 305], ["Kenarsız Kıymalı Yumurtalı Pide", 325], ["Kenarsız Kıymalı Kaşarlı Pide", 345], ["Kenarsız Kıymalı Kaşarlı Sucuklu Pide", 365]],
-  "Cantık": [["Kıymalı Cantık", 260], ["Kıymalı Yumurtalı Cantık", 280], ["Kıymalı Kaşarlı Cantık", 300], ["Kıymalı Kaşarlı Yumurtalı Cantık", 320], ["Kuşbaşılı Cantık", 300], ["Kuşbaşılı Yumurtalı Cantık", 320], ["Kuşbaşılı Kaşarlı Cantık", 340], ["Kuşbaşılı Kaşarlı Yumurtalı Cantık", 365], ["Kaşarlı Cantık", 260], ["Kavurmalı Cantık", 365], ["Sucuklu Cantık", 260], ["Karışık Cantık", 340]],
-  "Lahmacunlar": [["Lahmacun", 100], ["Kaşarlı Lahmacun", 120], ["Kıymalı Kaşarlı Sucuklu Lahmacun", 140], ["Kıymalı Kaşarlı Pastırmalı Lahmacun", 160], ["Kıymalı Kaşarlı Kavurmalı Lahmacun", 300], ["Fındık Lahmacun", 70]],
-  "Yan Ürünler": [["Haydari", 70], ["Çiğ Köfte", 70], ["Mayonez (1 Adet)", 20], ["Ketçap (1 Adet)", 20], ["Turşu Biber", 50], ["Közlenmiş Yeşil Biber", 50], ["Mevsim Yeşillikleri", 70], ["Sumaklı Soğan", 50]],
-  "Ekonomik Menü": [["Öğrenci Menü", 450], ["Süper Menü", 485], ["On Numara Menü", 1000]],
-  "İçecekler": [["Pepsi (33 cl)", 100], ["Yedigün (33 cl)", 100], ["Pepsi (1 lt)", 120], ["Yedigün (1 lt)", 120], ["Tombul Ayran", 65], ["Küçük Ayran", 45], ["Su (50 cl)", 30], ["Sade Soda", 45]]
+  "Trabzon Yağlıları": [["Trabzon Yağlısı Kavurmalı", 400], ["Trabzon Yağlısı Kavurmalı Yumurtalı", 420], ["Trabzon Yağlısı Kaşarlı", 350], ["Trabzon Yağlısı Kuşbaşılı", 400]],
+  "Sivas Usulü Pide": [["Sivas Pidesi Kıymalı", 420], ["Sivas Pidesi Kuşbaşılı", 520]],
+  "Kıymalı Pideler": [["Kıymalı Sade Pide", 260], ["Kıymalı Yumurtalı Pide", 285]],
+  "Lahmacunlar": [["Lahmacun", 100], ["Kaşarlı Lahmacun", 120]],
+  "İçecekler": [["Pepsi (33 cl)", 100], ["Tombul Ayran", 65], ["Su (50 cl)", 30]]
 };
 
 let catalog = JSON.parse(JSON.stringify(defaultCatalog));
 let selectedMenuCat = "Trabzon Yağlıları";
 let cart = [];
 let selectedCategory = "Tümü";
-let openCategories = new Set(); // Hangi kategorilerin açık olduğunu tutar
+let openCategories = new Set(); 
 let allOrders = {};
 let customers = {};
 let soundEnabled = true;
@@ -457,18 +522,13 @@ $("loginBtn").onclick = async () => {
   const password = $("password").value;
   const errEl = $("loginErr");
   errEl.textContent = "";
-
-  if (!email || !password) {
-    errEl.textContent = "Lütfen e-posta ve şifrenizi girin.";
-    return;
-  }
+  if (!email || !password) { errEl.textContent = "Lütfen e-posta ve şifrenizi girin."; return; }
 
   try {
     $("loginBtn").disabled = true;
     $("loginBtn").textContent = "Giriş Yapılıyor...";
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    console.error(err);
     errEl.textContent = "Giriş başarısız! E-posta veya şifre hatalı.";
   } finally {
     $("loginBtn").disabled = false;
@@ -496,12 +556,7 @@ onAuthStateChanged(auth, (user) => {
       else el.classList.add("hidden");
     });
 
-    if (isAdmin) {
-      showPage("new");
-    } else {
-      showPage("active");
-    }
-
+    showPage(isAdmin ? "new" : "active");
     listenData(user);
     toast("Sisteme hoş geldiniz");
   } else {
@@ -509,6 +564,26 @@ onAuthStateChanged(auth, (user) => {
     $("app").classList.add("hidden");
     cart = [];
   }
+});
+
+function showPage(pid) {
+  document.querySelectorAll("main > section").forEach(p => p.classList.add("hidden"));
+  const p = $("page-" + pid);
+  if(p) p.classList.remove("hidden");
+  
+  document.querySelectorAll(".navbtn").forEach(b => {
+    b.classList.remove("active");
+    if(b.dataset.page === pid) b.classList.add("active");
+  });
+  
+  if(pid === "menu-manage") renderMenuManagement();
+  if(pid === "active") renderActiveOrders();
+  if(pid === "history") renderHistory();
+  if(pid === "reports") renderReports();
+  if(pid === "customers") renderCustomers();
+}
+document.querySelectorAll(".navbtn").forEach(btn => {
+  btn.addEventListener("click", () => showPage(btn.dataset.page));
 });
 
 function listenMenu() {
@@ -521,7 +596,6 @@ function listenMenu() {
       catalog = JSON.parse(JSON.stringify(defaultCatalog));
     }
     
-    // Varsayılan olarak tüm kategorileri açık başlat
     if (openCategories.size === 0) {
       Object.keys(catalog).forEach(c => openCategories.add(c));
     }
@@ -569,12 +643,11 @@ function handleOrdersUpdate() {
   }
   previousOrderCount = activeList.length;
 
-  renderActiveOrders();
-  renderHistory();
-  renderReports();
+  if(!$("page-active").classList.contains("hidden")) renderActiveOrders();
+  if(!$("page-history").classList.contains("hidden")) renderHistory();
+  if(!$("page-reports").classList.contains("hidden")) renderReports();
 }
 
-// KATEGORİ HIZLI ERİŞİM CHIP'LERİ
 function renderCategories() {
   const catEl = $("categories");
   const cats = ["Tümü", ...Object.keys(catalog)];
@@ -588,12 +661,9 @@ function renderCategories() {
     btn.onclick = () => {
       const cat = btn.dataset.cat;
       selectedCategory = cat;
-      if (cat !== "Tümü") {
-        openCategories.add(cat);
-      }
+      if (cat !== "Tümü") openCategories.add(cat);
       renderCategories();
       renderAccordionCatalog();
-      
       if (cat !== "Tümü") {
         const targetEl = document.getElementById(`acc-item-${cat}`);
         if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -602,11 +672,9 @@ function renderCategories() {
   });
 }
 
-// AKORDİYON KATALOĞU RENDER ETME
 function renderAccordionCatalog() {
   const container = $("accordionCatalog");
   const searchQ = ($("productSearch").value || "").toLocaleLowerCase("tr");
-
   const catKeys = Object.keys(catalog);
 
   if (catKeys.length === 0) {
@@ -615,34 +683,22 @@ function renderAccordionCatalog() {
   }
 
   let html = "";
-
   catKeys.forEach(catName => {
     let items = catalog[catName] || [];
-
-    // Filtreleme
-    if (searchQ) {
-      items = items.filter(([pName]) => pName.toLocaleLowerCase("tr").includes(searchQ));
-    }
-
-    // Arama yapılıyorsa ve eşleşen ürün varsa o kategoriyi aç
-    if (searchQ && items.length > 0) {
-      openCategories.add(catName);
-    }
-
-    // Eğer arama yapılıyorsa ve bu kategoride ürün kalmadıysa gösterme
+    if (searchQ) items = items.filter(([pName]) => pName.toLocaleLowerCase("tr").includes(searchQ));
+    if (searchQ && items.length > 0) openCategories.add(catName);
     if (searchQ && items.length === 0) return;
+    
+    if (selectedCategory !== "Tümü" && catName !== selectedCategory && !searchQ) return;
 
     const isOpen = openCategories.has(catName);
-
     const prodsHtml = items.map(([pName, pPrice]) => {
       const inCart = cart.find(x => x.name === pName);
       return `
         <div class="product" data-add-prod="${pName}" data-price="${pPrice}">
           ${inCart ? `<span class="product-badge">${inCart.qty}</span>` : ''}
           <div class="product-name">${pName}</div>
-          <div class="product-bottom">
-            <span class="price">${money(pPrice)}</span>
-          </div>
+          <div class="product-bottom"><span class="price">${money(pPrice)}</span></div>
         </div>
       `;
     }).join("");
@@ -650,19 +706,10 @@ function renderAccordionCatalog() {
     html += `
       <div class="acc-item ${isOpen ? 'open' : ''}" id="acc-item-${catName}">
         <div class="acc-header" data-toggle-acc="${catName}">
-          <div class="acc-title">
-            <span>${catName}</span>
-            <span class="acc-count">${items.length} çeşit</span>
-          </div>
+          <div class="acc-title"><span>${catName}</span><span class="acc-count">${items.length} çeşit</span></div>
           <span class="chevron">▼</span>
         </div>
-        ${isOpen ? `
-          <div class="acc-content">
-            <div class="products">
-              ${prodsHtml || '<div style="color:var(--muted); font-size:13px;">Bu kategoride ürün bulunamadı.</div>'}
-            </div>
-          </div>
-        ` : ''}
+        ${isOpen ? `<div class="acc-content"><div class="products">${prodsHtml}</div></div>` : ''}
       </div>
     `;
   });
@@ -671,53 +718,29 @@ function renderAccordionCatalog() {
     container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px;">Aramanıza uygun ürün bulunamadı.</div>`;
     return;
   }
-
   container.innerHTML = html;
 
-  // Akordiyon başlığına tıklama olayı
   document.querySelectorAll("[data-toggle-acc]").forEach(hdr => {
     hdr.onclick = () => {
       const cat = hdr.dataset.toggleAcc;
-      if (openCategories.has(cat)) {
-        openCategories.delete(cat);
-      } else {
-        openCategories.add(cat);
-      }
+      if (openCategories.has(cat)) openCategories.delete(cat); else openCategories.add(cat);
       renderAccordionCatalog();
     };
   });
-
-  // Ürüne tıklayıp sepete ekleme
   document.querySelectorAll("[data-add-prod]").forEach(card => {
-    card.onclick = () => {
-      const name = card.dataset.addProd;
-      const price = parseFloat(card.dataset.price);
-      addToCart(name, price);
-    };
+    card.onclick = () => addToCart(card.dataset.addProd, parseFloat(card.dataset.price));
   });
 }
 
 $("productSearch").oninput = renderAccordionCatalog;
-
-$("btnExpandAll").onclick = () => {
-  Object.keys(catalog).forEach(c => openCategories.add(c));
-  renderAccordionCatalog();
-};
-
-$("btnCollapseAll").onclick = () => {
-  openCategories.clear();
-  renderAccordionCatalog();
-};
+$("btnExpandAll").onclick = () => { Object.keys(catalog).forEach(c => openCategories.add(c)); renderAccordionCatalog(); };
+$("btnCollapseAll").onclick = () => { openCategories.clear(); renderAccordionCatalog(); };
 
 function addToCart(name, price) {
   const idx = cart.findIndex(x => x.name === name);
-  if (idx > -1) {
-    cart[idx].qty += 1;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
-  renderCart();
-  renderAccordionCatalog();
+  if (idx > -1) cart[idx].qty += 1;
+  else cart.push({ name, price, qty: 1 });
+  renderCart(); renderAccordionCatalog();
 }
 
 function updateQty(name, delta) {
@@ -726,8 +749,7 @@ function updateQty(name, delta) {
     cart[idx].qty += delta;
     if (cart[idx].qty <= 0) cart.splice(idx, 1);
   }
-  renderCart();
-  renderAccordionCatalog();
+  renderCart(); renderAccordionCatalog();
 }
 
 function renderCart() {
@@ -737,52 +759,31 @@ function renderCart() {
     $("total").textContent = money(0);
     return;
   }
-
   let sum = 0;
   listEl.innerHTML = cart.map(i => {
-    const itemTotal = i.price * i.qty;
-    sum += itemTotal;
+    const itemTotal = i.price * i.qty; sum += itemTotal;
     return `
       <div class="cart-row">
-        <div class="cart-top">
-          <span>${i.name}</span>
-          <span>${money(itemTotal)}</span>
-        </div>
-        <div class="qty">
-          <button data-qty-dec="${i.name}">-</button>
-          <b>${i.qty}</b>
-          <button data-qty-inc="${i.name}">+</button>
-        </div>
+        <div class="cart-top"><span>${i.name}</span><span>${money(itemTotal)}</span></div>
+        <div class="qty"><button data-qty-dec="${i.name}">-</button><b>${i.qty}</b><button data-qty-inc="${i.name}">+</button></div>
       </div>
     `;
   }).join("");
-
   $("total").textContent = money(sum);
 
   document.querySelectorAll("[data-qty-dec]").forEach(btn => btn.onclick = () => updateQty(btn.dataset.qtyDec, -1));
   document.querySelectorAll("[data-qty-inc]").forEach(btn => btn.onclick = () => updateQty(btn.dataset.qtyInc, 1));
 }
 
-$("clearCart").onclick = () => {
-  cart = [];
-  renderCart();
-  renderAccordionCatalog();
-};
+$("clearCart").onclick = () => { cart = []; renderCart(); renderAccordionCatalog(); };
 
 $("custPhone").oninput = (e) => {
   const val = norm(e.target.value);
   const sug = $("suggestions");
-  if (val.length < 3) {
-    sug.classList.add("hidden");
-    return;
-  }
+  if (val.length < 3) return sug.classList.add("hidden");
 
   const matches = Object.values(customers).filter(c => norm(c.phone).includes(val) || (c.name || '').toLocaleLowerCase('tr').includes(e.target.value.toLocaleLowerCase('tr')));
-
-  if (!matches.length) {
-    sug.classList.add("hidden");
-    return;
-  }
+  if (!matches.length) return sug.classList.add("hidden");
 
   sug.innerHTML = matches.slice(0, 5).map(c => `
     <div class="suggestion" data-fill-cust="${c.phone}">
@@ -795,9 +796,7 @@ $("custPhone").oninput = (e) => {
     item.onclick = () => {
       const found = Object.values(customers).find(c => c.phone === item.dataset.fillCust);
       if (found) {
-        $("custPhone").value = found.phone || '';
-        $("custName").value = found.name || '';
-        $("custAddress").value = found.address || '';
+        $("custPhone").value = found.phone || ''; $("custName").value = found.name || ''; $("custAddress").value = found.address || '';
       }
       sug.classList.add("hidden");
     };
@@ -836,13 +835,11 @@ $("createOrder").onclick = async () => {
     printReceipt(orderData, true);
 
     cart = [];
-    renderCart();
-    renderAccordionCatalog();
+    renderCart(); renderAccordionCatalog();
     ["custPhone", "custName", "custAddress", "orderNote"].forEach(id => $(id).value = "");
     toast("✓ Sipariş başarıyla oluşturuldu ve yazdırıldı");
     showPage("active");
   } catch (e) {
-    console.error(e);
     toast("Hata oluştu! Veritabanı izinleri kontrol edilmeli.");
   }
 };
@@ -850,15 +847,15 @@ $("createOrder").onclick = async () => {
 function printReceipt(o, autoPrint = false) {
   const printBox = $("print-area");
   const itemsHtml = (o.items || []).map(i => `
-    <div class="receipt-row" style="display:flex; justify-content:space-between; margin-bottom:3px;">
+    <div class="receipt-row" style="margin-bottom:3px;">
       <span style="font-weight:bold;">${i.qty} x ${i.name}</span>
       <span>${money(i.price * i.qty)}</span>
     </div>
   `).join("");
 
   printBox.innerHTML = `
-    <div style="text-align:center; font-weight:bold; font-size:15px; margin-bottom:2px;">HAYAL PİDE</div>
-    <div style="text-align:center; font-size:10px; margin-bottom:6px; text-transform:uppercase;">Paket Servis Adisyonu</div>
+    <div style="text-align:center; font-weight:bold; font-size:16px; margin-bottom:2px;">HAYAL PİDE</div>
+    <div style="text-align:center; font-size:11px; margin-bottom:6px; text-transform:uppercase;">Paket Servis Adisyonu</div>
     <div style="border-top:1px dashed #000; margin:4px 0;"></div>
     <div><b>Tarih:</b> ${new Date(o.createdAt || Date.now()).toLocaleString("tr-TR")}</div>
     <div><b>Müşteri:</b> ${o.customerName || ''}</div>
@@ -867,19 +864,17 @@ function printReceipt(o, autoPrint = false) {
     <div style="border-top:1px dashed #000; margin:4px 0;"></div>
     ${itemsHtml}
     <div style="border-top:1px dashed #000; margin:4px 0;"></div>
-    <div class="receipt-row" style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px; margin-top:4px;">
+    <div class="receipt-row" style="font-weight:bold; font-size:14px; margin-top:4px;">
       <span>Ödeme (${o.payment || ''}):</span>
       <span>${money(o.total)}</span>
     </div>
-    ${o.note ? `<div style="margin-top:6px; font-size:10px;"><b>Not:</b> ${o.note}</div>` : ''}
-    <div style="border-top:1px dashed #000; margin:6px 0;"></div>
-    <div style="text-align:center; font-weight:bold; margin-top:6px; font-size:11px;">Afiyet Olsun!</div>
+    ${o.note ? `<div style="margin-top:6px; font-size:11px;"><b>Not:</b> ${o.note}</div>` : ''}
+    <div style="border-top:1px dashed #000; margin:8px 0;"></div>
+    <div style="text-align:center; font-weight:bold; margin-top:6px; font-size:12px;">Afiyet Olsun!</div>
   `;
 
   if (autoPrint) {
-    setTimeout(() => {
-      window.print();
-    }, 150);
+    setTimeout(() => { window.print(); }, 150);
   }
 }
 
@@ -890,93 +885,36 @@ function statusText(s) {
   return s;
 }
 
-function renderActiveOrders() {
-  const container = $("activeOrders");
-  const list = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
-
-  if (!list.length) {
-    container.innerHTML = `<div class="panel" style="text-align:center; color:var(--muted); padding:30px;">Şu an aktif sipariş bulunmuyor.</div>`;
-    return;
+async function updateOrderStatus(id, newStatus) {
+  const order = allOrders[id];
+  if(!order) return;
+  const updates = {};
+  updates[`orders/${id}/status`] = newStatus;
+  updates[`courierOrders/${order.courierId}/${id}/status`] = newStatus;
+  if (newStatus === "teslim_edildi") {
+    const now = Date.now();
+    updates[`orders/${id}/deliveredAt`] = now;
+    updates[`courierOrders/${order.courierId}/${id}/deliveredAt`] = now;
   }
-
-  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  container.innerHTML = list.map(orderCardHtml).join("");
+  try {
+    await update(ref(db), updates);
+    toast("✓ Durum güncellendi");
+  } catch(e) {
+    toast("Hata oluştu");
+  }
 }
 
-function renderHistory() {
-  const container = $("historyList");
-  const searchQ = ($("historySearch").value || "").toLocaleLowerCase("tr");
-
-  let list = Object.values(allOrders);
-  if (searchQ) {
-    list = list.filter(o => 
-      (o.customerName || '').toLocaleLowerCase('tr').includes(searchQ) ||
-      (o.phone || '').includes(searchQ) ||
-      (o.address || '').toLocaleLowerCase('tr').includes(searchQ)
-    );
+document.addEventListener("click", e => {
+  const btnPrint = e.target.closest("[data-print]");
+  if (btnPrint) {
+    const o = allOrders[btnPrint.dataset.print];
+    if (o) printReceipt(o, true);
   }
-
-  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-  if (!list.length) {
-    container.innerHTML = `<div style="text-align:center; color:var(--muted); padding:30px;">Sipariş geçmişi bulunamadı.</div>`;
-    return;
-  }
-
-  container.innerHTML = list.map(orderCardHtml).join("");
-}
-
-function renderCustomers() {
-  const container = $("customerList");
-  const searchQ = ($("customerSearch").value || "").toLocaleLowerCase("tr");
-
-  let list = Object.values(customers);
-  if (searchQ) {
-    list = list.filter(c => 
-      (c.name || '').toLocaleLowerCase('tr').includes(searchQ) ||
-      (c.phone || '').includes(searchQ)
-    );
-  }
-
-  if (!list.length) {
-    container.innerHTML = `<div style="text-align:center; color:var(--muted); padding:30px;">Kayıtlı müşteri bulunamadı.</div>`;
-    return;
-  }
-
-  container.innerHTML = list.map(c => `
-    <div class="order">
-      <div class="order-head">
-        <strong>${c.name || 'İsimsiz'}</strong>
-        <span class="badge yolda">${c.phone || ''}</span>
-      </div>
-      <div class="order-meta" style="margin-top:8px;">
-        📍 ${c.address || ''}
-      </div>
-    </div>
-  `).join("");
-}
-
-function renderReports() {
-  const list = Object.values(allOrders);
-  const todayStr = new Date().toDateString();
-
-  const todayOrders = list.filter(o => new Date(o.createdAt || 0).toDateString() === todayStr);
-  const delivered = todayOrders.filter(o => o.status === "teslim_edildi");
-  const revenue = delivered.reduce((s, o) => s + (o.total || 0), 0);
-
-  $("statOrders").textContent = todayOrders.length;
-  $("statRevenue").textContent = money(revenue);
-  $("statDelivered").textContent = delivered.length;
-
-  const deliveredContainer = $("deliveredOrders");
-  if (!delivered.length) {
-    deliveredContainer.innerHTML = `<div style="text-align:center; color:var(--muted); padding:20px;">Bugün henüz teslim edilen sipariş yok.</div>`;
-    return;
-  }
-
-  delivered.sort((a, b) => (b.deliveredAt || b.createdAt || 0) - (a.deliveredAt || a.createdAt || 0));
-  deliveredContainer.innerHTML = delivered.map(orderCardHtml).join("");
-}
+  const btnRoad = e.target.closest("[data-road]");
+  if (btnRoad) updateOrderStatus(btnRoad.dataset.road, "yolda");
+  const btnDeliver = e.target.closest("[data-deliver]");
+  if (btnDeliver) updateOrderStatus(btnDeliver.dataset.deliver, "teslim_edildi");
+});
 
 function orderCardHtml(o) {
   const items = (o.items || []).map(x => `<b>${x.qty}x</b> ${x.name}`).join("<br>");
@@ -1011,65 +949,89 @@ function orderCardHtml(o) {
         <a class="btn btn-dark btn-sm" href="${telUrl}">📞 Ara</a>
         <a class="btn btn-dark btn-sm" href="${waUrl}" target="_blank">💬 WhatsApp</a>
         ${actions}
-        <button class="btn btn-dark btn-sm" data-print="${o.id}">🖨️ Fiş Bas</button>
+        <button class="btn btn-dark btn-sm admin-only" data-print="${o.id}">🖨️ Fiş Bas</button>
       </div>
     </div>
   `;
 }
 
-async function saveMenuToDB() {
-  try {
-    await set(ref(db, "menu"), catalog);
-    toast("✓ Menü başarıyla güncellendi");
-  } catch (e) {
-    console.error(e);
-    toast("Menü kaydedilemedi!");
-  }
+function renderActiveOrders() {
+  const container = $("activeOrders");
+  const list = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
+  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div class="panel" style="text-align:center; color:var(--muted); padding:30px;">Şu an aktif sipariş bulunmuyor.</div>`;
 }
 
-// ÖZEL MODAL SİSTEMİ (PROMPT YERİNE GÜVENİLİR DÜZENLEME)
+function renderHistory() {
+  const container = $("historyList");
+  const searchQ = ($("historySearch").value || "").toLocaleLowerCase("tr");
+  let list = Object.values(allOrders);
+  if (searchQ) list = list.filter(o => (o.customerName || '').toLocaleLowerCase('tr').includes(searchQ) || (o.phone || '').includes(searchQ) || (o.address || '').toLocaleLowerCase('tr').includes(searchQ));
+  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:30px;">Sipariş geçmişi bulunamadı.</div>`;
+}
+
+$("historySearch").oninput = renderHistory;
+
+function renderCustomers() {
+  const container = $("customerList");
+  const searchQ = ($("customerSearch").value || "").toLocaleLowerCase("tr");
+  let list = Object.values(customers);
+  if (searchQ) list = list.filter(c => (c.name || '').toLocaleLowerCase('tr').includes(searchQ) || (c.phone || '').includes(searchQ));
+  
+  container.innerHTML = list.length ? list.map(c => `
+    <div class="order">
+      <div class="order-head"><strong>${c.name || 'İsimsiz'}</strong><span class="badge yolda">${c.phone || ''}</span></div>
+      <div class="order-meta" style="margin-top:8px;">📍 ${c.address || ''}</div>
+    </div>
+  `).join("") : `<div style="text-align:center; color:var(--muted); padding:30px;">Kayıtlı müşteri bulunamadı.</div>`;
+}
+$("customerSearch").oninput = renderCustomers;
+
+function renderReports() {
+  const list = Object.values(allOrders);
+  const todayStr = new Date().toDateString();
+  const todayOrders = list.filter(o => new Date(o.createdAt || 0).toDateString() === todayStr);
+  const delivered = todayOrders.filter(o => o.status === "teslim_edildi");
+  const revenue = delivered.reduce((s, o) => s + (o.total || 0), 0);
+
+  $("statOrders").textContent = todayOrders.length;
+  $("statRevenue").textContent = money(revenue);
+  $("statDelivered").textContent = delivered.length;
+
+  delivered.sort((a, b) => (b.deliveredAt || b.createdAt || 0) - (a.deliveredAt || a.createdAt || 0));
+  $("deliveredOrders").innerHTML = delivered.length ? delivered.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Bugün henüz teslim edilen sipariş yok.</div>`;
+}
+
+async function saveMenuToDB() {
+  try { await set(ref(db, "menu"), catalog); toast("✓ Menü başarıyla güncellendi"); }
+  catch(e) { toast("Menü kaydedilemedi!"); }
+}
+
 function openModal(title, bodyHtml, onSave) {
   $("modalHeaderTitle").textContent = title;
   $("modalBody").innerHTML = bodyHtml;
   $("modalOverlay").classList.remove("hidden");
   modalSaveHandler = onSave;
-  
-  // İlk input'a odaklan
-  setTimeout(() => {
-    const firstInput = $("modalBody").querySelector("input");
-    if (firstInput) firstInput.focus();
-  }, 100);
+  setTimeout(() => { const i = $("modalBody").querySelector("input"); if (i) i.focus(); }, 100);
 }
 
 function closeModal() {
-  $("modalOverlay").classList.add("hidden");
-  $("modalBody").innerHTML = "";
-  modalSaveHandler = null;
+  $("modalOverlay").classList.add("hidden"); $("modalBody").innerHTML = ""; modalSaveHandler = null;
 }
 
 $("modalCloseX").onclick = closeModal;
 $("modalCancelBtn").onclick = closeModal;
-
-$("modalSaveBtn").onclick = async () => {
-  if (modalSaveHandler) {
-    const success = await modalSaveHandler();
-    if (success !== false) {
-      closeModal();
-    }
-  }
-};
+$("modalSaveBtn").onclick = async () => { if (modalSaveHandler) { const success = await modalSaveHandler(); if (success !== false) closeModal(); } };
 
 function renderMenuManagement() {
   const cats = Object.keys(catalog);
-  if (!cats.includes(selectedMenuCat) && cats.length > 0) {
-    selectedMenuCat = cats[0];
-  }
+  if (!cats.includes(selectedMenuCat) && cats.length > 0) selectedMenuCat = cats[0];
 
-  const catListEl = $("menuCatList");
-  catListEl.innerHTML = cats.map(c => `
+  $("menuCatList").innerHTML = cats.map(c => `
     <div class="menu-cat-item ${c === selectedMenuCat ? 'active' : ''}" data-mgr-cat="${c}">
       <span>${c} (${(catalog[c] || []).length})</span>
-      <button class="btn btn-danger btn-sm" data-del-cat="${c}" style="padding:2px 6px; font-size:11px;" title="Kategoriyi Sil">✕</button>
+      <button class="btn btn-danger btn-sm" data-del-cat="${c}" style="padding:2px 6px; font-size:11px;" title="Sil">✕</button>
     </div>
   `).join("");
 
@@ -1085,13 +1047,10 @@ function renderMenuManagement() {
     btn.onclick = async (e) => {
       e.stopPropagation();
       const catToDelete = btn.dataset.delCat;
-      if (confirm(`"${catToDelete}" kategorisini ve tüm ürünlerini silmek istediğinize emin misiniz?`)) {
+      if (confirm(`"${catToDelete}" kategorisini silmek istediğinize emin misiniz?`)) {
         delete catalog[catToDelete];
-        if (selectedMenuCat === catToDelete) {
-          selectedMenuCat = Object.keys(catalog)[0] || "";
-        }
-        await saveMenuToDB();
-        renderMenuManagement();
+        if (selectedMenuCat === catToDelete) selectedMenuCat = Object.keys(catalog)[0] || "";
+        await saveMenuToDB(); renderMenuManagement();
       }
     };
   });
@@ -1104,202 +1063,77 @@ function renderMenuManagement() {
   const filtered = items.filter(([pName]) => !searchQ || pName.toLocaleLowerCase("tr").includes(searchQ));
 
   if (filtered.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:20px;">Bu kategoride ürün bulunmuyor.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:20px;">Kayıt bulunamadı.</td></tr>`;
     return;
   }
 
   tableBody.innerHTML = filtered.map(([pName, pPrice]) => `
     <tr>
-      <td style="font-weight:700;">${pName}</td>
-      <td style="color:var(--gold-hover); font-weight:800; font-size:15px;">${money(pPrice)}</td>
-      <td style="text-align:right; white-space:nowrap;">
-        <button class="btn btn-dark btn-sm" data-edit-prod="${pName}" data-price="${pPrice}">✏️ Fiyat/İsim Düzenle</button>
-        <button class="btn btn-danger btn-sm" data-del-prod="${pName}">🗑️ Sil</button>
-      </td>
+     <td>${pName}</td>
+     <td style="font-weight:bold; color:var(--gold);">${money(pPrice)}</td>
+     <td style="text-align:right;">
+      <button class="btn btn-dark btn-sm" data-edit-prod="${pName}" data-price="${pPrice}" style="margin-right:4px;">✏️</button>
+      <button class="btn btn-danger btn-sm" data-del-prod="${pName}">✕</button>
+     </td>
     </tr>
   `).join("");
-
-  // ÜRÜN / FİYAT DÜZENLEME MODALI
-  document.querySelectorAll("[data-edit-prod]").forEach(btn => {
-    btn.onclick = () => {
-      const oldName = btn.dataset.editProd;
-      const oldPrice = btn.dataset.price;
-
-      const bodyHtml = `
-        <div class="field">
-          <label>Ürün Adı</label>
-          <input id="modalProdName" value="${oldName}">
-        </div>
-        <div class="field">
-          <label>Fiyat (₺)</label>
-          <input id="modalProdPrice" type="number" step="1" value="${oldPrice}">
-        </div>
-      `;
-
-      openModal("Ürün & Fiyat Düzenle", bodyHtml, async () => {
-        const newName = $("modalProdName").value.trim();
-        const newPrice = parseFloat($("modalProdPrice").value);
-
-        if (!newName) {
-          toast("Ürün adı boş olamaz!");
-          return false;
-        }
-        if (isNaN(newPrice) || newPrice < 0) {
-          toast("Lütfen geçerli bir fiyat girin!");
-          return false;
-        }
-
-        const arr = catalog[selectedMenuCat];
-        const itemIdx = arr.findIndex(x => x[0] === oldName);
-        if (itemIdx !== -1) {
-          arr[itemIdx] = [newName, newPrice];
-          await saveMenuToDB();
-          renderMenuManagement();
-        }
-      });
-    };
-  });
-
-  // ÜRÜN SİLME
+  
   document.querySelectorAll("[data-del-prod]").forEach(btn => {
     btn.onclick = async () => {
       const pName = btn.dataset.delProd;
-      if (confirm(`"${pName}" ürününü silmek istediğinize emin misiniz?`)) {
+      if(confirm(`"${pName}" silinecek, emin misiniz?`)) {
         catalog[selectedMenuCat] = catalog[selectedMenuCat].filter(x => x[0] !== pName);
-        await saveMenuToDB();
-        renderMenuManagement();
+        await saveMenuToDB(); renderMenuManagement();
       }
-    };
+    }
+  });
+  
+  document.querySelectorAll("[data-edit-prod]").forEach(btn => {
+    btn.onclick = () => {
+      const oldName = btn.dataset.editProd;
+      const oldPrice = parseFloat(btn.dataset.price);
+      openModal("Ürünü Düzenle", `
+        <div class="field"><label>Ürün Adı</label><input id="editPName" value="${oldName}"></div>
+        <div class="field"><label>Fiyat (₺)</label><input id="editPPrice" type="number" value="${oldPrice}"></div>
+      `, async () => {
+        const n = $("editPName").value.trim(); const p = parseFloat($("editPPrice").value);
+        if(!n || !p) { toast("Alanları doldurun!"); return false; }
+        const idx = catalog[selectedMenuCat].findIndex(x => x[0] === oldName);
+        if(idx > -1) { catalog[selectedMenuCat][idx] = [n, p]; await saveMenuToDB(); renderMenuManagement(); }
+        return true;
+      });
+    }
   });
 }
-
-// YENİ KATEGORİ EKLEME MODALI
-$("addCatBtn").onclick = () => {
-  const bodyHtml = `
-    <div class="field">
-      <label>Kategori Adı</label>
-      <input id="modalCatName" placeholder="Örn: Tatlılar, Çorbalar...">
-    </div>
-  `;
-
-  openModal("Yeni Kategori Ekle", bodyHtml, async () => {
-    const catName = $("modalCatName").value.trim();
-    if (!catName) {
-      toast("Kategori adı boş olamaz!");
-      return false;
-    }
-    if (catalog[catName]) {
-      toast("Bu kategori zaten mevcut!");
-      return false;
-    }
-
-    catalog[catName] = [];
-    selectedMenuCat = catName;
-    openCategories.add(catName);
-    await saveMenuToDB();
-    renderMenuManagement();
-  });
-};
-
-// YENİ ÜRÜN EKLEME MODALI
-$("addProdBtn").onclick = () => {
-  if (!selectedMenuCat || !catalog[selectedMenuCat]) {
-    return toast("Lütfen önce geçerli bir kategori seçin!");
-  }
-
-  const bodyHtml = `
-    <div class="field">
-      <label>Kategori</label>
-      <input value="${selectedMenuCat}" disabled style="opacity:0.6;">
-    </div>
-    <div class="field">
-      <label>Ürün Adı</label>
-      <input id="modalNewProdName" placeholder="Örn: Special Pide">
-    </div>
-    <div class="field">
-      <label>Fiyat (₺)</label>
-      <input id="modalNewProdPrice" type="number" step="1" placeholder="150">
-    </div>
-  `;
-
-  openModal("Yeni Ürün Ekle", bodyHtml, async () => {
-    const pName = $("modalNewProdName").value.trim();
-    const pPrice = parseFloat($("modalNewProdPrice").value);
-
-    if (!pName) {
-      toast("Ürün adı boş olamaz!");
-      return false;
-    }
-    if (isNaN(pPrice) || pPrice < 0) {
-      toast("Lütfen geçerli bir fiyat girin!");
-      return false;
-    }
-
-    catalog[selectedMenuCat].push([pName, pPrice]);
-    await saveMenuToDB();
-    renderMenuManagement();
-  });
-};
 
 $("menuSearch").oninput = renderMenuManagement;
 
-document.querySelectorAll(".navbtn").forEach(btn => {
-  btn.onclick = () => showPage(btn.dataset.page);
-});
+$("addCatBtn").onclick = () => {
+  openModal("Yeni Kategori", `<div class="field"><label>Kategori Adı</label><input id="newCatName" placeholder="Örn: Tatlılar"></div>`, async () => {
+    const name = $("newCatName").value.trim();
+    if(!name) return false;
+    if(catalog[name]) { toast("Bu kategori zaten var!"); return false; }
+    catalog[name] = [];
+    await saveMenuToDB(); renderMenuManagement();
+    return true;
+  });
+};
 
-function showPage(pageId) {
-  document.querySelectorAll("main section").forEach(sec => sec.classList.add("hidden"));
-  $("page-" + pageId).classList.remove("hidden");
-  document.querySelectorAll(".navbtn").forEach(btn => btn.classList.toggle("active", btn.dataset.page === pageId));
-  if (pageId === "active") renderActiveOrders();
-  if (pageId === "history") renderHistory();
-  if (pageId === "customers") renderCustomers();
-  if (pageId === "reports") renderReports();
-  if (pageId === "menu-manage") renderMenuManagement();
-}
-
-document.addEventListener("click", e => {
-  const road = e.target.closest("[data-road]");
-  const del = e.target.closest("[data-deliver]");
-  const prt = e.target.closest("[data-print]");
-
-  if (road) changeStatus(road.dataset.road, "yolda");
-  if (del) changeStatus(del.dataset.deliver, "teslim_edildi");
-  if (prt) {
-    const o = allOrders[prt.dataset.print];
-    if (o) printReceipt(o, true);
-  }
-});
-
-async function changeStatus(id, status) {
-  const u = auth.currentUser;
-  const o = allOrders[id];
-  if (!u || !o) return;
-
-  const stamp = status === "yolda" ? "pickedUpAt" : "deliveredAt";
-  const now = Date.now();
-
-  try {
-    const updates = {};
-    updates["orders/" + id + "/status"] = status;
-    updates["orders/" + id + "/" + stamp] = now;
-    if (o.courierId) {
-      updates["courierOrders/" + o.courierId + "/" + id + "/status"] = status;
-      updates["courierOrders/" + o.courierId + "/" + id + "/" + stamp] = now;
-    }
-    await update(ref(db), updates);
-    toast(status === "yolda" ? "🛵 Sipariş yola çıkarıldı" : "✓ Sipariş teslim edildi");
-  } catch (e) {
-    console.error(e);
-    toast("Durum güncellenemedi!");
-  }
-}
-
-$("historySearch").oninput = renderHistory;
-$("customerSearch").oninput = renderCustomers;
-
-// BAŞLANGIÇ
-renderCategories();
-renderAccordionCatalog();
-renderCart();
+$("addProdBtn").onclick = () => {
+  if(!selectedMenuCat) return toast("Önce sol taraftan kategori seçin!");
+  openModal("Yeni Ürün Ekle", `
+    <div class="field"><label>Ürün Adı</label><input id="newPName" placeholder="Örn: Sütlaç"></div>
+    <div class="field"><label>Fiyat (₺)</label><input id="newPPrice" type="number" placeholder="Örn: 50"></div>
+  `, async () => {
+    const n = $("newPName").value.trim(); const p = parseFloat($("newPPrice").value);
+    if(!n || !p) { toast("Tüm alanları doldurun!"); return false; }
+    if(catalog[selectedMenuCat].find(x => x[0] === n)) { toast("Ürün zaten var!"); return false; }
+    catalog[selectedMenuCat].push([n, p]);
+    await saveMenuToDB(); renderMenuManagement();
+    return true;
+  });
+};
 </script>
+</body>
+</html>
+```
