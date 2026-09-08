@@ -231,12 +231,6 @@ main {
 .order-buttons { display: flex; gap: 4px; flex-wrap: wrap; margin-top: auto; }
 .order-buttons a, .order-buttons button { flex: 1; min-width: 70px; text-align: center; text-decoration: none; }
 
-.customer-card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px;
-  display: flex; flex-direction: column; gap: 8px; cursor: pointer; transition: all 0.2s;
-}
-.customer-card:hover { border-color: var(--gold); }
-
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
 .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .stat small { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
@@ -286,20 +280,14 @@ main {
 
 <!-- GİRİŞ EKRANI -->
 <div id="login" class="login">
- <form id="loginForm" class="login-card">
+ <div class="login-card">
   <div class="brand">HAYAL <b>PİDE</b></div>
   <div class="sub">Profesyonel POS & Paket Servis Sistemi</div>
-  <div class="field">
-    <label>E-posta</label>
-    <input id="email" type="email" placeholder="ornek@hayalpide.com" autocomplete="username" required>
-  </div>
-  <div class="field">
-    <label>Şifre</label>
-    <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
-  </div>
-  <button id="loginBtn" type="submit" class="btn btn-primary" style="width:100%; margin-top:8px;">Sisteme Giriş Yap</button>
+  <div class="field"><label>E-posta</label><input id="email" type="email" placeholder="ornek@hayalpide.com" autocomplete="username"></div>
+  <div class="field"><label>Şifre</label><input id="password" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+  <button id="loginBtn" class="btn btn-primary" style="width:100%; margin-top:8px;">Sisteme Giriş Yap</button>
   <div id="loginErr" style="color:var(--red); font-size:12px; margin-top:10px; text-align:center; font-weight:700;"></div>
- </form>
+ </div>
 </div>
 
 <!-- ANA UYGULAMA EKRANI -->
@@ -358,12 +346,7 @@ main {
          <option value="Online Ödeme">🌐 Online Ödeme</option>
        </select>
      </div>
-     <div class="field"><label>Görevli Kurye</label>
-       <select id="courier">
-         <option value="all">🛵 Tüm Kuryeler (Genel)</option>
-         <option value="EkrRQkpLKXby9vDwlmap6EA6ZkD3">Kurye 1 (Saha)</option>
-       </select>
-     </div>
+     <div class="field"><label>Görevli Kurye</label><select id="courier"><option value="EkrRQkpLKXby9vDwlmap6EA6ZkD3">Kurye 1 (Saha)</option></select></div>
      <div class="field"><label>Sipariş Notu</label><textarea id="orderNote" rows="2" placeholder="Örn: Acılı olsun, zili çalmayın..."></textarea></div>
      
      <div class="total">
@@ -419,9 +402,9 @@ main {
 <!-- 4. MÜŞTERİ REHBERİ -->
 <section id="page-customers" class="hidden">
  <div class="page-title">Müşteri Rehberi</div>
- <div class="page-sub">Kayıtlı müşteriler, adres ve numara bilgileri. Tıklayarak sipariş yazabilirsiniz.</div>
+ <div class="page-sub">Kayıtlı müşteriler ve adres bilgileri.</div>
  <div class="panel">
-  <input id="customerSearch" class="search" placeholder="🔎 İsim veya telefon ile müşteri arayın...">
+  <input id="customerSearch" class="search" placeholder="🔎 Isim veya telefon ile müşteri arayın...">
   <div id="customerList" class="orders" style="margin-top:12px;"></div>
  </div>
 </section>
@@ -493,7 +476,7 @@ main {
 <div id="modalOverlay" class="modal-overlay hidden">
   <div class="modal-card">
     <div class="modal-title">
-      <span id="modalHeaderTitle">Düzenle</span>
+      <span id="modalHeaderTitle">Ürün Düzenle</span>
       <button id="modalCloseX" style="background:transparent; color:var(--muted); font-size:18px; font-weight:bold;">✕</button>
     </div>
     <div id="modalBody"></div>
@@ -511,10 +494,9 @@ main {
 <div id="toast" class="toast hidden"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref, set, update, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getMessaging, getToken, onMessage, isSupported } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getDatabase, ref, set, update, onValue, push } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
@@ -526,37 +508,10 @@ const firebaseConfig = {
   appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c"
 };
 
-const VAPID_KEY = "BOBhyeJS6lQjTjjnHDEgWbh3CGxIMEx8AEXMmDsF2lLTR9VZ1lrsLPn39Xt7lGH84RCiZ2wa4TAfi3iG_WCWZHw";
 const ADMIN = "Rmf7DZGAsLRuQ00JAJOwERvPIGC3";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-
-let messaging = null;
-
-// FCM Bildirim Başlatma (Güvenli Kontrol)
-async function initMessaging() {
-  try {
-    const supported = await isSupported();
-    if (supported) {
-      messaging = getMessaging(app);
-      if (messaging) {
-        onMessage(messaging, (payload) => {
-          console.log("Ön planda mesaj alındı:", payload);
-          if (payload.notification) {
-            sendNativeNotification(payload.notification.title, payload.notification.body);
-            toast(`🔔 ${payload.notification.title}`);
-            playBeep();
-          }
-        });
-      }
-    }
-  } catch (e) {
-    console.log("FCM bu ortamda desteklenmiyor veya engellendi:", e);
-  }
-}
-initMessaging();
 
 const $ = id => document.getElementById(id);
 const money = n => "₺" + Number(n || 0).toLocaleString("tr-TR");
@@ -594,34 +549,12 @@ function playBeep() {
 function playBikeSound() {
   if (!soundEnabled) return;
   bikeSound.currentTime = 0;
-  bikeSound.play().catch(e => console.log("Motor sesi engellendi:", e));
+  bikeSound.play().catch(e => console.log("Motor sesi engellendi (kullanıcı etkileşimi gerek):", e));
 }
 
-async function requestNotificationPermission() {
-  try {
-    if (!("Notification" in window) || !messaging) return;
-    
-    if (Notification.permission === "default") {
-      await Notification.permission.requestPermission();
-    }
-
-    if (Notification.permission === "granted") {
-      const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY }).catch(e => null);
-      if (currentToken && auth.currentUser) {
-        await set(ref(db, "fcmTokens/" + auth.currentUser.uid), currentToken);
-      }
-    }
-  } catch (err) {
-    console.log("FCM izni hatası:", err);
-  }
-}
-
-function sendNativeNotification(title, body) {
-  if ("Notification" in window && Notification.permission === "granted") {
-    new Notification(title, {
-      body: body,
-      icon: "https://cdn-icons-png.flaticon.com/512/3081/3081002.png"
-    });
+function requestNotificationPermission() {
+  if ("Notification" in window && Notification.permission === "default") {
+    Notification.requestPermission();
   }
 }
 
@@ -647,57 +580,24 @@ let previousStatuses = {};
 let initialLoad = true;
 let modalSaveHandler = null;
 
-// GİRİŞ İŞLEMİ VE HATA YÖNETİMİ
-const loginForm = $("loginForm");
-if (loginForm) {
-  loginForm.onsubmit = async (e) => {
-    e.preventDefault();
-    const email = $("email").value.trim();
-    const password = $("password").value;
-    const errEl = $("loginErr");
-    const loginBtn = $("loginBtn");
+$("loginBtn").onclick = async () => {
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  const errEl = $("loginErr");
+  errEl.textContent = "";
+  if (!email || !password) { errEl.textContent = "Lütfen e-posta ve şifrenizi girin."; return; }
 
-    errEl.textContent = "";
-    if (!email || !password) { 
-      errEl.textContent = "Lütfen e-posta ve şifrenizi girin."; 
-      return; 
-    }
-
-    try {
-      loginBtn.disabled = true;
-      loginBtn.textContent = "Giriş Yapılıyor...";
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      console.error("Giriş hatası:", err);
-      let msg = "Giriş başarısız!";
-      switch (err.code) {
-        case "auth/invalid-credential":
-        case "auth/wrong-password":
-        case "auth/user-not-found":
-          msg = "E-posta veya şifre hatalı.";
-          break;
-        case "auth/invalid-email":
-          msg = "Geçersiz e-posta adresi.";
-          break;
-        case "auth/too-many-requests":
-          msg = "Çok fazla hatalı deneme. Lütfen biraz bekleyin.";
-          break;
-        case "auth/network-request-failed":
-          msg = "İnternet bağlantınızı kontrol edin.";
-          break;
-        case "auth/user-disabled":
-          msg = "Bu kullanıcı hesabı devre dışı bırakılmış.";
-          break;
-        default:
-          msg = "Giriş hatası: " + (err.message || err.code);
-      }
-      errEl.textContent = msg;
-    } finally {
-      loginBtn.disabled = false;
-      loginBtn.textContent = "Sisteme Giriş Yap";
-    }
-  };
-}
+  try {
+    $("loginBtn").disabled = true;
+    $("loginBtn").textContent = "Giriş Yapılıyor...";
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    errEl.textContent = "Giriş başarısız! E-posta veya şifre hatalı.";
+  } finally {
+    $("loginBtn").disabled = false;
+    $("loginBtn").textContent = "Sisteme Giriş Yap";
+  }
+};
 
 $("logoutBtn").onclick = () => signOut(auth);
 
@@ -711,6 +611,7 @@ onAuthStateChanged(auth, (user) => {
     $("login").classList.add("hidden");
     $("app").classList.remove("hidden");
     
+    // Bildirim İzni İste
     requestNotificationPermission();
 
     const isAdmin = user.uid === ADMIN;
@@ -749,7 +650,6 @@ function showPage(pid) {
   if(pid === "customers") renderCustomers();
   if(pid === "eod") renderEOD();
 }
-
 document.querySelectorAll(".navbtn").forEach(btn => {
   btn.addEventListener("click", () => showPage(btn.dataset.page));
 });
@@ -778,13 +678,11 @@ function listenMenu() {
 
 function listenData(u) {
   listenMenu();
-  
-  onValue(ref(db, "orders"), s => {
-    allOrders = s.val() || {};
-    handleOrdersUpdate();
-  });
-
   if (u.uid === ADMIN) {
+    onValue(ref(db, "orders"), s => {
+      allOrders = s.val() || {};
+      handleOrdersUpdate();
+    });
     onValue(ref(db, "customers"), s => {
       customers = s.val() || {};
       renderCustomers();
@@ -793,19 +691,16 @@ function listenData(u) {
       allEndOfDays = s.val() || {};
       if(!$("page-eod").classList.contains("hidden")) renderEOD();
     });
+  } else {
+    onValue(ref(db, "courierOrders/" + u.uid), s => {
+      allOrders = s.val() || {};
+      handleOrdersUpdate();
+    });
   }
 }
 
 function handleOrdersUpdate() {
-  const currentUser = auth.currentUser;
-  const isAdmin = currentUser && currentUser.uid === ADMIN;
-
-  const activeList = Object.values(allOrders).filter(o => {
-    const isPending = o.status === "kurye_bekliyor" || o.status === "yolda";
-    if (!isPending) return false;
-    return isAdmin || !o.courierId || o.courierId === "all" || o.courierId === currentUser.uid;
-  });
-
+  const activeList = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
   const badge = $("activeBadge");
   
   if (activeList.length > 0) {
@@ -822,746 +717,622 @@ function handleOrdersUpdate() {
       let order = allOrders[id];
       let prevStatus = previousStatuses[id];
 
-      // Yeni Sipariş Bildirimi
+      // Kuryeye sipariş geldiğinde (Bildirim)
       if (!prevStatus && order.status === "kurye_bekliyor") {
-         if (isAdmin || !order.courierId || order.courierId === "all" || order.courierId === currentUser.uid) {
-           hasNewOrder = true;
-         }
+         hasNewOrder = true;
       }
 
-      // Kurye Yola Çıktığında Sesli Uyarı
+      // Kurye Yola Çıktığında (Motor Sesi)
       if (prevStatus && prevStatus !== "yolda" && order.status === "yolda") {
-         if (isAdmin || !order.courierId || order.courierId === "all" || order.courierId === currentUser.uid) {
-           playBikeSound();
-           toast(`🛵 Sipariş Yola Çıktı: ${order.customerName || 'Müşteri'}`);
-         }
+         playBikeSound();
+         toast(`🛵 Sipariş Yola Çıktı: ${order.customerName}`);
       }
-
-      previousStatuses[id] = order.status;
     }
 
     if (hasNewOrder) {
       playBeep();
-      toast("🔔 Yeni Sipariş Geldi!");
-      sendNativeNotification("Yeni Sipariş!", "Sisteme yeni bir sipariş eklendi.");
+      toast("🔔 Yeni Siparişiniz Var!");
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Yeni Siparişiniz Var!", { 
+          body: "Teslim edilmek üzere sisteme yeni bir sipariş düştü." 
+        });
+      }
     }
-  } else {
-    for (let id in allOrders) {
-      previousStatuses[id] = allOrders[id].status;
-    }
-    initialLoad = false;
   }
 
-  if (!$("page-active").classList.contains("hidden")) renderActiveOrders();
-  if (!$("page-history").classList.contains("hidden")) renderHistory();
-  if (!$("page-reports").classList.contains("hidden")) renderReports();
+  // Durumları bellekte güncelle
+  previousStatuses = {};
+  for (let id in allOrders) {
+     previousStatuses[id] = allOrders[id].status;
+  }
+  initialLoad = false;
+
+  if(!$("page-active").classList.contains("hidden")) renderActiveOrders();
+  if(!$("page-history").classList.contains("hidden")) renderHistory();
+  if(!$("page-reports").classList.contains("hidden")) renderReports();
 }
 
-// SEPET İŞLEMLERİ
-function renderCart() {
-  const container = $("cartList");
-  container.innerHTML = "";
-  let tot = 0;
-
-  cart.forEach((item, index) => {
-    const itemTotal = item.price * item.qty;
-    tot += itemTotal;
-    const div = document.createElement("div");
-    div.className = "cart-row";
-    div.innerHTML = `
-      <div class="cart-top">
-        <span>${item.name}</span>
-        <span>${money(itemTotal)}</span>
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:11px; color:var(--muted);">${money(item.price)} / adet</span>
-        <div class="qty">
-          <button data-act="dec" data-idx="${index}">-</button>
-          <span>${item.qty}</span>
-          <button data-act="inc" data-idx="${index}">+</button>
-        </div>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-
-  $("total").textContent = money(tot);
-
-  container.querySelectorAll("button").forEach(btn => {
-    btn.onclick = () => {
-      const idx = parseInt(btn.dataset.idx);
-      const act = btn.dataset.act;
-      if (act === "inc") cart[idx].qty++;
-      else if (act === "dec") {
-        cart[idx].qty--;
-        if (cart[idx].qty <= 0) cart.splice(idx, 1);
-      }
-      renderCart();
-      renderAccordionCatalog();
-    };
-  });
-}
-
-$("clearCart").onclick = () => {
-  cart = [];
-  renderCart();
-  renderAccordionCatalog();
-};
-
-function addToCart(name, price) {
-  const ex = cart.find(i => i.name === name);
-  if (ex) ex.qty++;
-  else cart.push({ name, price, qty: 1 });
-  renderCart();
-  renderAccordionCatalog();
-}
-
-// KATALOG VE MENÜ RENDER
 function renderCategories() {
-  const container = $("categories");
-  container.innerHTML = "";
-  
-  const allChip = document.createElement("div");
-  allChip.className = `chip ${selectedCategory === "Tümü" ? "active" : ""}`;
-  allChip.textContent = "Tümü";
-  allChip.onclick = () => { selectedCategory = "Tümü"; renderCategories(); renderAccordionCatalog(); };
-  container.appendChild(allChip);
+  const catEl = $("categories");
+  const cats = ["Tümü", ...Object.keys(catalog)];
+  catEl.innerHTML = cats.map(c => `
+    <button class="chip ${c === selectedCategory ? 'active' : ''}" data-cat="${c}">
+      ${c}
+    </button>
+  `).join("");
 
-  Object.keys(catalog).forEach(cat => {
-    const chip = document.createElement("div");
-    chip.className = `chip ${selectedCategory === cat ? "active" : ""}`;
-    chip.textContent = cat;
-    chip.onclick = () => { selectedCategory = cat; renderCategories(); renderAccordionCatalog(); };
-    container.appendChild(chip);
+  document.querySelectorAll("#categories [data-cat]").forEach(btn => {
+    btn.onclick = () => {
+      const cat = btn.dataset.cat;
+      selectedCategory = cat;
+      if (cat !== "Tümü") openCategories.add(cat);
+      renderCategories();
+      renderAccordionCatalog();
+      if (cat !== "Tümü") {
+        const targetEl = document.getElementById(`acc-item-${cat}`);
+        if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
   });
 }
 
 function renderAccordionCatalog() {
   const container = $("accordionCatalog");
-  container.innerHTML = "";
-  const filter = ($("productSearch").value || "").toLowerCase();
+  const searchQ = ($("productSearch").value || "").toLocaleLowerCase("tr");
+  const catKeys = Object.keys(catalog);
 
-  Object.keys(catalog).forEach(cat => {
-    if (selectedCategory !== "Tümü" && selectedCategory !== cat) return;
+  if (catKeys.length === 0) {
+    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px;">Menüde henüz kategori yok.</div>`;
+    return;
+  }
 
-    const items = catalog[cat].filter(([name]) => name.toLowerCase().includes(filter));
-    if (items.length === 0 && filter) return;
+  let html = "";
+  catKeys.forEach(catName => {
+    let items = catalog[catName] || [];
+    if (searchQ) items = items.filter(([pName]) => pName.toLocaleLowerCase("tr").includes(searchQ));
+    if (searchQ && items.length > 0) openCategories.add(catName);
+    if (searchQ && items.length === 0) return;
+    
+    if (selectedCategory !== "Tümü" && catName !== selectedCategory && !searchQ) return;
 
-    const isOpen = openCategories.has(cat) || filter.length > 0;
-    const itemDiv = document.createElement("div");
-    itemDiv.className = `acc-item ${isOpen ? "open" : ""}`;
-
-    itemDiv.innerHTML = `
-      <div class="acc-header">
-        <div class="acc-title">
-          <span>${cat}</span>
-          <span class="acc-count">${items.length} ürün</span>
-        </div>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="acc-content">
-        <div class="products"></div>
-      </div>
-    `;
-
-    const header = itemDiv.querySelector(".acc-header");
-    header.onclick = () => {
-      if (openCategories.has(cat)) openCategories.delete(cat);
-      else openCategories.add(cat);
-      renderAccordionCatalog();
-    };
-
-    const prodContainer = itemDiv.querySelector(".products");
-    items.forEach(([name, price]) => {
-      const cartItem = cart.find(c => c.name === name);
-      const qtyBadge = cartItem ? `<div class="product-badge">${cartItem.qty}</div>` : "";
-
-      const pDiv = document.createElement("div");
-      pDiv.className = "product";
-      pDiv.innerHTML = `
-        ${qtyBadge}
-        <div class="product-name">${name}</div>
-        <div class="product-bottom">
-          <span class="price">${money(price)}</span>
-          <span style="font-size:16px; color:var(--gold);">+</span>
+    const isOpen = openCategories.has(catName);
+    const prodsHtml = items.map(([pName, pPrice]) => {
+      const inCart = cart.find(x => x.name === pName);
+      return `
+        <div class="product" data-add-prod="${pName}" data-price="${pPrice}">
+          ${inCart ? `<span class="product-badge">${inCart.qty}</span>` : ''}
+          <div class="product-name">${pName}</div>
+          <div class="product-bottom"><span class="price">${money(pPrice)}</span></div>
         </div>
       `;
-      pDiv.onclick = () => addToCart(name, price);
-      prodContainer.appendChild(pDiv);
-    });
+    }).join("");
 
-    container.appendChild(itemDiv);
+    html += `
+      <div class="acc-item ${isOpen ? 'open' : ''}" id="acc-item-${catName}">
+        <div class="acc-header" data-toggle-acc="${catName}">
+          <div class="acc-title"><span>${catName}</span><span class="acc-count">${items.length} çeşit</span></div>
+          <span class="chevron">▼</span>
+        </div>
+        ${isOpen ? `<div class="acc-content"><div class="products">${prodsHtml}</div></div>` : ''}
+      </div>
+    `;
+  });
+
+  if (!html) {
+    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px;">Aramanıza uygun ürün bulunamadı.</div>`;
+    return;
+  }
+  container.innerHTML = html;
+
+  document.querySelectorAll("[data-toggle-acc]").forEach(hdr => {
+    hdr.onclick = () => {
+      const cat = hdr.dataset.toggleAcc;
+      if (openCategories.has(cat)) openCategories.delete(cat); else openCategories.add(cat);
+      renderAccordionCatalog();
+    };
+  });
+  document.querySelectorAll("[data-add-prod]").forEach(card => {
+    card.onclick = () => addToCart(card.dataset.addProd, parseFloat(card.dataset.price));
   });
 }
 
-$("productSearch").oninput = () => renderAccordionCatalog();
+$("productSearch").oninput = renderAccordionCatalog;
 $("btnExpandAll").onclick = () => { Object.keys(catalog).forEach(c => openCategories.add(c)); renderAccordionCatalog(); };
 $("btnCollapseAll").onclick = () => { openCategories.clear(); renderAccordionCatalog(); };
 
-// MÜŞTERİ ARAMA VE TAMAMLAMA
+function addToCart(name, price) {
+  const idx = cart.findIndex(x => x.name === name);
+  if (idx > -1) cart[idx].qty += 1;
+  else cart.push({ name, price, qty: 1 });
+  renderCart(); renderAccordionCatalog();
+}
+
+function updateQty(name, delta) {
+  const idx = cart.findIndex(x => x.name === name);
+  if (idx > -1) {
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  }
+  renderCart(); renderAccordionCatalog();
+}
+
+function renderCart() {
+  const listEl = $("cartList");
+  if (!cart.length) {
+    listEl.innerHTML = `<div style="color:var(--muted); text-align:center; padding:16px 0; font-size:12px;">Sepet henüz boş.</div>`;
+    $("total").textContent = money(0);
+    return;
+  }
+  let sum = 0;
+  listEl.innerHTML = cart.map(i => {
+    const itemTotal = i.price * i.qty; sum += itemTotal;
+    return `
+      <div class="cart-row">
+        <div class="cart-top"><span>${i.name}</span><span>${money(itemTotal)}</span></div>
+        <div class="qty"><button data-qty-dec="${i.name}">-</button><b>${i.qty}</b><button data-qty-inc="${i.name}">+</button></div>
+      </div>
+    `;
+  }).join("");
+  $("total").textContent = money(sum);
+
+  document.querySelectorAll("[data-qty-dec]").forEach(btn => btn.onclick = () => updateQty(btn.dataset.qtyDec, -1));
+  document.querySelectorAll("[data-qty-inc]").forEach(btn => btn.onclick = () => updateQty(btn.dataset.qtyInc, 1));
+}
+
+$("clearCart").onclick = () => { cart = []; renderCart(); renderAccordionCatalog(); };
+
 $("custPhone").oninput = (e) => {
-  const val = e.target.value.trim();
+  const val = norm(e.target.value);
   const sug = $("suggestions");
-  if (val.length < 3) { sug.classList.add("hidden"); return; }
+  if (val.length < 3) return sug.classList.add("hidden");
 
-  const matched = Object.values(customers).filter(c => 
-    (c.phone && c.phone.includes(val)) || (c.name && c.name.toLowerCase().includes(val.toLowerCase()))
-  );
+  const matches = Object.values(customers).filter(c => norm(c.phone).includes(val) || (c.name || '').toLocaleLowerCase('tr').includes(e.target.value.toLocaleLowerCase('tr')));
+  if (!matches.length) return sug.classList.add("hidden");
 
-  if (matched.length === 0) { sug.classList.add("hidden"); return; }
+  sug.innerHTML = matches.slice(0, 5).map(c => `
+    <div class="suggestion" data-fill-cust="${c.phone}">
+      <div><b>${c.name}</b><br><small style="color:var(--muted);">${c.phone}</small></div>
+    </div>
+  `).join("");
+  sug.classList.remove("hidden");
 
-  sug.innerHTML = "";
-  matched.forEach(c => {
-    const d = document.createElement("div");
-    d.className = "suggestion";
-    d.innerHTML = `<strong>${c.name || 'İsimsiz'}</strong> - ${c.phone}<br><small style="color:var(--muted);">${c.address || ''}</small>`;
-    d.onclick = () => {
-      $("custPhone").value = c.phone || "";
-      $("custName").value = c.name || "";
-      $("custAddress").value = c.address || "";
+  document.querySelectorAll("[data-fill-cust]").forEach(item => {
+    item.onclick = () => {
+      const found = Object.values(customers).find(c => c.phone === item.dataset.fillCust);
+      if (found) {
+        $("custPhone").value = found.phone || ''; $("custName").value = found.name || ''; $("custAddress").value = found.address || '';
+      }
       sug.classList.add("hidden");
     };
-    sug.appendChild(d);
   });
-  sug.classList.remove("hidden");
 };
 
-// SİPARİŞ OLUŞTURMA
 $("createOrder").onclick = async () => {
+  const u = auth.currentUser;
+  if (!u || u.uid !== ADMIN) return;
+  if (!cart.length) return toast("Lütfen sepete en az bir ürün ekleyin!");
+
   const phone = $("custPhone").value.trim();
   const name = $("custName").value.trim();
   const address = $("custAddress").value.trim();
-  const payment = $("payment").value;
-  const courier = $("courier").value;
-  const note = $("orderNote").value.trim();
 
-  if (!phone || !name || !address) { toast("Lütfen müşteri bilgilerini eksiksiz doldurun."); return; }
-  if (cart.length === 0) { toast("Sepet boş! Lütfen ürün ekleyin."); return; }
+  if (!phone || !name || !address) return toast("Müşteri Telefon, İsim ve Adres alanları zorunludur!");
 
-  const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+  const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const courierId = $("courier").value;
+  const key = push(ref(db, "orders")).key;
+  const now = Date.now();
+
   const orderData = {
-    customerName: name,
-    customerPhone: phone,
-    customerAddress: address,
-    items: cart,
-    totalPrice: total,
-    paymentMethod: payment,
-    courierId: courier,
-    note: note,
-    status: "kurye_bekliyor",
-    createdAt: Date.now()
+    id: key, customerName: name, phone, address, items: cart,
+    total, payment: $("payment").value, courierId, status: "kurye_bekliyor",
+    createdAt: now, note: $("orderNote").value.trim()
   };
 
   try {
-    const newRef = push(ref(db, "orders"));
-    await set(newRef, orderData);
+    const updates = {};
+    updates["orders/" + key] = orderData;
+    updates["courierOrders/" + courierId + "/" + key] = orderData;
+    await update(ref(db), updates);
+    await set(ref(db, "customers/" + norm(phone)), { name, phone, address, updatedAt: now });
 
-    const phoneKey = norm(phone);
-    if (phoneKey) {
-      await update(ref(db, "customers/" + phoneKey), {
-        phone: phone,
-        name: name,
-        address: address,
-        lastOrderTime: Date.now()
-      });
-    }
-
-    toast("Sipariş başarıyla oluşturuldu ✓");
-    sendNativeNotification("Sipariş Oluşturuldu", `${name} için ₺${total} tutarında sipariş girildi.`);
+    printReceipt(orderData, true);
 
     cart = [];
-    $("custPhone").value = "";
-    $("custName").value = "";
-    $("custAddress").value = "";
-    $("orderNote").value = "";
-    renderCart();
-    renderAccordionCatalog();
-  } catch (err) {
-    toast("Sipariş oluşturulamadı: " + err.message);
+    renderCart(); renderAccordionCatalog();
+    ["custPhone", "custName", "custAddress", "orderNote"].forEach(id => $(id).value = "");
+    toast("✓ Sipariş başarıyla oluşturuldu ve yazdırıldı");
+    showPage("active");
+  } catch (e) {
+    toast("Hata oluştu! Veritabanı izinleri kontrol edilmeli.");
   }
 };
 
-// MÜŞTERİLER SAYFASI, DÜZENLEME, SİLME VE TIKLAYIP SİPARİŞ YAZMA
-function renderCustomers() {
-  const container = $("customerList");
-  if (!container) return;
-  container.innerHTML = "";
-  const filter = ($("customerSearch")?.value || "").toLowerCase();
+function printReceipt(o, autoPrint = false) {
+  const printBox = $("print-area");
+  const itemsHtml = (o.items || []).map(i => `
+    <div class="receipt-row" style="margin-bottom:2px;">
+      <span style="font-weight:bold;">${i.qty} x ${i.name}</span>
+      <span>${money(i.price * i.qty)}</span>
+    </div>
+  `).join("");
 
-  const list = Object.entries(customers).filter(([id, c]) => 
-    (c.name && c.name.toLowerCase().includes(filter)) || 
-    (c.phone && c.phone.includes(filter)) ||
-    (c.address && c.address.toLowerCase().includes(filter))
-  );
-
-  if (list.length === 0) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px;">Kayıtlı müşteri bulunamadı.</div>`;
-    return;
-  }
-
-  list.forEach(([id, c]) => {
-    const card = document.createElement("div");
-    card.className = "customer-card";
-    card.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-        <strong style="font-size:15px; color:var(--gold);">${c.name || 'İsimsiz'}</strong>
-        <div style="display:flex; gap:6px;">
-          <button class="btn btn-dark btn-sm edit-cust-btn">✏️ Düzenle</button>
-          <button class="btn btn-danger btn-sm del-cust-btn">🗑️ Sil</button>
-          <button class="btn btn-primary btn-sm new-order-cust-btn">🛒 Sipariş Yaz</button>
-        </div>
-      </div>
-      <div style="font-size:13px;">📞 ${c.phone || '-'}</div>
-      <div style="font-size:12px; color:var(--muted);">📍 ${c.address || 'Adres bilgisi yok'}</div>
-    `;
-
-    card.querySelector(".new-order-cust-btn").onclick = (e) => {
-      e.stopPropagation();
-      selectCustomerForOrder(c);
-    };
-
-    card.onclick = () => {
-      selectCustomerForOrder(c);
-    };
-
-    card.querySelector(".edit-cust-btn").onclick = (e) => {
-      e.stopPropagation();
-      openEditCustomerModal(id, c);
-    };
-
-    card.querySelector(".del-cust-btn").onclick = (e) => {
-      e.stopPropagation();
-      deleteCustomer(id, c.name);
-    };
-
-    container.appendChild(card);
-  });
-}
-
-function selectCustomerForOrder(c) {
-  $("custPhone").value = c.phone || "";
-  $("custName").value = c.name || "";
-  $("custAddress").value = c.address || "";
-  showPage("new");
-  toast(`${c.name || 'Müşteri'} bilgileri sipariş formuna aktarıldı.`);
-}
-
-async function deleteCustomer(id, name) {
-  if (!confirm(`${name || 'Bu müşteriyi'} silmek istediğinize emin misiniz?`)) return;
-  try {
-    await remove(ref(db, "customers/" + id));
-    toast("Müşteri kaydı silindi ✓");
-  } catch (err) {
-    toast("Silme hatası: " + err.message);
-  }
-}
-
-function openEditCustomerModal(id, c) {
-  $("modalHeaderTitle").textContent = "Müşteri Bilgilerini Düzenle";
-  $("modalBody").innerHTML = `
-    <div class="field"><label>Müşteri Adı</label><input id="editCustName" value="${c.name || ''}"></div>
-    <div class="field"><label>Telefon</label><input id="editCustPhone" value="${c.phone || ''}"></div>
-    <div class="field"><label>Adres</label><textarea id="editCustAddress" rows="3">${c.address || ''}</textarea></div>
+  printBox.innerHTML = `
+    <div style="text-align:center; font-weight:bold; font-size:15px; margin-bottom:2px;">HAYAL PİDE</div>
+    <div style="text-align:center; font-size:10px; margin-bottom:4px; text-transform:uppercase;">Paket Servis Adisyonu</div>
+    <div style="border-top:1px dashed #000; margin:3px 0;"></div>
+    <div><b>Tarih:</b> ${new Date(o.createdAt || Date.now()).toLocaleString("tr-TR")}</div>
+    <div><b>Müşteri:</b> ${o.customerName || ''}</div>
+    <div><b>Tel:</b> ${o.phone || ''}</div>
+    <div style="word-wrap:break-word;"><b>Adres:</b> ${o.address || ''}</div>
+    <div style="border-top:1px dashed #000; margin:3px 0;"></div>
+    ${itemsHtml}
+    <div style="border-top:1px dashed #000; margin:3px 0;"></div>
+    <div class="receipt-row" style="font-weight:bold; font-size:13px; margin-top:2px;">
+      <span>Ödeme (${o.payment || ''}):</span>
+      <span>${money(o.total)}</span>
+    </div>
+    ${o.note ? `<div style="margin-top:4px; font-size:10px;"><b>Not:</b> ${o.note}</div>` : ''}
+    <div style="border-top:1px dashed #000; margin:4px 0;"></div>
+    <div style="text-align:center; font-weight:bold; margin-top:4px; font-size:11px;">Afiyet Olsun!</div>
   `;
 
-  modalSaveHandler = async () => {
-    const newName = $("editCustName").value.trim();
-    const newPhone = $("editCustPhone").value.trim();
-    const newAddress = $("editCustAddress").value.trim();
-
-    if (!newName || !newPhone) {
-      toast("Lütfen ad ve telefon alanlarını doldurun.");
-      return;
-    }
-
-    try {
-      await update(ref(db, "customers/" + id), {
-        name: newName,
-        phone: newPhone,
-        address: newAddress
-      });
-      toast("Müşteri bilgileri güncellendi ✓");
-      closeModal();
-    } catch (err) {
-      toast("Güncelleme hatası: " + err.message);
-    }
-  };
-
-  $("modalOverlay").classList.remove("hidden");
-}
-
-if ($("customerSearch")) $("customerSearch").oninput = () => renderCustomers();
-
-// MODAL YÖNETİMİ
-function closeModal() {
-  $("modalOverlay").classList.add("hidden");
-  $("modalBody").innerHTML = "";
-  modalSaveHandler = null;
-}
-
-$("modalCloseX").onclick = closeModal;
-$("modalCancelBtn").onclick = closeModal;
-$("modalSaveBtn").onclick = () => { if (modalSaveHandler) modalSaveHandler(); };
-
-// AKTİF VE GEÇMİŞ SİPARİŞ RENDER
-function renderActiveOrders() {
-  const container = $("activeOrders");
-  container.innerHTML = "";
-
-  const currentUser = auth.currentUser;
-  const isAdmin = currentUser && currentUser.uid === ADMIN;
-
-  const active = Object.entries(allOrders).filter(([id, o]) => {
-    const isPending = o.status === "kurye_bekliyor" || o.status === "yolda";
-    if (!isPending) return false;
-    if (isAdmin) return true;
-    return !o.courierId || o.courierId === "all" || o.courierId === currentUser.uid;
-  });
-
-  if (active.length === 0) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px; grid-column:1/-1;">Aktif sipariş bulunmuyor.</div>`;
-    return;
+  if (autoPrint) {
+    setTimeout(() => { window.print(); }, 150);
   }
+}
 
-  active.forEach(([id, o]) => {
-    const div = document.createElement("div");
-    div.className = "order";
-    const timeStr = new Date(o.createdAt).toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' });
-
-    let statusText = o.status === "kurye_bekliyor" ? "Kurye Bekliyor" : "Yolda";
-    let statusClass = o.status;
-
-    div.innerHTML = `
-      <div class="order-head">
-        <div>
-          <strong style="font-size:15px;">${o.customerName}</strong>
-          <div style="font-size:11px; color:var(--muted);">${timeStr} • ${o.paymentMethod}</div>
-        </div>
-        <span class="badge ${statusClass}">${statusText}</span>
-      </div>
-      <div class="order-meta">
-        📞 ${o.customerPhone}<br>
-        📍 ${o.customerAddress}
-        ${o.note ? `<br>📝 <i>${o.note}</i>` : ''}
-      </div>
-      <div class="order-items">
-        ${o.items.map(i => `<div>${i.qty}x ${i.name} (${money(i.price * i.qty)})</div>`).join('')}
-      </div>
-      <div style="font-weight:900; font-size:16px; color:var(--gold); text-align:right;">${money(o.totalPrice)}</div>
-      <div class="order-buttons">
-        ${o.status === "kurye_bekliyor" ? `<button class="btn btn-green btn-sm btn-yolda">🛵 Yola Çıkar</button>` : ''}
-        ${o.status === "yolda" ? `<button class="btn btn-primary btn-sm btn-teslim">✓ Teslim Et</button>` : ''}
-        <button class="btn btn-dark btn-sm btn-print">🖨️ Yazdır</button>
-      </div>
-    `;
-
-    const btnYolda = div.querySelector(".btn-yolda");
-    if (btnYolda) btnYolda.onclick = () => updateOrderStatus(id, "yolda");
-
-    const btnTeslim = div.querySelector(".btn-teslim");
-    if (btnTeslim) btnTeslim.onclick = () => updateOrderStatus(id, "teslim_edildi");
-
-    const btnPrint = div.querySelector(".btn-print");
-    if (btnPrint) btnPrint.onclick = () => printReceipt(o);
-
-    container.appendChild(div);
-  });
+function statusText(s) {
+  if (s === "kurye_bekliyor") return "⌛ Kurye Bekliyor";
+  if (s === "yolda") return "🛵 Yolda";
+  if (s === "teslim_edildi") return "✅ Teslim Edildi";
+  return s;
 }
 
 async function updateOrderStatus(id, newStatus) {
-  try {
-    await update(ref(db, "orders/" + id), { status: newStatus });
-    toast("Sipariş durumu güncellendi");
-  } catch (err) {
-    toast("Hata: " + err.message);
+  const order = allOrders[id];
+  if(!order) return;
+  const updates = {};
+  updates[`orders/${id}/status`] = newStatus;
+  updates[`courierOrders/${order.courierId}/${id}/status`] = newStatus;
+  if (newStatus === "teslim_edildi") {
+    const now = Date.now();
+    updates[`orders/${id}/deliveredAt`] = now;
+    updates[`courierOrders/${order.courierId}/${id}/deliveredAt`] = now;
   }
+  try {
+    await update(ref(db), updates);
+    toast("✓ Durum güncellendi");
+  } catch(e) {
+    toast("Hata oluştu");
+  }
+}
+
+document.addEventListener("click", e => {
+  const btnPrint = e.target.closest("[data-print]");
+  if (btnPrint) {
+    const o = allOrders[btnPrint.dataset.print];
+    if (o) printReceipt(o, true);
+  }
+  const btnRoad = e.target.closest("[data-road]");
+  if (btnRoad) updateOrderStatus(btnRoad.dataset.road, "yolda");
+  const btnDeliver = e.target.closest("[data-deliver]");
+  if (btnDeliver) updateOrderStatus(btnDeliver.dataset.deliver, "teslim_edildi");
+});
+
+function orderCardHtml(o) {
+  const items = (o.items || []).map(x => `<b>${x.qty}x</b> ${x.name}`).join("<br>");
+  const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(o.address || "");
+  const telUrl = "tel:" + norm(o.phone);
+  const waUrl = "https://wa.me/90" + norm(o.phone).replace(/^0/, "");
+
+  let actions = "";
+  if (o.status === "kurye_bekliyor") {
+    actions = `<button class="btn btn-green btn-sm" data-road="${o.id}">🛵 Yola Çıktım</button>`;
+  } else if (o.status === "yolda") {
+    actions = `<button class="btn btn-primary btn-sm" data-deliver="${o.id}">✓ Teslim Ettim</button>`;
+  }
+
+  return `
+    <div class="order">
+      <div class="order-head">
+        <div>
+          <strong>${o.customerName || "Müşteri"}</strong>
+          <div style="color:var(--gold-hover); font-weight:900; margin-top:2px;">${money(o.total)} · <small>${o.payment || ''}</small></div>
+        </div>
+        <span class="badge ${o.status}">${statusText(o.status)}</span>
+      </div>
+      <div class="order-meta">
+        📞 ${o.phone || ''}<br>
+        📍 ${o.address || ''}
+      </div>
+      <div class="order-items">${items}</div>
+      ${o.note ? `<div class="order-meta" style="color:var(--gold);">📝 <b>Not:</b> ${o.note}</div>` : ''}
+      <div class="order-buttons">
+        <a class="btn btn-dark btn-sm" href="${mapUrl}" target="_blank">📍 Harita</a>
+        <a class="btn btn-dark btn-sm" href="${telUrl}">📞 Ara</a>
+        <a class="btn btn-dark btn-sm" href="${waUrl}" target="_blank">💬 WhatsApp</a>
+        ${actions}
+        <button class="btn btn-dark btn-sm admin-only" data-print="${o.id}">🖨️ Fiş Bas</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderActiveOrders() {
+  const container = $("activeOrders");
+  const list = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
+  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div class="panel" style="text-align:center; color:var(--muted); padding:20px;">Şu an aktif sipariş bulunmuyor.</div>`;
 }
 
 function renderHistory() {
   const container = $("historyList");
-  container.innerHTML = "";
-  const filter = ($("historySearch").value || "").toLowerCase();
-
-  const list = Object.entries(allOrders).filter(([id, o]) => 
-    o.customerName.toLowerCase().includes(filter) || 
-    o.customerPhone.includes(filter) ||
-    o.customerAddress.toLowerCase().includes(filter)
-  );
-
-  if (list.length === 0) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px; grid-column:1/-1;">Kayıtlı sipariş bulunamadı.</div>`;
-    return;
-  }
-
-  list.forEach(([id, o]) => {
-    const div = document.createElement("div");
-    div.className = "order";
-    const timeStr = new Date(o.createdAt).toLocaleTimeString("tr-TR", { hour: '2-digit', minute: '2-digit' });
-
-    div.innerHTML = `
-      <div class="order-head">
-        <div>
-          <strong>${o.customerName}</strong>
-          <div style="font-size:11px; color:var(--muted);">${timeStr} • ${o.paymentMethod}</div>
-        </div>
-        <span class="badge ${o.status}">${o.status.replace('_', ' ')}</span>
-      </div>
-      <div class="order-items" style="margin-top:6px;">
-        ${o.items.map(i => `${i.qty}x ${i.name}`).join(', ')}
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-        <strong style="color:var(--gold);">${money(o.totalPrice)}</strong>
-        <button class="btn btn-dark btn-sm btn-print">🖨️ Fiş</button>
-      </div>
-    `;
-
-    div.querySelector(".btn-print").onclick = () => printReceipt(o);
-    container.appendChild(div);
-  });
+  const searchQ = ($("historySearch").value || "").toLocaleLowerCase("tr");
+  let list = Object.values(allOrders);
+  if (searchQ) list = list.filter(o => (o.customerName || '').toLocaleLowerCase('tr').includes(searchQ) || (o.phone || '').includes(searchQ) || (o.address || '').toLocaleLowerCase('tr').includes(searchQ));
+  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Henüz kapatılmamış güncel sipariş geçmişi bulunamadı.</div>`;
 }
 
-$("historySearch").oninput = () => renderHistory();
+$("historySearch").oninput = renderHistory;
 
-// RAPORLAR VE GÜN SONU
+function renderCustomers() {
+  const container = $("customerList");
+  const searchQ = ($("customerSearch").value || "").toLocaleLowerCase("tr");
+  let list = Object.values(customers);
+  if (searchQ) list = list.filter(c => (c.name || '').toLocaleLowerCase('tr').includes(searchQ) || (c.phone || '').includes(searchQ));
+  
+  container.innerHTML = list.length ? list.map(c => `
+    <div class="order">
+      <div class="order-head"><strong>${c.name || 'İsimsiz'}</strong><span class="badge yolda">${c.phone || ''}</span></div>
+      <div class="order-meta" style="margin-top:6px;">📍 ${c.address || ''}</div>
+    </div>
+  `).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Kayıtlı müşteri bulunamadı.</div>`;
+}
+$("customerSearch").oninput = renderCustomers;
+
 function renderReports() {
-  const ordersArr = Object.values(allOrders);
-  const totalOrders = ordersArr.length;
-  const delivered = ordersArr.filter(o => o.status === "teslim_edildi");
-  const totalRevenue = delivered.reduce((sum, o) => sum + (o.totalPrice || 0), 0);
+  const list = Object.values(allOrders);
+  const delivered = list.filter(o => o.status === "teslim_edildi");
+  const revenue = delivered.reduce((s, o) => s + (o.total || 0), 0);
 
-  $("statOrders").textContent = totalOrders;
-  $("statRevenue").textContent = money(totalRevenue);
+  $("statOrders").textContent = list.length;
+  $("statRevenue").textContent = money(revenue);
   $("statDelivered").textContent = delivered.length;
 
-  const container = $("deliveredOrders");
-  container.innerHTML = "";
-
-  if (delivered.length === 0) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px; grid-column:1/-1;">Henüz teslim edilen sipariş yok.</div>`;
-    return;
-  }
-
-  delivered.forEach(o => {
-    const div = document.createElement("div");
-    div.className = "order";
-    div.innerHTML = `
-      <div class="order-head">
-        <strong>${o.customerName}</strong>
-        <span class="badge teslim_edildi">Teslim Edildi</span>
-      </div>
-      <div style="font-size:12px;">Tutar: <strong style="color:var(--gold);">${money(o.totalPrice)}</strong> (${o.paymentMethod})</div>
-    `;
-    container.appendChild(div);
-  });
+  delivered.sort((a, b) => (b.deliveredAt || b.createdAt || 0) - (a.deliveredAt || a.createdAt || 0));
+  $("deliveredOrders").innerHTML = delivered.length ? delivered.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Henüz teslim edilen sipariş yok.</div>`;
 }
 
+// --- GÜN SONU (END OF DAY) İŞLEMLERİ ---
 $("btnTakeEOD").onclick = async () => {
-  if (!confirm("Günü kapatıp tüm siparişleri arşive devretmek istediğinize emin misiniz?")) return;
+  const keys = Object.keys(allOrders);
+  if (keys.length === 0) return toast("Sistemde kapatılacak sipariş bulunmuyor.");
 
-  const ordersArr = Object.values(allOrders);
-  if (ordersArr.length === 0) { toast("Arşivlenecek sipariş bulunmuyor."); return; }
+  const activeList = Object.values(allOrders).filter(o => o.status !== "teslim_edildi");
+  if (activeList.length > 0) {
+    if(!confirm(`DİKKAT: Henüz teslim edilmemiş ${activeList.length} sipariş var! Yine de gün sonunu kapatmak istiyor musunuz? (Tüm siparişler arşive kaldırılacak)`)) return;
+  } else {
+    if(!confirm("Gün sonu işlemini onaylıyor musunuz? Tüm siparişler arşivlenecek ve yepyeni bir güne geçilecek.")) return;
+  }
 
-  const delivered = ordersArr.filter(o => o.status === "teslim_edildi");
-  const totalRevenue = delivered.reduce((sum, o) => sum + (o.totalPrice || 0), 0);
-
+  const now = Date.now();
+  const dateStr = new Date(now).toLocaleDateString("tr-TR") + " " + new Date(now).toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
+  const deliveredList = Object.values(allOrders).filter(o => o.status === "teslim_edildi");
+  const revenue = deliveredList.reduce((sum, o) => sum + (o.total || 0), 0);
+  
   const eodData = {
-    date: new Date().toLocaleDateString("tr-TR"),
-    timestamp: Date.now(),
-    totalOrders: ordersArr.length,
-    deliveredCount: delivered.length,
-    totalRevenue: totalRevenue,
-    orders: allOrders
+    timestamp: now,
+    dateString: dateStr,
+    totalRevenue: revenue,
+    totalOrders: deliveredList.length,
+    archivedOrders: allOrders
   };
 
   try {
-    await push(ref(db, "endOfDays"), eodData);
-    await set(ref(db, "orders"), null);
-    allOrders = {};
-    toast("Gün sonu başarıyla kapatıldı ve arşivlendi ✓");
-    renderReports();
-    renderActiveOrders();
-    renderHistory();
-  } catch (err) {
-    toast("Hata: " + err.message);
+    await set(ref(db, "endOfDays/" + now), eodData);
+    await set(ref(db, "orders"), null); 
+    await set(ref(db, "courierOrders"), null);
+    
+    toast("✓ Gün sonu alındı. Siparişler arşive taşındı, yeni güne geçildi.");
+    showPage("eod");
+  } catch(e) {
+    console.error(e);
+    toast("Hata: Gün sonu işlemi başarısız!");
   }
 };
 
 function renderEOD() {
   const container = $("eodList");
-  container.innerHTML = "";
-
   const list = Object.values(allEndOfDays).sort((a,b) => b.timestamp - a.timestamp);
-  if (list.length === 0) {
-    container.innerHTML = `<div style="color:var(--muted); text-align:center; padding:20px;">Arşivlenmiş gün sonu kaydı bulunmuyor.</div>`;
+  
+  if(!list.length) {
+      container.innerHTML = `<div style="text-align:center; color:var(--muted); padding:20px;">Geçmiş gün sonu raporu bulunamadı.</div>`;
+      return;
+  }
+  
+  container.innerHTML = list.map(e => `
+      <div class="panel" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+              <strong style="font-size:16px;">📅 ${e.dateString}</strong>
+              <div style="color:var(--muted); font-size:12px; margin-top:4px;">Toplam Teslimat: ${e.totalOrders}</div>
+          </div>
+          <div style="text-align:right;">
+              <strong style="color:var(--gold); font-size:20px;">${money(e.totalRevenue)}</strong>
+              <div style="margin-top:6px;">
+                  <button class="btn btn-dark btn-sm" onclick="window.viewEODDetails('${e.timestamp}')">Detayları Gör</button>
+              </div>
+          </div>
+      </div>
+  `).join("");
+}
+
+window.viewEODDetails = (ts) => {
+  const e = allEndOfDays[ts];
+  if(!e) return;
+  const orders = Object.values(e.archivedOrders || {}).filter(o => o.status === "teslim_edildi");
+  let html = `<div style="max-height:400px; overflow-y:auto; padding-right:8px;">`;
+  if (orders.length === 0) {
+     html += `<div style="text-align:center; padding:10px; color:var(--muted);">Bu gün sonunda teslim edilmiş sipariş yok.</div>`;
+  } else {
+     html += orders.map(o => `
+         <div style="border-bottom:1px solid var(--line); padding:10px 0; font-size:13px;">
+             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <b>${o.customerName}</b> 
+                <span style="color:var(--gold); font-weight:800;">${money(o.total)}</span>
+             </div>
+             <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--muted);">
+               <span>💳 ${o.payment} | 📞 ${o.phone}</span>
+               <span>🕒 ${new Date(o.createdAt).toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'})}</span>
+             </div>
+         </div>
+     `).join("");
+  }
+  html += `</div>`;
+  openModal(`${e.dateString} - Özeti`, html, null);
+};
+
+// --- MENÜ VE MODAL İŞLEMLERİ ---
+function openModal(title, bodyHtml, onSave) {
+  $("modalHeaderTitle").textContent = title;
+  $("modalBody").innerHTML = bodyHtml;
+  $("modalOverlay").classList.remove("hidden");
+  modalSaveHandler = onSave;
+  
+  if(onSave === null) {
+      $("modalSaveBtn").classList.add("hidden");
+      $("modalCancelBtn").textContent = "Kapat";
+  } else {
+      $("modalSaveBtn").classList.remove("hidden");
+      $("modalCancelBtn").textContent = "İptal";
+  }
+  
+  setTimeout(() => { const i = $("modalBody").querySelector("input"); if (i) i.focus(); }, 100);
+}
+
+function closeModal() {
+  $("modalOverlay").classList.add("hidden"); $("modalBody").innerHTML = ""; modalSaveHandler = null;
+}
+
+$("modalCloseX").onclick = closeModal;
+$("modalCancelBtn").onclick = closeModal;
+$("modalSaveBtn").onclick = async () => { if (modalSaveHandler) { const success = await modalSaveHandler(); if (success !== false) closeModal(); } };
+
+async function saveMenuToDB() {
+  try { await set(ref(db, "menu"), catalog); toast("✓ Menü başarıyla güncellendi"); }
+  catch(e) { toast("Menü kaydedilemedi!"); }
+}
+
+function renderMenuManagement() {
+  const cats = Object.keys(catalog);
+  if (!cats.includes(selectedMenuCat) && cats.length > 0) selectedMenuCat = cats[0];
+
+  $("menuCatList").innerHTML = cats.map(c => `
+    <div class="menu-cat-item ${c === selectedMenuCat ? 'active' : ''}" data-mgr-cat="${c}">
+      <span>${c} (${(catalog[c] || []).length})</span>
+      <button class="btn btn-danger btn-sm" data-del-cat="${c}" style="padding:2px 6px; font-size:10px;" title="Sil">✕</button>
+    </div>
+  `).join("");
+
+  document.querySelectorAll("[data-mgr-cat]").forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.closest("[data-del-cat]")) return;
+      selectedMenuCat = el.dataset.mgrCat;
+      renderMenuManagement();
+    };
+  });
+
+  document.querySelectorAll("[data-del-cat]").forEach(btn => {
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      const catToDelete = btn.dataset.delCat;
+      if (confirm(`"${catToDelete}" kategorisini silmek istediğinize emin misiniz?`)) {
+        delete catalog[catToDelete];
+        if (selectedMenuCat === catToDelete) selectedMenuCat = Object.keys(catalog)[0] || "";
+        await saveMenuToDB(); renderMenuManagement();
+      }
+    };
+  });
+
+  $("selectedCatTitle").textContent = selectedMenuCat ? `"${selectedMenuCat}" Ürünleri` : "Kategori Seçilmedi";
+  const searchQ = ($("menuSearch")?.value || "").toLocaleLowerCase("tr");
+  const tableBody = $("menuProdTableBody");
+
+  const items = catalog[selectedMenuCat] || [];
+  const filtered = items.filter(([pName]) => !searchQ || pName.toLocaleLowerCase("tr").includes(searchQ));
+
+  if (filtered.length === 0) {
+    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:20px;">Kayıt bulunamadı.</td></tr>`;
     return;
   }
 
-  list.forEach(eod => {
-    const div = document.createElement("div");
-    div.className = "stat";
-    div.style.alignItems = "flex-start";
-    div.innerHTML = `
-      <div style="display:flex; justify-content:space-between; width:100%; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:8px;">
-        <strong style="font-size:16px;">📅 ${eod.date}</strong>
-        <strong style="color:var(--gold); font-size:18px;">${money(eod.totalRevenue)}</strong>
-      </div>
-      <div style="font-size:12px; color:var(--muted);">
-        Toplam Sipariş: ${eod.totalOrders} | Teslim Edilen: ${eod.deliveredCount}
-      </div>
-    `;
-    container.appendChild(div);
+  tableBody.innerHTML = filtered.map(([pName, pPrice]) => `
+    <tr>
+     <td>${pName}</td>
+     <td style="font-weight:bold; color:var(--gold);">${money(pPrice)}</td>
+     <td style="text-align:right;">
+      <button class="btn btn-dark btn-sm" data-edit-prod="${pName}" data-price="${pPrice}" style="margin-right:4px;">✏️</button>
+      <button class="btn btn-danger btn-sm" data-del-prod="${pName}">✕</button>
+     </td>
+    </tr>
+  `).join("");
+  
+  document.querySelectorAll("[data-del-prod]").forEach(btn => {
+    btn.onclick = async () => {
+      const pName = btn.dataset.delProd;
+      if(confirm(`"${pName}" silinecek, emin misiniz?`)) {
+        catalog[selectedMenuCat] = catalog[selectedMenuCat].filter(x => x[0] !== pName);
+        await saveMenuToDB(); renderMenuManagement();
+      }
+    }
+  });
+  
+  document.querySelectorAll("[data-edit-prod]").forEach(btn => {
+    btn.onclick = () => {
+      const oldName = btn.dataset.editProd;
+      const oldPrice = parseFloat(btn.dataset.price);
+      openModal("Ürünü Düzenle", `
+        <div class="field"><label>Ürün Adı</label><input id="editPName" value="${oldName}"></div>
+        <div class="field"><label>Fiyat (₺)</label><input id="editPPrice" type="number" value="${oldPrice}"></div>
+      `, async () => {
+        const n = $("editPName").value.trim(); const p = parseFloat($("editPPrice").value);
+        if(!n || !p) { toast("Alanları doldurun!"); return false; }
+        const idx = catalog[selectedMenuCat].findIndex(x => x[0] === oldName);
+        if(idx > -1) { catalog[selectedMenuCat][idx] = [n, p]; await saveMenuToDB(); renderMenuManagement(); }
+        return true;
+      });
+    }
   });
 }
 
-// MENÜ YÖNETİMİ
-function renderMenuManagement() {
-  const catListContainer = $("menuCatList");
-  catListContainer.innerHTML = "";
-
-  Object.keys(catalog).forEach(cat => {
-    const item = document.createElement("div");
-    item.className = `menu-cat-item ${selectedMenuCat === cat ? "active" : ""}`;
-    item.innerHTML = `<span>${cat}</span>`;
-    item.onclick = () => { selectedMenuCat = cat; renderMenuManagement(); };
-    catListContainer.appendChild(item);
-  });
-
-  $("selectedCatTitle").textContent = selectedMenuCat || "Kategori Seçin";
-  const tbody = $("menuProdTableBody");
-  tbody.innerHTML = "";
-
-  if (!selectedMenuCat || !catalog[selectedMenuCat]) return;
-
-  const filter = ($("menuSearch").value || "").toLowerCase();
-  const prods = catalog[selectedMenuCat].filter(([name]) => name.toLowerCase().includes(filter));
-
-  prods.forEach(([name, price], idx) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><strong>${name}</strong></td>
-      <td style="color:var(--gold); font-weight:800;">${money(price)}</td>
-      <td style="text-align:right;">
-        <button class="btn btn-dark btn-sm edit-prod" style="padding:2px 6px;">✏️</button>
-        <button class="btn btn-danger btn-sm del-prod" style="padding:2px 6px;">🗑️</button>
-      </td>
-    `;
-
-    tr.querySelector(".edit-prod").onclick = () => openEditProductModal(name, price);
-    tr.querySelector(".del-prod").onclick = () => deleteProduct(name);
-    tbody.appendChild(tr);
-  });
-}
-
-$("menuSearch").oninput = () => renderMenuManagement();
+$("menuSearch").oninput = renderMenuManagement;
 
 $("addCatBtn").onclick = () => {
-  $("modalHeaderTitle").textContent = "Yeni Kategori Ekle";
-  $("modalBody").innerHTML = `<div class="field"><label>Kategori Adı</label><input id="newCatName" placeholder="Örn: Tatlılar"></div>`;
-
-  modalSaveHandler = async () => {
+  openModal("Yeni Kategori", `<div class="field"><label>Kategori Adı</label><input id="newCatName" placeholder="Örn: Tatlılar"></div>`, async () => {
     const name = $("newCatName").value.trim();
-    if (!name) return;
-    if (catalog[name]) { toast("Bu kategori zaten var!"); return; }
-
+    if(!name) return false;
+    if(catalog[name]) { toast("Bu kategori zaten var!"); return false; }
     catalog[name] = [];
-    await set(ref(db, "menu"), catalog);
-    selectedMenuCat = name;
-    toast("Kategori eklendi ✓");
-    closeModal();
-  };
-
-  $("modalOverlay").classList.remove("hidden");
+    await saveMenuToDB(); renderMenuManagement();
+    return true;
+  });
 };
 
 $("addProdBtn").onclick = () => {
-  if (!selectedMenuCat) { toast("Lütfen önce bir kategori seçin."); return; }
-  
-  $("modalHeaderTitle").textContent = `Yeni Ürün (${selectedMenuCat})`;
-  $("modalBody").innerHTML = `
-    <div class="field"><label>Ürün Adı</label><input id="newProdName" placeholder="Örn: Karışık Pide"></div>
-    <div class="field"><label>Fiyat (₺)</label><input id="newProdPrice" type="number" placeholder="250"></div>
-  `;
-
-  modalSaveHandler = async () => {
-    const name = $("newProdName").value.trim();
-    const price = parseFloat($("newProdPrice").value);
-
-    if (!name || isNaN(price)) { toast("Geçerli bir ad ve fiyat girin."); return; }
-
-    catalog[selectedMenuCat].push([name, price]);
-    await set(ref(db, "menu"), catalog);
-    toast("Ürün eklendi ✓");
-    closeModal();
-  };
-
-  $("modalOverlay").classList.remove("hidden");
+  if(!selectedMenuCat) return toast("Önce sol taraftan kategori seçin!");
+  openModal("Yeni Ürün Ekle", `
+    <div class="field"><label>Ürün Adı</label><input id="newPName" placeholder="Örn: Sütlaç"></div>
+    <div class="field"><label>Fiyat (₺)</label><input id="newPPrice" type="number" placeholder="Örn: 50"></div>
+  `, async () => {
+    const n = $("newPName").value.trim(); const p = parseFloat($("newPPrice").value);
+    if(!n || !p) { toast("Tüm alanları doldurun!"); return false; }
+    if(catalog[selectedMenuCat].find(x => x[0] === n)) { toast("Ürün zaten var!"); return false; }
+    catalog[selectedMenuCat].push([n, p]);
+    await saveMenuToDB(); renderMenuManagement();
+    return true;
+  });
 };
-
-function openEditProductModal(oldName, oldPrice) {
-  $("modalHeaderTitle").textContent = "Ürünü Düzenle";
-  $("modalBody").innerHTML = `
-    <div class="field"><label>Ürün Adı</label><input id="editProdName" value="${oldName}"></div>
-    <div class="field"><label>Fiyat (₺)</label><input id="editProdPrice" type="number" value="${oldPrice}"></div>
-  `;
-
-  modalSaveHandler = async () => {
-    const name = $("editProdName").value.trim();
-    const price = parseFloat($("editProdPrice").value);
-
-    if (!name || isNaN(price)) return;
-
-    const list = catalog[selectedMenuCat];
-    const idx = list.findIndex(([n]) => n === oldName);
-    if (idx !== -1) {
-      list[idx] = [name, price];
-      await set(ref(db, "menu"), catalog);
-      toast("Ürün güncellendi ✓");
-      closeModal();
-    }
-  };
-
-  $("modalOverlay").classList.remove("hidden");
-}
-
-async function deleteProduct(pName) {
-  if (!confirm(`${pName} ürününü silmek istediğinize emin misiniz?`)) return;
-  catalog[selectedMenuCat] = catalog[selectedMenuCat].filter(([n]) => n !== pName);
-  await set(ref(db, "menu"), catalog);
-  toast("Ürün silindi");
-}
-
-// TERMAL YAZICI (FİŞ) İŞLEMİ
-function printReceipt(o) {
-  const printArea = $("print-area");
-  const timeStr = new Date(o.createdAt).toLocaleString("tr-TR");
-
-  printArea.innerHTML = `
-    <div style="text-align:center; font-weight:bold; font-size:14px; margin-bottom:4px;">HAYAL PİDE</div>
-    <div style="text-align:center; font-size:10px; margin-bottom:8px;">Paket Servis Sipariş Fişi</div>
-    <div style="border-bottom:1px dashed #000; margin-bottom:6px;"></div>
-    <div><strong>Müşteri:</strong> ${o.customerName}</div>
-    <div><strong>Tel:</strong> ${o.customerPhone}</div>
-    <div><strong>Adres:</strong> ${o.customerAddress}</div>
-    <div><strong>Tarih:</strong> ${timeStr}</div>
-    <div><strong>Ödeme:</strong> ${o.paymentMethod}</div>
-    ${o.note ? `<div><strong>Not:</strong> ${o.note}</div>` : ''}
-    <div style="border-bottom:1px dashed #000; margin:6px 0;"></div>
-    ${o.items.map(i => `
-      <div class="receipt-row">
-        <span>${i.qty}x ${i.name}</span>
-        <span>${money(i.price * i.qty)}</span>
-      </div>
-    `).join('')}
-    <div style="border-bottom:1px dashed #000; margin:6px 0;"></div>
-    <div class="receipt-row" style="font-weight:bold; font-size:13px;">
-      <span>TOPLAM:</span>
-      <span>${money(o.totalPrice)}</span>
-    </div>
-    <div style="text-align:center; margin-top:10px; font-size:10px;">Afiyet Olsun!</div>
-  `;
-
-  window.print();
-}
 </script>
 </body>
 </html>
