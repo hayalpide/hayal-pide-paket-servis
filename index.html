@@ -9,138 +9,409 @@
     <meta name="theme-color" content="#111111">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #111;
+            background: #101010;
             color: #fff;
+            font-family: Arial, sans-serif;
         }
 
-        .container {
+        button,
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 430px;
             margin: auto;
-            padding: 25px 18px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 25px;
         }
 
         .logo {
             text-align: center;
-            font-size: 32px;
-            font-weight: 800;
-            margin-top: 35px;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
         .subtitle {
             text-align: center;
-            color: #aaa;
+            color: #999;
             margin-top: 8px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
         .card {
             background: #1c1c1c;
             border: 1px solid #2d2d2d;
             border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 20px;
+            padding: 22px;
         }
 
-        h2 {
+        .card h2 {
             margin-top: 0;
-            text-align: center;
         }
 
-        input {
+        input,
+        textarea,
+        select {
             width: 100%;
-            padding: 15px;
-            margin-top: 12px;
-            border: 1px solid #333;
-            border-radius: 12px;
             background: #111;
             color: white;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 14px;
             font-size: 16px;
             outline: none;
         }
 
-        input:focus {
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
             border-color: #ff7a00;
         }
 
-        button {
+        .field {
+            margin-bottom: 13px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #bbb;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn {
             width: 100%;
-            margin-top: 18px;
-            padding: 15px;
             border: 0;
             border-radius: 12px;
-            background: #ff7a00;
-            color: white;
+            padding: 15px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
         }
 
-        button:active {
-            transform: scale(.98);
+        .btn-orange {
+            background: #ff7a00;
+            color: white;
         }
 
-        button:disabled {
-            opacity: .6;
+        .btn-dark {
+            background: #333;
+            color: white;
+        }
+
+        .btn-red {
+            background: #a92828;
+            color: white;
+        }
+
+        .btn-green {
+            background: #1f8f4c;
+            color: white;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+
+        .message {
+            min-height: 20px;
+            text-align: center;
+            color: #aaa;
+            margin-top: 12px;
+        }
+
+        /* =========================
+           ADMIN
+        ========================= */
+
+        .admin-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        .topbar {
+            background: #191919;
+            border: 1px solid #2d2d2d;
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .topbar-title {
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .topbar-subtitle {
+            color: #888;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            background: #1b1b1b;
+            border: 1px solid #2c2c2c;
+            border-radius: 16px;
+            padding: 15px;
+        }
+
+        .stat-title {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .section {
+            background: #191919;
+            border: 1px solid #2d2d2d;
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .order-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .order-card {
+            background: #111;
+            border: 1px solid #303030;
+            border-radius: 17px;
+            padding: 16px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .order-number {
+            font-weight: 900;
+            font-size: 17px;
+        }
+
+        .order-time {
+            color: #777;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .status {
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 900;
+            white-space: nowrap;
+            background: #3a3a3a;
+        }
+
+        .status.yolda {
+            background: #9a6500;
+        }
+
+        .status.teslim_edildi {
+            background: #19763e;
+        }
+
+        .status.iptal {
+            background: #8b2929;
+        }
+
+        .status.kurye_bekliyor {
+            background: #555;
+        }
+
+        .customer {
+            font-size: 19px;
+            font-weight: 900;
+            margin-top: 14px;
+        }
+
+        .order-row {
+            margin-top: 8px;
+            color: #bbb;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .order-total {
+            margin-top: 13px;
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .order-actions .btn {
+            flex: 1;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px 15px;
+            color: #777;
         }
 
         .logout {
             background: #333;
-        }
-
-        .welcome {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .role {
-            text-align: center;
-            color: #ff7a00;
-            font-size: 24px;
+            color: white;
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 13px;
             font-weight: 800;
-            margin-bottom: 15px;
         }
 
-        .info {
-            background: #111;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 12px;
-            color: #bbb;
-            font-size: 14px;
-            word-break: break-word;
-        }
-
-        #message {
-            margin-top: 15px;
-            color: #aaa;
+        .loading {
             text-align: center;
-            min-height: 20px;
+            padding: 25px;
+            color: #777;
         }
 
-        .hidden {
-            display: none !important;
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .admin-container {
+                padding: 10px;
+            }
+
+            .topbar {
+                padding: 13px;
+            }
+
+            .topbar-title {
+                font-size: 18px;
+            }
+
+            .stats {
+                gap: 7px;
+            }
+
+            .stat {
+                padding: 11px;
+            }
+
+            .stat-value {
+                font-size: 21px;
+            }
+
+            .section {
+                padding: 14px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .order-header {
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .order-actions .btn {
+                width: 100%;
+            }
         }
+
     </style>
 </head>
 
 <body>
 
-<div class="container">
 
-    <!-- GİRİŞ EKRANI -->
-    <div id="loginScreen">
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-        <div class="logo">HAYAL PİDE</div>
+<div id="loginScreen">
+
+    <div class="login-container">
+
+        <div class="logo">
+            HAYAL PİDE
+        </div>
 
         <div class="subtitle">
             Paket Servis Yönetim Sistemi
@@ -150,105 +421,374 @@
 
             <h2>Giriş Yap</h2>
 
-            <input
-                type="email"
-                id="email"
-                placeholder="E-posta adresi"
-                autocomplete="username"
-            >
+            <div class="field">
+                <label>E-posta</label>
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Şifre"
-                autocomplete="current-password"
-            >
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="E-posta adresi"
+                    autocomplete="username"
+                >
+            </div>
 
-            <button id="loginBtn">
+            <div class="field">
+                <label>Şifre</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Şifre"
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button
+                class="btn btn-orange"
+                id="loginBtn"
+            >
                 GİRİŞ YAP
             </button>
 
-            <div id="message"></div>
+            <div
+                class="message"
+                id="loginMessage"
+            ></div>
 
         </div>
 
     </div>
 
+</div>
 
-    <!-- ADMİN EKRANI -->
-    <div id="adminScreen" class="hidden">
 
-        <div class="logo">
-            HAYAL PİDE
-        </div>
+<!-- =====================================================
+     ADMIN
+===================================================== -->
 
-        <div class="subtitle">
-            Paket Servis Yönetim Sistemi
-        </div>
+<div
+    id="adminScreen"
+    class="hidden"
+>
 
-        <div class="card">
+    <div class="admin-container">
 
-            <div class="role">
-                YÖNETİCİ
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <div class="topbar-title">
+                    HAYAL PİDE
+                </div>
+
+                <div class="topbar-subtitle">
+                    Paket Servis Yönetim Paneli
+                </div>
+
             </div>
 
-            <div class="welcome">
-                Hoş geldiniz 👋
-            </div>
-
-            <div class="info">
-                Yönetici hesabıyla giriş yaptınız.
-            </div>
-
-            <div class="info">
-                Buraya birazdan sipariş oluşturma,
-                aktif siparişler, kurye seçimi ve
-                sipariş takip ekranını ekleyeceğiz.
-            </div>
-
-            <button class="logout" id="adminLogoutBtn">
-                ÇIKIŞ YAP
+            <button
+                class="logout"
+                id="logoutBtn"
+            >
+                ÇIKIŞ
             </button>
 
         </div>
 
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    AKTİF SİPARİŞ
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="activeCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    YOLDA
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="onRoadCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-title">
+                    BUGÜN TESLİM
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="deliveredCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- YENİ SİPARİŞ -->
+
+        <div class="section">
+
+            <div class="section-title">
+                ➕ Yeni Sipariş
+            </div>
+
+
+            <form id="orderForm">
+
+                <div class="form-grid">
+
+
+                    <div class="field">
+
+                        <label>
+                            Müşteri Adı *
+                        </label>
+
+                        <input
+                            id="customerName"
+                            type="text"
+                            placeholder="Örn: Ahmet Yılmaz"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Telefon *
+                        </label>
+
+                        <input
+                            id="customerPhone"
+                            type="tel"
+                            placeholder="05XX XXX XX XX"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            Adres *
+                        </label>
+
+                        <textarea
+                            id="customerAddress"
+                            placeholder="Mahalle, sokak, bina no, daire no..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            Sipariş *
+                        </label>
+
+                        <textarea
+                            id="orderText"
+                            placeholder="Örn: 2 Kuşbaşılı Pide, 1 Ayran"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Tutar (TL) *
+                        </label>
+
+                        <input
+                            id="orderAmount"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            placeholder="450"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Ödeme Yöntemi
+                        </label>
+
+                        <select id="paymentMethod">
+
+                            <option value="nakit">
+                                Nakit
+                            </option>
+
+                            <option value="kart">
+                                Kart
+                            </option>
+
+                            <option value="online">
+                                Online
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Kurye
+                        </label>
+
+                        <select id="courierSelect">
+
+                            <option value="EkrRQkpLKXby9vDwlmap6EA6ZkD3">
+                                Kurye 1
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Sipariş Notu
+                        </label>
+
+                        <input
+                            id="orderNote"
+                            type="text"
+                            placeholder="Örn: Zile basmayın"
+                        >
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <button
+                            class="btn btn-orange"
+                            type="submit"
+                            id="createOrderBtn"
+                        >
+                            SİPARİŞİ OLUŞTUR
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </form>
+
+
+            <div
+                class="message"
+                id="orderMessage"
+            ></div>
+
+        </div>
+
+
+        <!-- AKTİF SİPARİŞLER -->
+
+        <div class="section">
+
+            <div class="section-title">
+                📋 Siparişler
+            </div>
+
+            <div
+                id="orderList"
+                class="order-list"
+            >
+
+                <div class="loading">
+                    Siparişler yükleniyor...
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
+</div>
 
-    <!-- KURYE EKRANI -->
-    <div id="courierScreen" class="hidden">
+
+<!-- =====================================================
+     KURYE ŞİMDİLİK
+===================================================== -->
+
+<div
+    id="courierScreen"
+    class="hidden"
+>
+
+    <div class="login-container">
 
         <div class="logo">
             HAYAL PİDE
         </div>
 
         <div class="subtitle">
-            Paket Servis
+            Kurye Paneli
         </div>
 
         <div class="card">
 
-            <div class="role">
-                KURYE 🛵
-            </div>
+            <h2>
+                🛵 Kurye
+            </h2>
 
-            <div class="welcome">
-                Hoş geldiniz.
-            </div>
+            <p style="color:#aaa;">
+                Kurye ekranını bir sonraki aşamada
+                siparişlerle birlikte aktif edeceğiz.
+            </p>
 
-            <div class="info">
-                Size atanmış siparişler burada görünecek.
-            </div>
-
-            <div class="info">
-                Birazdan adresi haritada açma,
-                müşteriyi arama,
-                WhatsApp ve
-                “Teslim Aldım / Yola Çıktım”
-                özelliklerini ekleyeceğiz.
-            </div>
-
-            <button class="logout" id="courierLogoutBtn">
+            <button
+                class="btn btn-dark"
+                id="courierLogoutBtn"
+            >
                 ÇIKIŞ YAP
             </button>
 
@@ -261,118 +801,181 @@
 
 <script type="module">
 
-    import { initializeApp }
-        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-    import {
-        getAuth,
-        signInWithEmailAndPassword,
-        onAuthStateChanged,
-        signOut
-    }
-    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
-    // FIREBASE AYARLARI
-
-    const firebaseConfig = {
-
-        apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
-
-        authDomain:
-            "hayal-pide-paket-servis.firebaseapp.com",
-
-        projectId:
-            "hayal-pide-paket-servis",
-
-        storageBucket:
-            "hayal-pide-paket-servis.firebasestorage.app",
-
-        messagingSenderId:
-            "551700082149",
-
-        appId:
-            "1:551700082149:web:6d7f5aea7f8c51ff55930c",
-
-        measurementId:
-            "G-8PEXMYJN3L"
-    };
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-    const app = initializeApp(firebaseConfig);
-
-    const auth = getAuth(app);
-
-
-    // KULLANICI UID'LERİ
-
-    const ADMIN_UID =
-        "Rmf7DZGAsLRuQ00JAJOwERvPIGC3";
-
-    const COURIER_UID =
-        "EkrRQkpLKXby9vDwlmap6EA6ZkD3";
+import {
+    getDatabase,
+    ref,
+    push,
+    update,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-    // EKRANLAR
+const firebaseConfig = {
 
-    const loginScreen =
-        document.getElementById("loginScreen");
+    apiKey:
+        "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
 
-    const adminScreen =
-        document.getElementById("adminScreen");
+    authDomain:
+        "hayal-pide-paket-servis.firebaseapp.com",
 
-    const courierScreen =
-        document.getElementById("courierScreen");
+    projectId:
+        "hayal-pide-paket-servis",
 
+    storageBucket:
+        "hayal-pide-paket-servis.firebasestorage.app",
 
-    const emailInput =
-        document.getElementById("email");
+    messagingSenderId:
+        "551700082149",
 
-    const passwordInput =
-        document.getElementById("password");
+    appId:
+        "1:551700082149:web:6d7f5aea7f8c51ff55930c",
 
-    const loginBtn =
-        document.getElementById("loginBtn");
-
-    const message =
-        document.getElementById("message");
-
-
-    // EKRAN DEĞİŞTİRME
-
-    function showLogin() {
-
-        loginScreen.classList.remove("hidden");
-
-        adminScreen.classList.add("hidden");
-
-        courierScreen.classList.add("hidden");
-    }
+    measurementId:
+        "G-8PEXMYJN3L"
+};
 
 
-    function showAdmin() {
-
-        loginScreen.classList.add("hidden");
-
-        adminScreen.classList.remove("hidden");
-
-        courierScreen.classList.add("hidden");
-    }
+const app =
+    initializeApp(firebaseConfig);
 
 
-    function showCourier() {
-
-        loginScreen.classList.add("hidden");
-
-        adminScreen.classList.add("hidden");
-
-        courierScreen.classList.remove("hidden");
-    }
+const auth =
+    getAuth(app);
 
 
-    // GİRİŞ
+/*
+   VERİTABANI BELÇİKA / EUROPE-WEST1
+*/
 
-    loginBtn.addEventListener("click", async () => {
+const db =
+    getDatabase(
+        app,
+        "https://hayal-pide-paket-servis-default-rtdb.europe-west1.firebasedatabase.app"
+    );
+
+
+/* =====================================================
+   KULLANICI UID
+===================================================== */
+
+const ADMIN_UID =
+    "Rmf7DZGAsLRuQ00JAJOwERvPIGC3";
+
+
+const COURIER_UID =
+    "EkrRQkpLKXby9vDwlmap6EA6ZkD3";
+
+
+/* =====================================================
+   ELEMENTLER
+===================================================== */
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const adminScreen =
+    document.getElementById("adminScreen");
+
+const courierScreen =
+    document.getElementById("courierScreen");
+
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+
+const orderForm =
+    document.getElementById("orderForm");
+
+const orderMessage =
+    document.getElementById("orderMessage");
+
+const createOrderBtn =
+    document.getElementById("createOrderBtn");
+
+
+const orderList =
+    document.getElementById("orderList");
+
+
+const activeCount =
+    document.getElementById("activeCount");
+
+const onRoadCount =
+    document.getElementById("onRoadCount");
+
+const deliveredCount =
+    document.getElementById("deliveredCount");
+
+
+/* =====================================================
+   EKRANLAR
+===================================================== */
+
+function showLogin() {
+
+    loginScreen.classList.remove("hidden");
+
+    adminScreen.classList.add("hidden");
+
+    courierScreen.classList.add("hidden");
+}
+
+
+function showAdmin() {
+
+    loginScreen.classList.add("hidden");
+
+    adminScreen.classList.remove("hidden");
+
+    courierScreen.classList.add("hidden");
+}
+
+
+function showCourier() {
+
+    loginScreen.classList.add("hidden");
+
+    adminScreen.classList.add("hidden");
+
+    courierScreen.classList.remove("hidden");
+}
+
+
+/* =====================================================
+   GİRİŞ
+===================================================== */
+
+loginBtn.addEventListener(
+    "click",
+    async () => {
 
         const email =
             emailInput.value.trim();
@@ -383,7 +986,7 @@
 
         if (!email || !password) {
 
-            message.textContent =
+            loginMessage.textContent =
                 "E-posta ve şifreyi girin.";
 
             return;
@@ -395,7 +998,8 @@
         loginBtn.textContent =
             "GİRİŞ YAPILIYOR...";
 
-        message.textContent = "";
+
+        loginMessage.textContent = "";
 
 
         try {
@@ -406,12 +1010,14 @@
                 password
             );
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(error);
 
-            message.textContent =
-                "Giriş başarısız. E-posta veya şifreyi kontrol edin.";
+            loginMessage.textContent =
+                "Giriş başarısız. Bilgilerinizi kontrol edin.";
 
             loginBtn.disabled = false;
 
@@ -419,40 +1025,59 @@
                 "GİRİŞ YAP";
         }
 
-    });
+    }
+);
 
 
-    // OTURUM KONTROLÜ
+/* =====================================================
+   ENTER İLE GİRİŞ
+===================================================== */
 
-    onAuthStateChanged(auth, (user) => {
+passwordInput.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (event.key === "Enter") {
+
+            loginBtn.click();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   OTURUM KONTROLÜ
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    (user) => {
 
         if (!user) {
 
             showLogin();
 
-            loginBtn.disabled = false;
-
-            loginBtn.textContent =
-                "GİRİŞ YAP";
-
             return;
         }
 
 
-        console.log("Giriş yapan UID:", user.uid);
+        console.log(
+            "Giriş yapan UID:",
+            user.uid
+        );
 
-
-        // ADMİN
 
         if (user.uid === ADMIN_UID) {
 
             showAdmin();
 
+            loadOrders();
+
             return;
         }
 
-
-        // KURYE
 
         if (user.uid === COURIER_UID) {
 
@@ -462,36 +1087,784 @@
         }
 
 
-        // TANIMSIZ KULLANICI
-
         signOut(auth);
 
         showLogin();
 
-        message.textContent =
-            "Bu kullanıcının sisteme erişim yetkisi yok.";
+        loginMessage.textContent =
+            "Bu kullanıcının erişim yetkisi yok.";
 
-    });
+    }
+);
 
 
-    // ÇIKIŞ BUTONLARI
+/* =====================================================
+   YENİ SİPARİŞ OLUŞTUR
+===================================================== */
 
-    document
-        .getElementById("adminLogoutBtn")
-        .addEventListener("click", () => {
+orderForm.addEventListener(
+    "submit",
+    async (event) => {
+
+        event.preventDefault();
+
+
+        const customerName =
+            document
+                .getElementById("customerName")
+                .value
+                .trim();
+
+
+        const customerPhone =
+            document
+                .getElementById("customerPhone")
+                .value
+                .trim();
+
+
+        const customerAddress =
+            document
+                .getElementById("customerAddress")
+                .value
+                .trim();
+
+
+        const orderText =
+            document
+                .getElementById("orderText")
+                .value
+                .trim();
+
+
+        const orderAmount =
+            Number(
+                document
+                    .getElementById("orderAmount")
+                    .value
+            );
+
+
+        const paymentMethod =
+            document
+                .getElementById("paymentMethod")
+                .value;
+
+
+        const courierId =
+            document
+                .getElementById("courierSelect")
+                .value;
+
+
+        const courierName =
+            "Kurye 1";
+
+
+        const orderNote =
+            document
+                .getElementById("orderNote")
+                .value
+                .trim();
+
+
+        if (
+            !customerName ||
+            !customerPhone ||
+            !customerAddress ||
+            !orderText ||
+            !orderAmount
+        ) {
+
+            orderMessage.textContent =
+                "Lütfen zorunlu alanları doldurun.";
+
+            return;
+        }
+
+
+        createOrderBtn.disabled = true;
+
+        createOrderBtn.textContent =
+            "SİPARİŞ OLUŞTURULUYOR...";
+
+        orderMessage.textContent = "";
+
+
+        try {
+
+            /*
+              Firebase'in push() fonksiyonu
+              benzersiz sipariş ID'si oluşturur.
+            */
+
+            const newOrderRef =
+                push(ref(db, "orders"));
+
+
+            const orderId =
+                newOrderRef.key;
+
+
+            const now =
+                Date.now();
+
+
+            const orderData = {
+
+                orderId: orderId,
+
+                customerName:
+                    customerName,
+
+                customerPhone:
+                    customerPhone,
+
+                customerAddress:
+                    customerAddress,
+
+                orderText:
+                    orderText,
+
+                amount:
+                    orderAmount,
+
+                paymentMethod:
+                    paymentMethod,
+
+                orderNote:
+                    orderNote,
+
+                courierId:
+                    courierId,
+
+                courierName:
+                    courierName,
+
+                status:
+                    "kurye_bekliyor",
+
+                createdAt:
+                    now,
+
+                pickedUpAt:
+                    null,
+
+                deliveredAt:
+                    null
+
+            };
+
+
+            /*
+              Aynı siparişi iki yerde oluşturuyoruz:
+
+              /orders
+              /courierOrders/KURYE_UID
+            */
+
+            const updates = {};
+
+
+            updates[
+                "/orders/" + orderId
+            ] =
+                orderData;
+
+
+            updates[
+                "/courierOrders/" +
+                courierId +
+                "/" +
+                orderId
+            ] =
+                orderData;
+
+
+            await update(
+                ref(db),
+                updates
+            );
+
+
+            orderMessage.textContent =
+                "✅ Sipariş başarıyla oluşturuldu.";
+
+
+            orderForm.reset();
+
+
+            setTimeout(
+                () => {
+
+                    orderMessage.textContent = "";
+
+                },
+                3000
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            orderMessage.textContent =
+                "❌ Sipariş oluşturulamadı. Firebase bağlantısını kontrol edin.";
+
+        }
+
+        finally {
+
+            createOrderBtn.disabled = false;
+
+            createOrderBtn.textContent =
+                "SİPARİŞİ OLUŞTUR";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SİPARİŞLERİ CANLI DİNLE
+===================================================== */
+
+function loadOrders() {
+
+    const ordersRef =
+        ref(db, "orders");
+
+
+    onValue(
+        ordersRef,
+        (snapshot) => {
+
+            const data =
+                snapshot.val();
+
+
+            if (!data) {
+
+                orderList.innerHTML = `
+                    <div class="empty">
+                        Henüz sipariş yok.
+                    </div>
+                `;
+
+                updateStats([]);
+
+                return;
+            }
+
+
+            const orders =
+                Object
+                    .entries(data)
+                    .map(
+                        ([id, order]) => ({
+                            id,
+                            ...order
+                        })
+                    );
+
+
+            orders.sort(
+                (a, b) =>
+                    (b.createdAt || 0) -
+                    (a.createdAt || 0)
+            );
+
+
+            renderOrders(orders);
+
+            updateStats(orders);
+
+        },
+
+        (error) => {
+
+            console.error(error);
+
+            orderList.innerHTML = `
+                <div class="empty">
+                    ❌ Siparişler okunamadı.
+                    <br><br>
+                    Firebase Rules kontrol edilmeli.
+                </div>
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SİPARİŞLERİ GÖSTER
+===================================================== */
+
+function renderOrders(orders) {
+
+    if (!orders.length) {
+
+        orderList.innerHTML = `
+            <div class="empty">
+                Henüz sipariş yok.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    orderList.innerHTML =
+        orders
+            .map(
+                (order) =>
+                    createOrderCard(order)
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   SİPARİŞ KARTI
+===================================================== */
+
+function createOrderCard(order) {
+
+    const status =
+        order.status ||
+        "kurye_bekliyor";
+
+
+    const statusText = {
+
+        hazirlaniyor:
+            "Hazırlanıyor",
+
+        kurye_bekliyor:
+            "Kurye Bekliyor",
+
+        yolda:
+            "Yolda",
+
+        teslim_edildi:
+            "Teslim Edildi",
+
+        iptal:
+            "İptal"
+
+    }[status] || status;
+
+
+    const date =
+        order.createdAt
+            ? new Date(order.createdAt)
+                .toLocaleString(
+                    "tr-TR",
+                    {
+                        day: "2-digit",
+                        month: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                )
+            : "-";
+
+
+    const paymentText = {
+
+        nakit:
+            "Nakit",
+
+        kart:
+            "Kart",
+
+        online:
+            "Online"
+
+    }[order.paymentMethod]
+        || order.paymentMethod
+        || "-";
+
+
+    const safeName =
+        escapeHtml(
+            order.customerName || "-"
+        );
+
+
+    const safePhone =
+        escapeHtml(
+            order.customerPhone || "-"
+        );
+
+
+    const safeAddress =
+        escapeHtml(
+            order.customerAddress || "-"
+        );
+
+
+    const safeOrder =
+        escapeHtml(
+            order.orderText || "-"
+        )
+        .replace(/\n/g, "<br>");
+
+
+    const safeNote =
+        escapeHtml(
+            order.orderNote || ""
+        );
+
+
+    const amount =
+        Number(order.amount || 0)
+            .toLocaleString(
+                "tr-TR",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+
+    let actionButtons = "";
+
+
+    if (
+        status !== "teslim_edildi" &&
+        status !== "iptal"
+    ) {
+
+        actionButtons = `
+
+            <div class="order-actions">
+
+                <button
+                    class="btn btn-dark"
+                    onclick="openMap('${encodeURIComponent(order.customerAddress || "")}')"
+                >
+                    📍 HARİTADA AÇ
+                </button>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="callCustomer('${encodeURIComponent(order.customerPhone || "")}')"
+                >
+                    📞 ARA
+                </button>
+
+                <button
+                    class="btn btn-red"
+                    onclick="cancelOrder('${order.id}')"
+                >
+                    İPTAL
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div>
+
+                    <div class="order-number">
+                        Sipariş #${escapeHtml(order.id.slice(-6))}
+                    </div>
+
+                    <div class="order-time">
+                        ${date}
+                    </div>
+
+                </div>
+
+                <div class="status ${status}">
+                    ${statusText}
+                </div>
+
+            </div>
+
+
+            <div class="customer">
+                ${safeName}
+            </div>
+
+
+            <div class="order-row">
+                📞 ${safePhone}
+            </div>
+
+
+            <div class="order-row">
+                📍 ${safeAddress}
+            </div>
+
+
+            <div class="order-row">
+                🥙 ${safeOrder}
+            </div>
+
+
+            <div class="order-row">
+                💳 ${paymentText}
+                &nbsp; • &nbsp;
+                🛵 ${escapeHtml(order.courierName || "Kurye 1")}
+            </div>
+
+
+            ${
+                safeNote
+                    ? `
+                        <div class="order-row">
+                            📝 ${safeNote}
+                        </div>
+                      `
+                    : ""
+            }
+
+
+            <div class="order-total">
+                ${amount} TL
+            </div>
+
+
+            ${actionButtons}
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   İSTATİSTİKLER
+===================================================== */
+
+function updateStats(orders) {
+
+    const active =
+        orders.filter(
+            order =>
+                order.status !== "teslim_edildi" &&
+                order.status !== "iptal"
+        ).length;
+
+
+    const onRoad =
+        orders.filter(
+            order =>
+                order.status === "yolda"
+        ).length;
+
+
+    const today =
+        new Date();
+
+
+    const startOfDay =
+        new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+        ).getTime();
+
+
+    const deliveredToday =
+        orders.filter(
+            order =>
+                order.status === "teslim_edildi" &&
+                Number(order.deliveredAt || 0) >= startOfDay
+        ).length;
+
+
+    activeCount.textContent =
+        active;
+
+
+    onRoadCount.textContent =
+        onRoad;
+
+
+    deliveredCount.textContent =
+        deliveredToday;
+
+}
+
+
+/* =====================================================
+   SİPARİŞ İPTAL
+===================================================== */
+
+window.cancelOrder =
+    async function(orderId) {
+
+        const confirmed =
+            confirm(
+                "Bu siparişi iptal etmek istediğinize emin misiniz?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const updates = {};
+
+
+            updates[
+                "/orders/" +
+                orderId +
+                "/status"
+            ] =
+                "iptal";
+
+
+            updates[
+                "/courierOrders/" +
+                COURIER_UID +
+                "/" +
+                orderId +
+                "/status"
+            ] =
+                "iptal";
+
+
+            await update(
+                ref(db),
+                updates
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Sipariş iptal edilemedi."
+            );
+
+        }
+
+    };
+
+
+/* =====================================================
+   HARİTA
+===================================================== */
+
+window.openMap =
+    function(encodedAddress) {
+
+        const address =
+            decodeURIComponent(
+                encodedAddress
+            );
+
+
+        if (!address) {
+            return;
+        }
+
+
+        const url =
+            "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(address);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    };
+
+
+/* =====================================================
+   TELEFON
+===================================================== */
+
+window.callCustomer =
+    function(encodedPhone) {
+
+        const phone =
+            decodeURIComponent(
+                encodedPhone
+            );
+
+
+        if (!phone) {
+            return;
+        }
+
+
+        window.location.href =
+            "tel:" + phone;
+
+    };
+
+
+/* =====================================================
+   HTML GÜVENLİĞİ
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   ÇIKIŞ
+===================================================== */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        () => {
 
             signOut(auth);
 
-        });
+        }
+    );
 
 
-    document
-        .getElementById("courierLogoutBtn")
-        .addEventListener("click", () => {
+document
+    .getElementById("courierLogoutBtn")
+    .addEventListener(
+        "click",
+        () => {
 
             signOut(auth);
 
-        });
+        }
+    );
+
 
 </script>
 
