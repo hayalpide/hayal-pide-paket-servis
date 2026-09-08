@@ -150,7 +150,7 @@ main{padding:20px;min-width:0}.page-title{font-size:28px;font-weight:950;letter-
 <aside>
  <button class="navbtn active" data-page="new">➕<br>Yeni Sipariş</button>
  <button class="navbtn" data-page="active">🛵<br>Aktif</button>
- <button class="navbtn admin-only" data-page="history">🧾<br>Geçmiş</button>
+ <button class="navbtn" data-page="history">🧾<br>Geçmiş</button>
  <button class="navbtn admin-only" data-page="customers">👥<br>Müşteriler</button>
  <button class="navbtn admin-only" data-page="reports">📊<br>Rapor</button>
 </aside>
@@ -202,7 +202,8 @@ main{padding:20px;min-width:0}.page-title{font-size:28px;font-weight:950;letter-
 
 <section id="page-history" class="hidden">
  <div class="page-title">Sipariş Geçmişi</div>
- <div class="panel">
+ <div id="historySub" class="page-sub">Tüm sipariş geçmişi.</div>
+ <div class="panel>
   <input id="historySearch" class="search" placeholder="🔎 Müşteri, telefon veya ürün ara...">
   <div id="historyList" class="orders" style="margin-top:12px"></div>
  </div>
@@ -340,6 +341,7 @@ onAuthStateChanged(auth,u=>{
  const admin=u.uid===ADMIN;
  $("roleText").textContent=admin?"Yönetici":"Kurye";
  document.querySelectorAll(".admin-only").forEach(x=>x.classList.toggle("hidden",!admin));
+ $("historySub").textContent=admin?"Tüm sipariş geçmişi.":"Bu kuryeye atanmış geçmiş siparişler.";
  if(!admin){document.querySelector('[data-page="new"]').classList.add("hidden");showPage("active")}
  listenData(u)
 });
@@ -406,7 +408,15 @@ function renderOrders(){
 function renderHistory(){
  const q=($("historySearch")?.value||"").toLocaleLowerCase("tr");
  const arr=sortedOrders().filter(o=>!q||((o.customerName||"")+" "+(o.phone||"")+" "+(o.address||"")+" "+(o.items||[]).map(x=>x.name).join(" ")).toLocaleLowerCase("tr").includes(q));
- $("historyList").innerHTML=arr.map(o=>`<div class="order"><div class="order-head"><div><strong>${o.customerName||"Müşteri"}</strong><div class="order-meta">${new Date(o.createdAt||0).toLocaleString("tr-TR")}</div></div><span class="badge ${o.status}">${statusText(o.status)}</span></div><div class="order-items">${(o.items||[]).map(x=>`${x.qty}× ${x.name}`).join("<br>")}</div><div class="order-meta">${o.phone||""}<br>${o.address||""}</div><div style="margin-top:9px;font-weight:900;color:var(--gold2)">${money(o.total)} · ${o.payment||""}</div></div>`).join("")||'<div class="empty">Sipariş bulunamadı.</div>'
+ $("historyList").innerHTML=arr.map(o=>`<div class="order">
+  <div class="order-head">
+   <div><strong>${o.customerName||"Müşteri"}</strong><div class="order-meta">${new Date(o.createdAt||0).toLocaleString("tr-TR")}</div></div>
+   <span class="badge ${o.status}">${statusText(o.status)}</span>
+  </div>
+  <div class="order-items">${(o.items||[]).map(x=>`${x.qty}× ${x.name}`).join("<br>")}</div>
+  <div class="order-meta">${o.phone||""}<br>${o.address||""}</div>
+  <div style="margin-top:9px;font-weight:900;color:var(--gold2)">${money(o.total)} · ${o.payment||""}</div>
+ </div>`).join("")||'<div class="empty">Sipariş bulunamadı.</div>'
 }
 function renderCustomers(){
  const q=($("customerSearch")?.value||"").toLocaleLowerCase("tr");
