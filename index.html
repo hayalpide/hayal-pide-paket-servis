@@ -149,7 +149,6 @@ main {
 .page-title { font-size: 20px; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 2px; }
 .page-sub { color: var(--muted); margin-bottom: 12px; font-size: 12px; }
 
-/* DÜZELTİLMİŞ SOL & SAĞ YAPI (Sıkıştırılmış, Taşmayan Izgara) */
 .grid {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -251,71 +250,24 @@ main {
 .suggestion:last-child { border-bottom: none; }
 
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px; }
-.modal-card { background: var(--surface); width: 100%; max-width: 380px; border-radius: 18px; border: 1px solid var(--line); overflow: hidden; box-shadow: var(--shadow); }
+.modal-card { background: var(--surface); width: 100%; max-width: 420px; border-radius: 18px; border: 1px solid var(--line); overflow: hidden; box-shadow: var(--shadow); }
 .modal-title { padding: 16px 20px; border-bottom: 1px solid var(--line); font-weight: 800; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
 #modalBody { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
 .modal-actions { padding: 12px 20px; border-top: 1px solid var(--line); background: var(--surface2); display: flex; justify-content: flex-end; gap: 8px; }
 
 .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 10px 20px; border-radius: 24px; font-weight: 800; box-shadow: 0 6px 20px rgba(245,184,61,0.4); z-index: 9999; font-size: 13px; transition: opacity 0.3s; pointer-events: none; }
 
-/* YAZICI KAĞIT UZAMA HATASINI KESİN ÇÖZEN PRINT STİLLERİ */
 @media print {
-  @page {
-    size: 80mm auto;
-    margin: 0mm !important;
-  }
-  
-  html, body {
-    width: 80mm !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    background: #fff !important;
-    color: #000 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
-  
-  /* Ana ekran div'lerini kesin olarak gizle */
-  body > * {
-    display: none !important;
-  }
-
-  /* Sadece print-area gösterilsin ve boyutu kadar kağıt çekilsin */
-  body > #print-area {
-    display: block !important;
-    width: 72mm !important;
-    height: auto !important;
-    min-height: 0 !important;
-    margin: 0 auto !important;
-    padding: 2mm 0 !important;
-    font-family: 'Courier New', Courier, monospace !important;
-    font-size: 11px !important;
-    line-height: 1.25 !important;
-    color: #000 !important;
-    background: #fff !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-  }
-  
-  .receipt-row {
-    display: flex !important;
-    justify-content: space-between !important;
-  }
+  @page { size: 80mm auto; margin: 0mm !important; }
+  html, body { width: 80mm !important; height: auto !important; min-height: 0 !important; max-height: none !important; background: #fff !important; color: #000 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
+  body > * { display: none !important; }
+  body > #print-area { display: block !important; width: 72mm !important; height: auto !important; min-height: 0 !important; margin: 0 auto !important; padding: 2mm 0 !important; font-family: 'Courier New', Courier, monospace !important; font-size: 11px !important; line-height: 1.25 !important; color: #000 !important; background: #fff !important; position: absolute !important; top: 0 !important; left: 0 !important; page-break-after: avoid !important; break-after: avoid !important; }
+  .receipt-row { display: flex !important; justify-content: space-between !important; }
 }
 
 @media(max-width:960px) {
   .layout { display: block; height: auto; overflow: visible; }
-  aside {
-    position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; top: auto; height: auto;
-    flex-direction: row; padding: 6px; background: rgba(18, 19, 24, 0.96);
-    backdrop-filter: blur(16px); border-top: 1px solid var(--line); border-right: none;
-    justify-content: space-around;
-  }
+  aside { position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; top: auto; height: auto; flex-direction: row; padding: 6px; background: rgba(18, 19, 24, 0.96); backdrop-filter: blur(16px); border-top: 1px solid var(--line); border-right: none; justify-content: space-around; }
   .navbtn { flex-direction: column; justify-content: center; padding: 6px 2px; font-size: 10px; text-align: center; gap: 2px; }
   main { padding: 12px 12px 80px 12px; height: auto; overflow: visible; }
   .grid { display: flex; flex-direction: column; }
@@ -356,6 +308,7 @@ main {
  <button class="navbtn" data-page="history"><span>🧾 Geçmiş Siparişler</span></button>
  <button class="navbtn admin-only" data-page="customers"><span>👥 Müşteriler</span></button>
  <button class="navbtn admin-only" data-page="reports"><span>📊 Günlük Rapor</span></button>
+ <button class="navbtn admin-only" data-page="eod"><span>📅 Gün Sonu Arşivi</span></button>
  <button class="navbtn admin-only" data-page="menu-manage"><span>🍔 Menü Yönetimi</span></button>
 </aside>
 
@@ -368,7 +321,6 @@ main {
  <div class="grid">
   <!-- SOL KOLON: MÜŞTERİ BİLGİLERİ VE SEPET -->
   <div style="display:flex; flex-direction:column; gap:12px; min-width:0;">
-   <!-- Müşteri Bilgileri -->
    <div class="panel" style="position:relative;">
     <h3>👤 Müşteri Bilgileri</h3>
     <div style="display:grid; grid-template-columns:1fr; gap:8px;">
@@ -382,7 +334,6 @@ main {
     </div>
    </div>
 
-   <!-- Sipariş Sepeti & Ödeme -->
    <div class="panel cart">
     <h3>🛒 Sipariş Sepeti <button id="clearCart" class="btn btn-dark btn-sm" style="font-size:11px;">Temizle</button></h3>
     <div id="cartList" class="cart-list" style="margin-bottom:8px; max-height:180px; overflow-y:auto;"></div>
@@ -409,7 +360,7 @@ main {
    </div>
   </div>
 
-  <!-- SAĞ KOLON: ÜRÜN KATALOĞU (TÜM EKRAN GENİŞLİĞİNİ KAPLAR) -->
+  <!-- SAĞ KOLON: ÜRÜN KATALOĞU -->
   <div style="min-width:0;">
    <div class="panel">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
@@ -424,10 +375,7 @@ main {
       <input id="productSearch" class="search" placeholder="🔎 Ürün veya kategori ara (Örn: Kıymalı, Ayran, Lahmacun)...">
     </div>
 
-    <!-- Hızlı Geçiş Kategori Çubuğu -->
     <div id="categories" class="catbar"></div>
-    
-    <!-- Akordiyon Ürün Kataloğu -->
     <div id="accordionCatalog" class="accordion-group"></div>
    </div>
   </div>
@@ -443,10 +391,10 @@ main {
 
 <!-- 3. GEÇMİŞ SİPARİŞLER -->
 <section id="page-history" class="hidden">
- <div class="page-title">Sipariş Geçmişi</div>
- <div class="page-sub" id="historySub">Geçmiş tüm kayıtlar.</div>
+ <div class="page-title">Sipariş Geçmişi (Bugün)</div>
+ <div class="page-sub" id="historySub">Henüz gün sonu alınmamış bugünün tüm kayıtları.</div>
  <div class="panel">
-  <input id="historySearch" class="search" placeholder="🔎 Geçmiş siparişlerde arama yapın...">
+  <input id="historySearch" class="search" placeholder="🔎 Mevcut siparişlerde arama yapın...">
   <div id="historyList" class="orders" style="margin-top:12px;"></div>
  </div>
 </section>
@@ -463,7 +411,13 @@ main {
 
 <!-- 5. RAPORLAR -->
 <section id="page-reports" class="hidden">
- <div class="page-title">Günlük Rapor & Özeti</div>
+ <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+   <div>
+     <div class="page-title">Günlük Rapor & Özeti</div>
+     <div class="page-sub">Bugünkü satış verileri ve gün sonu kapatma işlemi.</div>
+   </div>
+   <button id="btnTakeEOD" class="btn btn-danger admin-only">Gün Sonunu Kapat ve Arşivle</button>
+ </div>
  <div class="stats">
   <div class="stat"><small>Toplam Sipariş</small><strong id="statOrders">0</strong></div>
   <div class="stat"><small>Bugünkü Ciro</small><strong id="statRevenue">₺0</strong></div>
@@ -475,19 +429,24 @@ main {
  </div>
 </section>
 
-<!-- 6. MENÜ YÖNETİMİ -->
+<!-- 6. GÜN SONU ARŞİVİ -->
+<section id="page-eod" class="hidden">
+ <div class="page-title">Gün Sonu Arşivi</div>
+ <div class="page-sub">Kapatılan gün sonu raporları ve detayları.</div>
+ <div id="eodList" class="stats" style="display:flex; flex-direction:column; gap:12px;"></div>
+</section>
+
+<!-- 7. MENÜ YÖNETİMİ -->
 <section id="page-menu-manage" class="hidden">
  <div class="page-title">Menü & Fiyat Yönetimi</div>
  <div class="page-sub">Kategorileri ve ürünleri düzenleyin, yeni ürün/fiyat ekleyin veya silin.</div>
  
  <div class="menu-mgr-grid">
-  <!-- Sol: Kategori Yönetimi -->
   <div class="panel">
    <h3>Kategoriler <button id="addCatBtn" class="btn btn-primary btn-sm">+ Yeni</button></h3>
    <div id="menuCatList" style="margin-top:10px;"></div>
   </div>
 
-  <!-- Sağ: Seçili Kategori Ürünleri -->
   <div class="panel">
    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
     <h3 id="selectedCatTitle" style="margin:0;">Ürünler</h3>
@@ -566,7 +525,9 @@ function toast(msg) {
   setTimeout(() => el.classList.add("hidden"), 3000);
 }
 
-// BİLDİRİM SESİ
+// BİLDİRİM SESLERİ VE SİSTEMİ
+const bikeSound = new Audio('https://actions.google.com/sounds/v1/transportation/motorcycle_rev.ogg');
+
 function playBeep() {
   if (!soundEnabled) return;
   try {
@@ -585,6 +546,18 @@ function playBeep() {
   }
 }
 
+function playBikeSound() {
+  if (!soundEnabled) return;
+  bikeSound.currentTime = 0;
+  bikeSound.play().catch(e => console.log("Motor sesi engellendi (kullanıcı etkileşimi gerek):", e));
+}
+
+function requestNotificationPermission() {
+  if ("Notification" in window && Notification.permission === "default") {
+    Notification.requestPermission();
+  }
+}
+
 const defaultCatalog = {
   "Trabzon Yağlıları": [["Trabzon Yağlısı Kavurmalı", 400], ["Trabzon Yağlısı Kavurmalı Yumurtalı", 420], ["Trabzon Yağlısı Kaşarlı", 350], ["Trabzon Yağlısı Kuşbaşılı", 400]],
   "Sivas Usulü Pide": [["Sivas Pidesi Kıymalı", 420], ["Sivas Pidesi Kuşbaşılı", 520]],
@@ -599,9 +572,12 @@ let cart = [];
 let selectedCategory = "Tümü";
 let openCategories = new Set(); 
 let allOrders = {};
+let allEndOfDays = {};
 let customers = {};
 let soundEnabled = true;
-let previousOrderCount = -1;
+
+let previousStatuses = {};
+let initialLoad = true;
 let modalSaveHandler = null;
 
 $("loginBtn").onclick = async () => {
@@ -635,6 +611,9 @@ onAuthStateChanged(auth, (user) => {
     $("login").classList.add("hidden");
     $("app").classList.remove("hidden");
     
+    // Bildirim İzni İste
+    requestNotificationPermission();
+
     const isAdmin = user.uid === ADMIN;
     $("roleBadge").textContent = isAdmin ? "Yönetici" : "Kurye";
     
@@ -650,6 +629,7 @@ onAuthStateChanged(auth, (user) => {
     $("login").classList.remove("hidden");
     $("app").classList.add("hidden");
     cart = [];
+    initialLoad = true;
   }
 });
 
@@ -668,6 +648,7 @@ function showPage(pid) {
   if(pid === "history") renderHistory();
   if(pid === "reports") renderReports();
   if(pid === "customers") renderCustomers();
+  if(pid === "eod") renderEOD();
 }
 document.querySelectorAll(".navbtn").forEach(btn => {
   btn.addEventListener("click", () => showPage(btn.dataset.page));
@@ -706,6 +687,10 @@ function listenData(u) {
       customers = s.val() || {};
       renderCustomers();
     });
+    onValue(ref(db, "endOfDays"), s => {
+      allEndOfDays = s.val() || {};
+      if(!$("page-eod").classList.contains("hidden")) renderEOD();
+    });
   } else {
     onValue(ref(db, "courierOrders/" + u.uid), s => {
       allOrders = s.val() || {};
@@ -717,6 +702,7 @@ function listenData(u) {
 function handleOrdersUpdate() {
   const activeList = Object.values(allOrders).filter(o => o.status === "kurye_bekliyor" || o.status === "yolda");
   const badge = $("activeBadge");
+  
   if (activeList.length > 0) {
     badge.textContent = activeList.length;
     badge.classList.remove("hidden");
@@ -724,11 +710,42 @@ function handleOrdersUpdate() {
     badge.classList.add("hidden");
   }
 
-  if (previousOrderCount !== -1 && activeList.length > previousOrderCount) {
-    playBeep();
-    toast("🔔 Yeni Sipariş Geldi!");
+  if (!initialLoad) {
+    let hasNewOrder = false;
+
+    for (let id in allOrders) {
+      let order = allOrders[id];
+      let prevStatus = previousStatuses[id];
+
+      // Kuryeye sipariş geldiğinde (Bildirim)
+      if (!prevStatus && order.status === "kurye_bekliyor") {
+         hasNewOrder = true;
+      }
+
+      // Kurye Yola Çıktığında (Motor Sesi)
+      if (prevStatus && prevStatus !== "yolda" && order.status === "yolda") {
+         playBikeSound();
+         toast(`🛵 Sipariş Yola Çıktı: ${order.customerName}`);
+      }
+    }
+
+    if (hasNewOrder) {
+      playBeep();
+      toast("🔔 Yeni Siparişiniz Var!");
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Yeni Siparişiniz Var!", { 
+          body: "Teslim edilmek üzere sisteme yeni bir sipariş düştü." 
+        });
+      }
+    }
   }
-  previousOrderCount = activeList.length;
+
+  // Durumları bellekte güncelle
+  previousStatuses = {};
+  for (let id in allOrders) {
+     previousStatuses[id] = allOrders[id].status;
+  }
+  initialLoad = false;
 
   if(!$("page-active").classList.contains("hidden")) renderActiveOrders();
   if(!$("page-history").classList.contains("hidden")) renderHistory();
@@ -1055,7 +1072,7 @@ function renderHistory() {
   let list = Object.values(allOrders);
   if (searchQ) list = list.filter(o => (o.customerName || '').toLocaleLowerCase('tr').includes(searchQ) || (o.phone || '').includes(searchQ) || (o.address || '').toLocaleLowerCase('tr').includes(searchQ));
   list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Sipariş geçmişi bulunamadı.</div>`;
+  container.innerHTML = list.length ? list.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Henüz kapatılmamış güncel sipariş geçmişi bulunamadı.</div>`;
 }
 
 $("historySearch").oninput = renderHistory;
@@ -1077,29 +1094,120 @@ $("customerSearch").oninput = renderCustomers;
 
 function renderReports() {
   const list = Object.values(allOrders);
-  const todayStr = new Date().toDateString();
-  const todayOrders = list.filter(o => new Date(o.createdAt || 0).toDateString() === todayStr);
-  const delivered = todayOrders.filter(o => o.status === "teslim_edildi");
+  const delivered = list.filter(o => o.status === "teslim_edildi");
   const revenue = delivered.reduce((s, o) => s + (o.total || 0), 0);
 
-  $("statOrders").textContent = todayOrders.length;
+  $("statOrders").textContent = list.length;
   $("statRevenue").textContent = money(revenue);
   $("statDelivered").textContent = delivered.length;
 
   delivered.sort((a, b) => (b.deliveredAt || b.createdAt || 0) - (a.deliveredAt || a.createdAt || 0));
-  $("deliveredOrders").innerHTML = delivered.length ? delivered.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Bugün henüz teslim edilen sipariş yok.</div>`;
+  $("deliveredOrders").innerHTML = delivered.length ? delivered.map(orderCardHtml).join("") : `<div style="text-align:center; color:var(--muted); padding:20px;">Henüz teslim edilen sipariş yok.</div>`;
 }
 
-async function saveMenuToDB() {
-  try { await set(ref(db, "menu"), catalog); toast("✓ Menü başarıyla güncellendi"); }
-  catch(e) { toast("Menü kaydedilemedi!"); }
+// --- GÜN SONU (END OF DAY) İŞLEMLERİ ---
+$("btnTakeEOD").onclick = async () => {
+  const keys = Object.keys(allOrders);
+  if (keys.length === 0) return toast("Sistemde kapatılacak sipariş bulunmuyor.");
+
+  const activeList = Object.values(allOrders).filter(o => o.status !== "teslim_edildi");
+  if (activeList.length > 0) {
+    if(!confirm(`DİKKAT: Henüz teslim edilmemiş ${activeList.length} sipariş var! Yine de gün sonunu kapatmak istiyor musunuz? (Tüm siparişler arşive kaldırılacak)`)) return;
+  } else {
+    if(!confirm("Gün sonu işlemini onaylıyor musunuz? Tüm siparişler arşivlenecek ve yepyeni bir güne geçilecek.")) return;
+  }
+
+  const now = Date.now();
+  const dateStr = new Date(now).toLocaleDateString("tr-TR") + " " + new Date(now).toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'});
+  const deliveredList = Object.values(allOrders).filter(o => o.status === "teslim_edildi");
+  const revenue = deliveredList.reduce((sum, o) => sum + (o.total || 0), 0);
+  
+  const eodData = {
+    timestamp: now,
+    dateString: dateStr,
+    totalRevenue: revenue,
+    totalOrders: deliveredList.length,
+    archivedOrders: allOrders
+  };
+
+  try {
+    await set(ref(db, "endOfDays/" + now), eodData);
+    await set(ref(db, "orders"), null); 
+    await set(ref(db, "courierOrders"), null);
+    
+    toast("✓ Gün sonu alındı. Siparişler arşive taşındı, yeni güne geçildi.");
+    showPage("eod");
+  } catch(e) {
+    console.error(e);
+    toast("Hata: Gün sonu işlemi başarısız!");
+  }
+};
+
+function renderEOD() {
+  const container = $("eodList");
+  const list = Object.values(allEndOfDays).sort((a,b) => b.timestamp - a.timestamp);
+  
+  if(!list.length) {
+      container.innerHTML = `<div style="text-align:center; color:var(--muted); padding:20px;">Geçmiş gün sonu raporu bulunamadı.</div>`;
+      return;
+  }
+  
+  container.innerHTML = list.map(e => `
+      <div class="panel" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+              <strong style="font-size:16px;">📅 ${e.dateString}</strong>
+              <div style="color:var(--muted); font-size:12px; margin-top:4px;">Toplam Teslimat: ${e.totalOrders}</div>
+          </div>
+          <div style="text-align:right;">
+              <strong style="color:var(--gold); font-size:20px;">${money(e.totalRevenue)}</strong>
+              <div style="margin-top:6px;">
+                  <button class="btn btn-dark btn-sm" onclick="window.viewEODDetails('${e.timestamp}')">Detayları Gör</button>
+              </div>
+          </div>
+      </div>
+  `).join("");
 }
 
+window.viewEODDetails = (ts) => {
+  const e = allEndOfDays[ts];
+  if(!e) return;
+  const orders = Object.values(e.archivedOrders || {}).filter(o => o.status === "teslim_edildi");
+  let html = `<div style="max-height:400px; overflow-y:auto; padding-right:8px;">`;
+  if (orders.length === 0) {
+     html += `<div style="text-align:center; padding:10px; color:var(--muted);">Bu gün sonunda teslim edilmiş sipariş yok.</div>`;
+  } else {
+     html += orders.map(o => `
+         <div style="border-bottom:1px solid var(--line); padding:10px 0; font-size:13px;">
+             <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <b>${o.customerName}</b> 
+                <span style="color:var(--gold); font-weight:800;">${money(o.total)}</span>
+             </div>
+             <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--muted);">
+               <span>💳 ${o.payment} | 📞 ${o.phone}</span>
+               <span>🕒 ${new Date(o.createdAt).toLocaleTimeString("tr-TR", {hour:'2-digit', minute:'2-digit'})}</span>
+             </div>
+         </div>
+     `).join("");
+  }
+  html += `</div>`;
+  openModal(`${e.dateString} - Özeti`, html, null);
+};
+
+// --- MENÜ VE MODAL İŞLEMLERİ ---
 function openModal(title, bodyHtml, onSave) {
   $("modalHeaderTitle").textContent = title;
   $("modalBody").innerHTML = bodyHtml;
   $("modalOverlay").classList.remove("hidden");
   modalSaveHandler = onSave;
+  
+  if(onSave === null) {
+      $("modalSaveBtn").classList.add("hidden");
+      $("modalCancelBtn").textContent = "Kapat";
+  } else {
+      $("modalSaveBtn").classList.remove("hidden");
+      $("modalCancelBtn").textContent = "İptal";
+  }
+  
   setTimeout(() => { const i = $("modalBody").querySelector("input"); if (i) i.focus(); }, 100);
 }
 
@@ -1110,6 +1218,11 @@ function closeModal() {
 $("modalCloseX").onclick = closeModal;
 $("modalCancelBtn").onclick = closeModal;
 $("modalSaveBtn").onclick = async () => { if (modalSaveHandler) { const success = await modalSaveHandler(); if (success !== false) closeModal(); } };
+
+async function saveMenuToDB() {
+  try { await set(ref(db, "menu"), catalog); toast("✓ Menü başarıyla güncellendi"); }
+  catch(e) { toast("Menü kaydedilemedi!"); }
+}
 
 function renderMenuManagement() {
   const cats = Object.keys(catalog);
