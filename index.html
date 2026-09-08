@@ -592,7 +592,16 @@ $("loginBtn").onclick = async () => {
     $("loginBtn").textContent = "Giriş Yapılıyor...";
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    errEl.textContent = "Giriş başarısız! E-posta veya şifre hatalı.";
+    console.error("Firebase Auth Hatası:", err);
+    let msg = "Giriş başarısız!";
+    if (err.code === 'auth/user-not-found') msg = "Kullanıcı bulunamadı. Lütfen e-posta adresinizi kontrol edin.";
+    else if (err.code === 'auth/wrong-password') msg = "Hatalı şifre. Lütfen şifrenizi kontrol edin.";
+    else if (err.code === 'auth/invalid-email') msg = "Geçersiz e-posta adresi.";
+    else if (err.code === 'auth/invalid-credential') msg = "E-posta veya şifre hatalı.";
+    else if (err.code === 'auth/network-request-failed') msg = "Ağ bağlantısı hatası. İnternetinizi kontrol edin.";
+    else if (err.code === 'auth/too-many-requests') msg = "Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.";
+    else msg = "Giriş hatası: " + err.message;
+    errEl.textContent = msg;
   } finally {
     $("loginBtn").disabled = false;
     $("loginBtn").textContent = "Sisteme Giriş Yap";
