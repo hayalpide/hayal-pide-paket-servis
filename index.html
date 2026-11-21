@@ -395,6 +395,21 @@ kbd{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;background:var(--soft2
 .switch-row b{display:block;font-size:14px}
 .switch-row small{color:var(--muted);font-size:12px}
 
+/* ---------- Ses dosyaları ---------- */
+.audio-bar{position:sticky;top:var(--hh);z-index:34;display:block;width:100%;background:#7a4a06;color:#fff;text-align:center;font-size:13px;font-weight:700;padding:8px 12px;border:0}
+.sfx-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:6px 24px}
+.sfx-group h4{font-size:12.5px;font-weight:800;color:var(--muted);margin:8px 0 2px}
+.sfx-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.sfx-row:last-child{border-bottom:0}
+.sfx-file{font:700 12.5px/1.35 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);text-align:left;overflow-wrap:anywhere}
+.sfx-file:hover{color:var(--brand-d)}
+.sfx-row small{display:block;font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
+.sfx-st{font-size:11.5px;font-weight:750;padding:3px 8px;border-radius:7px;background:var(--soft2);color:var(--muted);white-space:nowrap}
+.sfx-st.ok{background:var(--green-l);color:var(--green)}
+.sfx-st.bad{background:var(--red-l);color:var(--red)}
+.sfx-st.wait{background:var(--amber-l);color:var(--amber)}
+.sfx-row .icon-btn:disabled{opacity:.35}
+
 /* ---------- Duyarlı düzen ---------- */
 @media (max-width:1320px){
   .pos{grid-template-columns:340px minmax(0,1fr);grid-template-areas:"cust cat" "cart cat"}
@@ -533,6 +548,7 @@ body.role-courier .toasts{top:calc(var(--hh) + 10px);bottom:auto}
     </div>
   </header>
   <div id="offlineBar" class="offline-bar hidden">İnternet bağlantısı yok. Yaptığınız değişiklikler bağlantı gelince gönderilecek.</div>
+  <button type="button" id="audioBar" class="audio-bar hidden" data-act="audio-unlock">🔔 Sesli uyarıların çalması için ekrana bir kez dokunun</button>
   <div class="shell">
     <aside id="sidebar" class="sidebar" aria-label="Ana menü"></aside>
     <main id="main">
@@ -650,7 +666,7 @@ body.role-courier .toasts{top:calc(var(--hh) + 10px);bottom:auto}
 
       <!-- GÜN SONU ARŞİVİ -->
       <section id="page-eod" class="page hidden">
-        <div class="page-head"><div><h1 class="page-title">Gün sonu arşivi</h1><p class="page-sub">Kapatılan günlerin özetleri, ödeme ve kurye dökümü. Z raporunu tekrar yazdırabilirsiniz.</p></div></div>
+        <div class="page-head"><div><h1 class="page-title">Gün sonu arşivi</h1><p class="page-sub">Kapatılan günlerin özetleri, ödeme ve kurye dökümü. Z raporunu tekrar yazdırabilir, deneme kayıtlarını silebilirsiniz.</p></div><div class="head-actions"><button type="button" id="eodCleanBtn" class="btn btn-danger" data-act="data-clean">🗑 Arşivi temizle</button></div></div>
         <div id="eodList" class="cards"></div>
       </section>
 
@@ -779,6 +795,36 @@ const COURIER_NAV = [
   { id: "mine", icon: "🛵", label: "Üzerimde", badge: "mine" },
   { id: "cdone", icon: "📋", label: "Özetim" }
 ];
+/* Ses dosyaları: index.html'in yanındaki "sesler" klasörüne bu adlarla mp3 konur.
+   Dosyası olmayan olay sessiz kalır; yerleşik bip sesi yoktur. */
+const SOUND_DIR = "sesler/";
+const MAX_SFX_BYTES = 1.5 * 1024 * 1024;
+const SOUNDS = [
+  { file: "kasa-sepete-eklendi", role: "kasa", label: "Ürüne dokunup sepete eklediğinizde" },
+  { file: "kasa-havuza-gonderildi", role: "kasa", label: "Sipariş havuza gönderildiğinde (yeni sipariş veya paketi havuza geri aldığınızda)" },
+  { file: "kasa-kuryeye-verildi", role: "kasa", label: "Siparişi kendiniz bir kuryeye verdiğinizde" },
+  { file: "kasa-kurye-aldi", role: "kasa", label: "Kurye paketi havuzdan üstüne aldığında" },
+  { file: "kasa-havuza-birakildi", role: "kasa", label: "Kurye paketi havuza geri bıraktığında" },
+  { file: "kasa-yola-cikti", role: "kasa", label: "Paket yola çıktığında" },
+  { file: "kasa-teslim-edildi", role: "kasa", label: "Paket teslim edildiğinde" },
+  { file: "kasa-odeme-degisti", role: "kasa", label: "Kurye teslimde ödeme yöntemini değiştirdiğinde" },
+  { file: "kasa-iptal", role: "kasa", label: "Sipariş iptal edildiğinde" },
+  { file: "kasa-geciken-siparis", role: "kasa", label: "Bir sipariş 40 dakikayı geçip hâlâ teslim edilmediğinde" },
+  { file: "kasa-gun-sonu", role: "kasa", label: "Gün sonu kapatıldığında" },
+  { file: "kasa-hata", role: "kasa", label: "İşlem başarısız olduğunda veya eksik bilgi uyarısında" },
+  { file: "kurye-yeni-paket", role: "kurye", label: "Havuza yeni paket düştüğünde" },
+  { file: "kurye-paket-atandi", role: "kurye", label: "Yönetici paketi doğrudan size verdiğinde" },
+  { file: "kurye-ustume-aldim", role: "kurye", label: "“Üstüme al” ile paketi aldığınızda" },
+  { file: "kurye-yola-ciktim", role: "kurye", label: "“Yola çıktım”a bastığınızda" },
+  { file: "kurye-teslim-ettim", role: "kurye", label: "Teslimi onayladığınızda" },
+  { file: "kurye-havuza-biraktim", role: "kurye", label: "Paketi havuza geri bıraktığınızda" },
+  { file: "kurye-paket-alindi", role: "kurye", label: "Üzerinizdeki paket sizden alındığında (başka kuryeye verildi veya havuza çekildi)" },
+  { file: "kurye-iptal", role: "kurye", label: "Üzerinizdeki paket iptal edildiğinde" },
+  { file: "kurye-hata", role: "kurye", label: "Paketi başka kurye sizden önce aldığında veya işlem başarısız olduğunda" }
+];
+// Aynı anda birden fazla olay olursa yalnızca en önemlisinin (dosyası olan) sesi çalar
+const KASA_PRIORITY = ["kasa-iptal", "kasa-havuza-birakildi", "kasa-odeme-degisti", "kasa-teslim-edildi", "kasa-yola-cikti", "kasa-kurye-aldi", "kasa-kuryeye-verildi", "kasa-havuza-gonderildi"];
+const KURYE_PRIORITY = ["kurye-iptal", "kurye-paket-atandi", "kurye-paket-alindi", "kurye-yeni-paket"];
 
 /* =========================================================
    DURUM
@@ -791,10 +837,11 @@ let cart = [], payment = "Nakit", selectedCat = "Tümü", selectedMenuCat = "";
 let liveFilter = "all", historyFilter = "all";
 let connected = true, everConnected = false, presenceDone = false;
 let listeners = [], courierSeeded = false, menuSeeded = false, migrated = false, settingsDirty = false;
-let soundOn = lsGet("hp_sound", true), modalPay = "Nakit", pendingCourier = "";
+let soundOn = lsGet("hp_sound", true), vibrateOn = lsGet("hp_vibrate", true), modalPay = "Nakit", pendingCourier = "";
 let suggestIdx = -1;
 const selfOps = new Set();
 let wakeLock = null, wantWake = lsGet("hp_wake", false);
+const lateAlerted = new Set(); let lateSeeded = false;
 
 /* =========================================================
    YARDIMCILAR
@@ -873,7 +920,8 @@ function orderedCats() {
 /* =========================================================
    ARAYÜZ ARAÇLARI: toast, modal, onay
    ========================================================= */
-function toast(msg, kind = "") {
+function toast(msg, kind = "", opts = {}) {
+  if (kind === "err" && opts.sfx !== false && currentUser) playSfx(isAdmin ? "kasa-hata" : "kurye-hata");
   const box = $("toasts"); const el = document.createElement("div");
   el.className = "toast " + kind; el.textContent = msg; box.appendChild(el);
   while (box.children.length > 3) box.firstChild.remove();
@@ -937,38 +985,150 @@ async function copyText(t) {
 }
 
 /* =========================================================
-   SES, TİTREŞİM, BİLDİRİM, EKRAN KİLİDİ
+   SES (sesler/ klasöründeki mp3 dosyaları), TİTREŞİM, BİLDİRİM, EKRAN KİLİDİ
+   Bir olayın mp3 dosyası yoksa o olay sessizdir.
    ========================================================= */
-let audioCtx = null;
-function ac() {
+let audioCtx = null, audioPrimed = false, sfxPlaying = null;
+const soundBank = {};   // dosya adı -> { st: "yukleniyor" | "var" | "yok" | "bozuk" | "buyuk" | "ag", buf, el, dur }
+function getCtx() {
+  if (audioCtx) return audioCtx;
   try {
-    if (!audioCtx) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; audioCtx = new C(); }
-    if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
-    return audioCtx;
-  } catch { return null; }
+    const C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
+    audioCtx = new C();
+    audioCtx.onstatechange = () => updateAudioBar();
+  } catch { audioCtx = null; }
+  return audioCtx;
 }
-document.addEventListener("pointerdown", () => ac(), { once: true, capture: true });
-function tone(c, freq, start, dur, type = "sine", vol = .22) {
-  const o = c.createOscillator(), g = c.createGain();
-  o.type = type; o.frequency.setValueAtTime(freq, start);
-  g.gain.setValueAtTime(.0001, start); g.gain.exponentialRampToValueAtTime(vol, start + .02); g.gain.exponentialRampToValueAtTime(.0001, start + dur);
-  o.connect(g); g.connect(c.destination); o.start(start); o.stop(start + dur + .05);
-  return o;
+// Tarayıcılar ekrana dokunulmadan ses çaldırmaz; her dokunuşta ses motoru uyandırılır.
+function unlockAudio() {
+  const c = getCtx(); if (!c) return;
+  if (c.state !== "running") { try { const p = c.resume(); if (p && p.catch) p.catch(() => {}); } catch { /* yok say */ } }
+  if (!audioPrimed) {
+    audioPrimed = true;
+    try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch { /* yok say */ }
+  }
 }
-function sound(kind) {
-  if (!soundOn) return;
-  const c = ac(); if (!c) return;
-  const t = c.currentTime + .02;
+["pointerup", "touchend", "mousedown", "keydown"].forEach(t => document.addEventListener(t, unlockAudio, { capture: true, passive: true }));
+function soundRole() { return isAdmin ? "kasa" : "kurye"; }
+function soundUrl(file) { return new URL(SOUND_DIR + file + ".mp3", document.baseURI).href; }
+function decodeAudio(c, data) {
+  return new Promise((resolve, reject) => {
+    try { const p = c.decodeAudioData(data, resolve, reject); if (p && typeof p.then === "function") p.then(resolve, reject); }
+    catch (e) { reject(e); }
+  });
+}
+// Sayfa file:// ile açıldıysa dosyalar <audio> ile denenir
+function probeWithElement(url) {
+  return new Promise(resolve => {
+    const el = new Audio(); let done = false;
+    const fin = r => { if (done) return; done = true; clearTimeout(timer); resolve(r); };
+    const timer = setTimeout(() => fin({ st: "yok" }), 8000);
+    el.preload = "auto";
+    el.addEventListener("loadedmetadata", () => fin({ st: "var", el, dur: el.duration }), { once: true });
+    el.addEventListener("error", () => fin({ st: "yok" }), { once: true });
+    el.src = url;
+    try { el.load(); } catch { /* yok say */ }
+  });
+}
+async function probeSound(file) {
+  const url = soundUrl(file), c = getCtx();
+  if (!c || !/^https?:$/.test(location.protocol)) return probeWithElement(url);
+  let res;
+  try { res = await fetch(url, { cache: "no-cache" }); } catch { return { st: "ag" }; }
+  if (!res.ok) return { st: "yok" };
+  if (/text\/html/i.test(res.headers.get("content-type") || "")) return { st: "yok" };   // sunucu dosya yerine sayfayı döndürdü
+  if (Number(res.headers.get("content-length") || 0) > MAX_SFX_BYTES) { try { res.body?.cancel(); } catch { /* yok say */ } return { st: "buyuk" }; }
   try {
-    if (kind === "new") { [0, .22, .5, .72].forEach((d, i) => tone(c, i % 2 ? 1175 : 880, t + d, .2)); vibrate([220, 90, 220, 90, 320]); }
-    else if (kind === "assign") { tone(c, 660, t, .16); tone(c, 990, t + .18, .28); vibrate([160, 70, 160]); }
-    else if (kind === "bike") { const o = tone(c, 90, t, .7, "sawtooth", .07); o.frequency.exponentialRampToValueAtTime(240, t + .55); }
-    else if (kind === "done") { tone(c, 784, t, .13); tone(c, 1046, t + .14, .22); }
-    else if (kind === "error") { tone(c, 220, t, .28, "square", .08); }
-    else { tone(c, 880, t, .25); }
-  } catch (e) { console.warn("Ses çalınamadı", e); }
+    const data = await res.arrayBuffer();
+    if (!data.byteLength) return { st: "yok" };
+    if (data.byteLength > MAX_SFX_BYTES) return { st: "buyuk" };
+    const buf = await decodeAudio(c, data);
+    return { st: "var", buf, dur: buf.duration };
+  } catch { return { st: "bozuk" }; }
 }
-function vibrate(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch { /* desteklenmiyor */ } }
+function loadSfx(file, force = false) {
+  const cur = soundBank[file];
+  if (cur && !force && cur.st !== "ag") return cur.p;
+  const entry = { st: "yukleniyor" }; soundBank[file] = entry;
+  entry.p = probeSound(file)
+    .then(r => { if (soundBank[file] === entry) Object.assign(entry, r); })
+    .catch(() => { if (soundBank[file] === entry) entry.st = "yok"; })
+    .finally(() => { if (soundBank[file] === entry) renderSfxLists(); });
+  return entry.p;
+}
+function loadSounds(roles, force = false) {
+  const all = Promise.all(SOUNDS.filter(s => roles.includes(s.role)).map(s => loadSfx(s.file, force)));
+  renderSfxLists();
+  return all;
+}
+function retryNetSounds() { for (const [file, b] of Object.entries(soundBank)) if (b?.st === "ag") loadSfx(file, true); }
+async function rescanSounds() {
+  const roles = isAdmin ? ["kasa", "kurye"] : ["kurye"];
+  await loadSounds(roles, true);
+  const n = SOUNDS.filter(s => roles.includes(s.role) && soundBank[s.file]?.st === "var").length;
+  toast(n ? `Ses dosyaları tarandı: ${n} dosya bulundu.` : "Hiç ses dosyası bulunamadı. Dosyaları “sesler” klasörüne koyup sunucuya yüklediğinizden emin olun.", n ? "ok" : "warn");
+}
+function stopSfx() {
+  const cur = sfxPlaying; sfxPlaying = null; if (!cur) return;
+  try { if (typeof cur.stop === "function") cur.stop(); else cur.pause(); } catch { /* yok say */ }
+}
+// Dosyası yüklüyse sesi çalar ve true döner; dosyası yoksa hiçbir şey yapmaz (sessiz).
+function playSfx(file, { test = false } = {}) {
+  if (!soundOn && !test) return false;
+  const b = soundBank[file]; if (!b || b.st !== "var") return false;
+  stopSfx();
+  if (b.buf) {
+    const c = getCtx(); if (!c) return false;
+    const start = () => {
+      try {
+        const src = c.createBufferSource(); src.buffer = b.buf; src.connect(c.destination);
+        src.onended = () => { if (sfxPlaying === src) sfxPlaying = null; };
+        src.start(0); sfxPlaying = src;
+      } catch (e) { console.warn("Ses çalınamadı", e); }
+    };
+    if (c.state === "running") start();
+    else {
+      try { Promise.race([c.resume(), new Promise(r => setTimeout(r, 600))]).then(() => { if (c.state === "running") start(); }).catch(() => {}); }
+      catch { /* yok say */ }
+    }
+    return true;
+  }
+  if (b.el) {
+    try { b.el.currentTime = 0; const p = b.el.play(); if (p && p.catch) p.catch(() => {}); sfxPlaying = b.el; } catch { /* yok say */ }
+    return true;
+  }
+  return false;
+}
+function playFirstSfx(files) { for (const f of files) if (playSfx(f)) return f; return null; }
+function hasSounds(role) { return SOUNDS.some(s => s.role === role && soundBank[s.file]?.st === "var"); }
+function updateAudioBar() {
+  const bar = $("audioBar"); if (!bar) return;
+  const need = !!currentUser && soundOn && !!audioCtx && audioCtx.state !== "running" && hasSounds(soundRole());
+  bar.classList.toggle("hidden", !need);
+}
+function fmtDur(d) { d = Number(d); if (!Number.isFinite(d) || d <= 0) return "var"; return d < 10 ? d.toFixed(1).replace(".", ",") + " sn" : Math.round(d) + " sn"; }
+function sfxListHTML(roles) {
+  return `<div class="sfx-groups">${roles.map(role => {
+    const list = SOUNDS.filter(s => s.role === role);
+    const n = list.filter(s => soundBank[s.file]?.st === "var").length;
+    const title = role === "kasa" ? "Kasada (yönetici ekranında) çalar" : "Kurye telefonunda çalar";
+    return `<div class="sfx-group"><h4>${title} · ${n}/${list.length} dosya var</h4>${list.map(s => {
+      const b = soundBank[s.file], st = b?.st;
+      const badge = st === "var" ? `<span class="sfx-st ok">✓ ${esc(fmtDur(b.dur))}</span>`
+        : st === "yukleniyor" ? `<span class="sfx-st">…</span>`
+        : st === "bozuk" ? `<span class="sfx-st bad" title="Dosya bulundu ama çalınamadı. Gerçek bir mp3 olduğundan emin olun.">⚠ Açılamadı</span>`
+        : st === "buyuk" ? `<span class="sfx-st bad" title="Dosya 1,5 MB'den büyük. Kısa bir ses kullanın.">⚠ Çok büyük</span>`
+        : st === "ag" ? `<span class="sfx-st wait" title="Bağlantı gelince tekrar denenecek">Bağlantı yok</span>`
+        : `<span class="sfx-st" title="Bu adla dosya yok, olay sessiz">Sessiz</span>`;
+      return `<div class="sfx-row"><div style="min-width:0"><button type="button" class="sfx-file" data-act="copy" data-text="${esc(s.file)}.mp3" title="Dosya adını kopyala">${esc(s.file)}.mp3</button><small>${esc(s.label)}</small></div>${badge}<button type="button" class="icon-btn" data-act="sfx-test" data-file="${esc(s.file)}" ${st === "var" ? "" : "disabled"} aria-label="${esc(s.file)} sesini dinle" title="Dinle">▶</button></div>`;
+    }).join("")}</div>`;
+  }).join("")}</div>`;
+}
+function renderSfxLists() {
+  document.querySelectorAll("[data-sfx-list]").forEach(el => { el.innerHTML = sfxListHTML(el.dataset.sfxList.split(",")); });
+  updateAudioBar();
+}
+function vibrate(p) { if (!vibrateOn) return; try { if (navigator.vibrate) navigator.vibrate(p); } catch { /* desteklenmiyor */ } }
 function notify(title, body) {
   if (isAdmin || !soundOn || !("Notification" in window) || Notification.permission !== "granted" || document.visibilityState !== "hidden") return;
   try { new Notification(title, { body, tag: "hp-" + Date.now(), renotify: true }); } catch (e) { console.warn(e); }
@@ -980,8 +1140,20 @@ async function askNotif(fromUser = false) {
   try { const r = await Notification.requestPermission(); if (fromUser) toast(r === "granted" ? "Bildirimler açıldı." : "Bildirim izni verilmedi.", r === "granted" ? "ok" : "warn"); } catch { /* yok say */ }
   if (page === "cdone") renderCDone();
 }
-function renderSoundBtn() { const b = $("soundBtn"); b.textContent = soundOn ? "🔔" : "🔕"; b.setAttribute("aria-pressed", String(soundOn)); b.title = soundOn ? "Bildirim sesi açık" : "Bildirim sesi kapalı"; }
-function toggleSound() { soundOn = !soundOn; lsSet("hp_sound", soundOn); renderSoundBtn(); if (soundOn) sound("done"); toast(soundOn ? "Bildirim sesi açıldı" : "Bildirim sesi kapatıldı"); if (page === "cdone" || page === "settings") renderCurrent(); }
+function renderSoundBtn() { const b = $("soundBtn"); b.textContent = soundOn ? "🔔" : "🔕"; b.setAttribute("aria-pressed", String(soundOn)); b.title = soundOn ? "Sesler açık" : "Sesler kapalı"; }
+function setToggleBtns(act, on) { document.querySelectorAll(`.so-toggle[data-act="${act}"]`).forEach(b => { b.classList.toggle("off", !on); b.textContent = on ? "Açık" : "Kapalı"; }); }
+function toggleSound() {
+  soundOn = !soundOn; lsSet("hp_sound", soundOn); renderSoundBtn();
+  if (!soundOn) stopSfx();
+  setToggleBtns("sound-toggle", soundOn); updateAudioBar();
+  toast(soundOn ? "Sesler açıldı" : "Sesler kapatıldı");
+}
+function toggleVibrate() {
+  vibrateOn = !vibrateOn; lsSet("hp_vibrate", vibrateOn);
+  setToggleBtns("vibrate-toggle", vibrateOn);
+  if (vibrateOn) vibrate(60);
+  toast(vibrateOn ? "Titreşim açıldı" : "Titreşim kapatıldı");
+}
 async function setWake(on, silent = false) {
   wantWake = on; lsSet("hp_wake", on);
   try {
@@ -990,7 +1162,11 @@ async function setWake(on, silent = false) {
   } catch (e) { if (!silent) toast("Bu cihaz ekranı açık tutmayı desteklemiyor.", "warn"); if (on) { wantWake = false; lsSet("hp_wake", false); } }
   if (page === "cdone") renderCDone();
 }
-document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && wantWake && currentUser && !isAdmin) setWake(true, true); });
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "visible") return;
+  if (audioCtx && audioCtx.state !== "running") { try { audioCtx.resume().catch(() => {}); } catch { /* yok say */ } }
+  if (wantWake && currentUser && !isAdmin) setWake(true, true);
+});
 
 /* =========================================================
    GİRİŞ / ÇIKIŞ
@@ -1009,7 +1185,7 @@ function authErr(err) {
 }
 $("email").value = lsGet("hp_email", "");
 $("loginForm").addEventListener("submit", async e => {
-  e.preventDefault(); ac();
+  e.preventDefault(); unlockAudio();
   const email = $("email").value.trim(), pass = $("password").value;
   const errEl = $("loginErr"); errEl.textContent = "";
   if (!email || !pass) { errEl.textContent = "E-posta ve şifrenizi girin."; return; }
@@ -1040,11 +1216,13 @@ onAuthStateChanged(auth, user => {
   $("toasts").innerHTML = "";
   currentUser = user;
   orders = {}; customers = {}; couriers = {}; eods = {}; firstOrders = true; ordersError = null; couriersLoaded = false; presenceDone = false; migrated = false;
+  lateAlerted.clear(); lateSeeded = false;
   if (!user) {
     document.body.classList.remove("role-admin", "role-courier", "has-cartbar");
     $("login").classList.remove("hidden"); $("app").classList.add("hidden");
     cart = []; closeModal(); document.title = "Hayal Pide | POS & Paket Servis";
     if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+    stopSfx(); updateAudioBar();
     return;
   }
   isAdmin = user.uid === ADMIN;
@@ -1059,6 +1237,7 @@ onAuthStateChanged(auth, user => {
   const want = decodeURIComponent((location.hash || "").slice(1));
   showPage(validPage(want) ? want : (isAdmin ? "new" : "pool"));
   listenData(user);
+  loadSounds([soundRole()]);
   if (isAdmin) restoreDraft();
   else { askNotif(false); if (wantWake) setWake(true, true); }
 });
@@ -1078,7 +1257,7 @@ function safeListen(path, cb, { silent = false, onError = null } = {}) {
 function listenData() {
   safeListen(".info/connected", snap => {
     connected = snap.val() === true;
-    if (connected) everConnected = true; else presenceDone = false;
+    if (connected) { everConnected = true; retryNetSounds(); } else presenceDone = false;
     renderConn();
     trySetPresence();
   }, { silent: true });
@@ -1101,7 +1280,7 @@ function renderConn() {
   if (connected) $("offlineBar").classList.add("hidden");
   else connTimer = setTimeout(() => { if (!connected && currentUser) $("offlineBar").classList.remove("hidden"); }, everConnected ? 1500 : 6000);
 }
-window.addEventListener("online", () => renderConn());
+window.addEventListener("online", () => { renderConn(); retryNetSounds(); });
 window.addEventListener("offline", () => { connected = false; renderConn(); });
 
 function onOrders(data) {
@@ -1110,19 +1289,26 @@ function onOrders(data) {
   if (!firstOrders) detectChanges(orders, next);
   orders = next; firstOrders = false;
   renderOrderViews();
+  checkLate();
 }
 function detectChanges(prev, next) {
   if (isAdmin) {
+    const fx = new Set();
     for (const [id, o] of Object.entries(next)) {
-      const p = prev[id]; if (!p) continue;
+      const p = prev[id], self = selfOps.has(id);
+      if (!p) { if (isActive(o)) fx.add(o.courierId ? "kasa-kuryeye-verildi" : "kasa-havuza-gonderildi"); continue; }
       const no = orderNoText(o);
-      if (p.status !== "yolda" && o.status === "yolda") { sound("bike"); toast(`🛵 ${no} yola çıktı${o.courierName ? " · " + o.courierName : ""}`); }
-      else if (p.status !== "teslim_edildi" && o.status === "teslim_edildi") { sound("done"); toast(`✅ ${no} teslim edildi (${o.payment || "ödeme ?"})`, "ok"); }
-      else if (isActive(o) && (p.courierId || "") !== (o.courierId || "") && !selfOps.has(id)) {
-        if (o.courierId) toast(`👤 ${no} paketini ${o.courierName || "bir kurye"} aldı`); else { toast(`↩ ${no} havuza geri bırakıldı`, "warn"); sound("assign"); }
+      if (isActive(p) && p.status !== "yolda" && o.status === "yolda") { fx.add("kasa-yola-cikti"); toast(`🛵 ${no} yola çıktı${o.courierName ? " · " + o.courierName : ""}`); }
+      else if (p.status !== "teslim_edildi" && o.status === "teslim_edildi") { fx.add("kasa-teslim-edildi"); toast(`✅ ${no} teslim edildi (${o.payment || "ödeme ?"})`, "ok"); }
+      else if (p.status !== "iptal" && o.status === "iptal") fx.add("kasa-iptal");
+      else if (isActive(p) && isActive(o) && (p.courierId || "") !== (o.courierId || "")) {
+        if (self) fx.add(o.courierId ? "kasa-kuryeye-verildi" : "kasa-havuza-gonderildi");
+        else if (o.courierId) { fx.add("kasa-kurye-aldi"); toast(`👤 ${no} paketini ${o.courierName || "bir kurye"} aldı`); }
+        else { fx.add("kasa-havuza-birakildi"); toast(`↩ ${no} havuza geri bırakıldı`, "warn"); }
       }
-      if (p.payment && o.payment && p.payment !== o.payment && !selfOps.has(id)) toast(`💳 ${no} ödeme yöntemi değişti: ${o.payment}`, "warn");
+      if (p.payment && o.payment && p.payment !== o.payment && !self) { fx.add("kasa-odeme-degisti"); toast(`💳 ${no} ödeme yöntemi değişti: ${o.payment}`, "warn"); }
     }
+    playFirstSfx(KASA_PRIORITY.filter(f => fx.has(f)));
     return;
   }
   const me = myUid();
@@ -1136,10 +1322,12 @@ function detectChanges(prev, next) {
       else if (o.courierId !== me && !selfOps.has(id)) taken.push(o);
     }
   }
-  if (assigned.length) { sound("assign"); toast(`📦 Size ${assigned.length} paket atandı: ${assigned.map(orderNoText).join(", ")}`, "ok"); notify("Size paket atandı", assigned.map(o => `${orderNoText(o)} · ${o.address || ""}`).join("\n")); }
-  else if (poolNew.length) { sound("new"); toast(`🔔 Havuza ${poolNew.length} yeni paket geldi`); notify("Havuzda yeni paket", poolNew.map(o => `${orderNoText(o)} · ${o.address || ""}`).join("\n")); }
-  if (taken.length) { sound("error"); toast(`${taken.map(orderNoText).join(", ")} sizden alındı`, "warn"); }
-  if (cancelled.length) { sound("error"); toast(`✖ ${cancelled.map(orderNoText).join(", ")} iptal edildi`, "err"); }
+  const fx = new Set();
+  if (assigned.length) { fx.add("kurye-paket-atandi"); vibrate([160, 70, 160]); toast(`📦 Size ${assigned.length} paket atandı: ${assigned.map(orderNoText).join(", ")}`, "ok"); notify("Size paket atandı", assigned.map(o => `${orderNoText(o)} · ${o.address || ""}`).join("\n")); }
+  else if (poolNew.length) { fx.add("kurye-yeni-paket"); vibrate([220, 90, 220, 90, 320]); toast(`🔔 Havuza ${poolNew.length} yeni paket geldi`); notify("Havuzda yeni paket", poolNew.map(o => `${orderNoText(o)} · ${o.address || ""}`).join("\n")); }
+  if (taken.length) { fx.add("kurye-paket-alindi"); toast(`${taken.map(orderNoText).join(", ")} sizden alındı`, "warn"); }
+  if (cancelled.length) { fx.add("kurye-iptal"); toast(`✖ ${cancelled.map(orderNoText).join(", ")} iptal edildi`, "err", { sfx: false }); }
+  playFirstSfx(KURYE_PRIORITY.filter(f => fx.has(f)));
 }
 function markSelf(id) { selfOps.add(id); setTimeout(() => selfOps.delete(id), 8000); }
 
@@ -1313,7 +1501,7 @@ function addToCart(cat, name, price) {
   renderCart(); renderCatalog();
   const tile = [...document.querySelectorAll('#catalogList [data-act="add"]')].find(t => t.dataset.category === cat && t.dataset.product === name);
   if (tile) { tile.classList.add("flash"); if (isDesktop() && document.activeElement?.id !== "productSearch") tile.focus({ preventScroll: true }); }
-  vibrate(12);
+  vibrate(12); playSfx("kasa-sepete-eklendi");
 }
 function decFromCart(cat, name) {
   for (let i = cart.length - 1; i >= 0; i--) if (cart[i].category === cat && cart[i].name === name) { cart[i].qty -= 1; if (cart[i].qty <= 0) cart.splice(i, 1); break; }
@@ -1702,14 +1890,14 @@ function courierProblemHTML() {
 }
 async function claim(id) {
   const o = orders[id]; if (!o) return;
-  if (!isPool(o)) return toast(o.courierId === myUid() ? "Bu paket zaten sizde." : "Bu paket başka bir kuryeye geçti.", "warn");
+  if (!isPool(o)) { if (o.courierId !== myUid()) playSfx("kurye-hata"); return toast(o.courierId === myUid() ? "Bu paket zaten sizde." : "Bu paket başka bir kuryeye geçti.", "warn"); }
   markSelf(id);
   const now = Date.now();
   try {
     await commit(update(ref(db, `orders/${id}`), { courierId: myUid(), courierName: myName(), assignedAt: now, updatedAt: now }));
-    toast(`📥 ${orderNoText(o)} üstünüze alındı.`, "ok"); vibrate(40);
+    playSfx("kurye-ustume-aldim"); toast(`📥 ${orderNoText(o)} üstünüze alındı.`, "ok"); vibrate(40);
   } catch (e) {
-    console.error(e); sound("error");
+    console.error(e);
     toast(isPerm(e) ? "Bu paketi alamadınız: başka bir kurye sizden önce almış." : "Paket alınamadı. Bağlantınızı kontrol edin.", "err");
   }
 }
@@ -1720,13 +1908,13 @@ async function release(id) {
   markSelf(id);
   try {
     await commit(update(ref(db, `orders/${id}`), { courierId: null, courierName: null, assignedAt: null, pickedAt: null, status: "kurye_bekliyor", updatedAt: Date.now() }));
-    toast(`↩ ${orderNoText(o)} havuza bırakıldı.`);
+    playSfx("kurye-havuza-biraktim"); toast(`↩ ${orderNoText(o)} havuza bırakıldı.`);
   } catch (e) { console.error(e); toast("Paket havuza bırakılamadı.", "err"); }
 }
 async function courierRoad(id) {
   const o = orders[id]; if (!o || o.courierId !== myUid()) return;
   const now = Date.now();
-  try { await commit(update(ref(db, `orders/${id}`), { status: "yolda", pickedAt: now, updatedAt: now })); toast(`🛵 ${orderNoText(o)} yolda. İyi yolculuklar!`, "ok"); }
+  try { await commit(update(ref(db, `orders/${id}`), { status: "yolda", pickedAt: now, updatedAt: now })); playSfx("kurye-yola-ciktim"); toast(`🛵 ${orderNoText(o)} yolda. İyi yolculuklar!`, "ok"); }
   catch (e) { console.error(e); toast("Durum güncellenemedi.", "err"); }
 }
 function courierDeliver(id) {
@@ -1739,7 +1927,7 @@ function courierDeliver(id) {
     onSave: async () => {
       const now = Date.now(); const patch = { status: "teslim_edildi", deliveredAt: now, updatedAt: now };
       if (modalPay !== o.payment) patch.payment = modalPay;
-      try { await commit(update(ref(db, `orders/${id}`), patch)); sound("done"); toast(`✅ ${orderNoText(o)} teslim edildi (${modalPay}).`, "ok"); return true; }
+      try { await commit(update(ref(db, `orders/${id}`), patch)); playSfx("kurye-teslim-ettim"); toast(`✅ ${orderNoText(o)} teslim edildi (${modalPay}).`, "ok"); return true; }
       catch (e) { console.error(e); toast(isPerm(e) ? "Teslim kaydedilemedi: yetki yok." : "Teslim kaydedilemedi.", "err"); return false; }
     } });
 }
@@ -1749,7 +1937,7 @@ async function bulkRoad() {
   const now = Date.now();
   try {
     await Promise.all(list.map(o => commit(update(ref(db, `orders/${o.id}`), { status: "yolda", pickedAt: now, updatedAt: now }))));
-    toast(`🛵 ${list.length} paket yolda.`, "ok");
+    playSfx("kurye-yola-ciktim"); toast(`🛵 ${list.length} paket yolda.`, "ok");
   } catch (e) { console.error(e); toast("Bazı paketler güncellenemedi.", "err"); }
 }
 
@@ -1939,7 +2127,7 @@ async function deleteCourier(uid) {
   const ok = await confirmBox(`${c.name || "Kurye"} listeden kaldırılsın mı?${act.length ? ` Üzerindeki ${act.length} paket havuza aktarılacak.` : ""} Giriş hesabı Firebase'de kalır; tamamen silmek için Firebase konsolunu kullanın.`, { title: "Kuryeyi kaldır", okText: "Kaldır", danger: true });
   if (!ok) return;
   const ups = { [`couriers/${uid}`]: null }; const now = Date.now();
-  for (const o of act) Object.assign(ups, { [`orders/${o.id}/courierId`]: null, [`orders/${o.id}/courierName`]: null, [`orders/${o.id}/assignedAt`]: null, [`orders/${o.id}/pickedAt`]: null, [`orders/${o.id}/status`]: "kurye_bekliyor", [`orders/${o.id}/updatedAt`]: now });
+  for (const o of act) { markSelf(o.id); Object.assign(ups, { [`orders/${o.id}/courierId`]: null, [`orders/${o.id}/courierName`]: null, [`orders/${o.id}/assignedAt`]: null, [`orders/${o.id}/pickedAt`]: null, [`orders/${o.id}/status`]: "kurye_bekliyor", [`orders/${o.id}/updatedAt`]: now }); }
   try { await commit(update(ref(db), ups)); toast("Kurye kaldırıldı."); } catch (e) { console.error(e); toast("Kaldırılamadı.", "err"); }
 }
 
@@ -2021,17 +2209,18 @@ function closeDay() {
       finished.forEach(o => { ups[`orders/${o.id}`] = null; });
       await commit(update(ref(db), ups), "Gün sonu kaydedilemedi!");
       if (doPrint) printSlips([reportReceipt(s, "GÜN SONU (Z) RAPORU", rec.dateString)], "Z raporu");
-      toast("✓ Gün sonu arşivlendi. Yeni gün başladı.", "ok");
+      playSfx("kasa-gun-sonu"); toast("✓ Gün sonu arşivlendi. Yeni gün başladı.", "ok");
       showPage("eod"); return true;
     } });
 }
 function renderEOD() {
   const list = Object.entries(eods).filter(([, e]) => e).sort((a, b) => num(b[1].timestamp || b[0]) - num(a[1].timestamp || a[0]));
+  $("eodCleanBtn").classList.toggle("hidden", !list.length);
   $("eodList").innerHTML = list.length ? list.map(([k, e]) => {
     const g = e.byGroup || summarize(Object.values(e.archivedOrders || {})).groups;
     return `<article class="card"><div class="card-top"><div><div class="card-title">📅 ${esc(e.dateString || fmtDateTime(e.timestamp || k))}</div><div class="card-sub">${num(e.totalOrders)} teslim · ${num(e.cancelledCount)} iptal</div></div><div style="text-align:right"><div style="font-size:22px;font-weight:900;letter-spacing:-.5px">${esc(money(e.totalRevenue))}</div></div></div>
       <div class="card-stats" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div><small>Nakit</small><b>${esc(money(g.cash))}</b></div><div><small>Kart</small><b>${esc(money(g.card))}</b></div><div><small>Yemek kartı</small><b>${esc(money(g.meal))}</b></div></div>
-      <div class="card-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="eod-detail" data-key="${esc(k)}">Detayları gör</button><button type="button" class="btn btn-ghost btn-sm" data-act="eod-print" data-key="${esc(k)}">🖨 Z raporu</button></div></article>`;
+      <div class="card-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="eod-detail" data-key="${esc(k)}">Detayları gör</button><button type="button" class="btn btn-ghost btn-sm" data-act="eod-print" data-key="${esc(k)}">🖨 Z raporu</button><button type="button" class="btn btn-danger btn-sm" data-act="eod-del" data-key="${esc(k)}">Sil</button></div></article>`;
   }).join("") : `<div class="empty"><b>Arşiv boş</b>Günlük rapor ekranından gün sonunu kapattığınızda burada listelenir.</div>`;
 }
 function openEodDetail(key) {
@@ -2048,6 +2237,42 @@ function openEodDetail(key) {
 }
 function printEod(key) { const e = eods[key]; if (!e) return; printSlips([reportReceipt(summarize(Object.values(e.archivedOrders || {})), "GÜN SONU (Z) RAPORU", e.dateString || fmtDateTime(e.timestamp))], "Z raporu"); }
 function printX() { printSlips([reportReceipt(summarize(Object.values(orders)), "ARA RAPOR (X)", fmtDateTime(Date.now()))], "X raporu"); }
+
+/* ---------- Gün sonu ve test verisi silme ---------- */
+async function deleteEod(key) {
+  const rec = eods[key]; if (!rec) return;
+  const n = Object.keys(rec.archivedOrders || {}).length;
+  const ok = await confirmBox(`${rec.dateString || fmtDateTime(rec.timestamp || key)} gün sonu kaydı${n ? ` ve içindeki ${n} sipariş` : ""} kalıcı olarak silinsin mi? Bu işlem geri alınamaz.`, { title: "Gün sonu kaydını sil", okText: "Kalıcı olarak sil", danger: true });
+  if (!ok) return;
+  try { await commit(remove(ref(db, `endOfDays/${key}`)), "Silme işlemi sunucuya gönderilemedi!"); toast("Gün sonu kaydı silindi.", "ok"); }
+  catch (err) { console.error(err); toast(isPerm(err) ? "Silme izni yok. Firebase kurallarında yöneticiye “endOfDays” yazma izni verin." : "Kayıt silinemedi.", "err"); }
+}
+function openDataClean() {
+  const eodN = Object.values(eods).filter(Boolean).length;
+  const all = Object.values(orders), actN = all.filter(isActive).length;
+  const custN = Object.values(customers).filter(Boolean).length;
+  if (!eodN && !all.length && !custN) return toast("Silinecek kayıt yok.", "warn");
+  openModal({ title: "Test verilerini temizle", saveText: "Seçilenleri kalıcı olarak sil", saveClass: "btn-danger-solid",
+    body: `<div class="banner err" style="margin:0">Seçtiğiniz kayıtlar <b>kalıcı olarak</b> silinir, geri alınamaz. Menü, fiyatlar, kuryeler ve ayarlar etkilenmez.</div>
+      <label class="check"><input type="checkbox" id="dcEod" ${eodN ? "checked" : "disabled"}> Gün sonu arşivi <span class="muted">(${eodN} gün, içindeki siparişlerle birlikte)</span></label>
+      <label class="check"><input type="checkbox" id="dcOrders" ${all.length ? "" : "disabled"}> Şu anki siparişler <span class="muted">(${all.length} sipariş${actN ? `, ${actN} tanesi havuzda / kuryede / yolda` : ""})</span></label>
+      <label class="check"><input type="checkbox" id="dcCust" ${custN ? "" : "disabled"}> Müşteri rehberi <span class="muted">(${custN} müşteri)</span></label>
+      <p class="hint" style="margin:0">Şu anki siparişleri silerseniz sipariş numarası da #001'den başlar. Gerçek müşterileriniz kayıtlıysa müşteri rehberini işaretlemeyin.</p>
+      <div class="field mb0"><label for="dcConfirm">Onaylamak için <b>SİL</b> yazın</label><input id="dcConfirm" class="control" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="SİL"></div>`,
+    onSave: async () => {
+      const doEod = $("dcEod").checked, doOrders = $("dcOrders").checked, doCust = $("dcCust").checked;
+      if (!doEod && !doOrders && !doCust) { toast("Silinecek en az bir şey seçin.", "err"); return false; }
+      if (fold($("dcConfirm").value) !== "sil") { $("dcConfirm").classList.add("invalid"); toast("Onaylamak için kutuya SİL yazın.", "err"); $("dcConfirm").focus(); return false; }
+      const ups = {}, now = Date.now(), parts = [];
+      if (doEod) { const keys = Object.keys(eods); keys.forEach(k => { ups[`endOfDays/${k}`] = null; }); parts.push(`${keys.length} gün sonu`); }
+      if (doOrders) { const keys = Object.keys(orders); keys.forEach(k => { ups[`orders/${k}`] = null; }); ups["settings/orderCounter"] = { n: 0, resetAt: now }; parts.push(`${keys.length} sipariş`); }
+      if (doCust) { const keys = Object.keys(customers); keys.forEach(k => { ups[`customers/${k}`] = null; }); parts.push(`${keys.length} müşteri`); }
+      try { await commit(update(ref(db), ups), "Silme işlemi sunucuya gönderilemedi!"); }
+      catch (err) { console.error(err); toast(isPerm(err) ? "Silme izni yok. Firebase kurallarında yöneticiye yazma izni verin." : "Silme işlemi tamamlanamadı.", "err"); return false; }
+      if (doOrders) lateAlerted.clear();
+      toast(`✓ Silindi: ${parts.join(", ")}.`, "ok"); return true;
+    } });
+}
 
 /* =========================================================
    MENÜ YÖNETİMİ
@@ -2162,10 +2387,20 @@ function renderSettings() {
       </ul>
     </div>
     <div class="panel"><div class="panel-head"><h3>Bu cihaz</h3></div>
-      <div class="switch-row"><div><b>Bildirim sesi</b><small>Kurye paket alınca, yola çıkınca ve teslim edince</small></div><button type="button" class="so-toggle ${soundOn ? "" : "off"}" data-act="sound-toggle">${soundOn ? "Açık" : "Kapalı"}</button></div>
+      <div class="switch-row"><div><b>Sesler</b><small>“sesler” klasöründe dosyası olan olaylar çalar, diğerleri sessizdir</small></div><button type="button" class="so-toggle ${soundOn ? "" : "off"}" data-act="sound-toggle">${soundOn ? "Açık" : "Kapalı"}</button></div>
       <div class="switch-row"><div><b>Sipariş onayında fiş yazdır</b><small>Varsayılan tercih</small></div><button type="button" class="so-toggle ${lsGet("hp_printOnCreate", true) ? "" : "off"}" data-act="print-default">${lsGet("hp_printOnCreate", true) ? "Açık" : "Kapalı"}</button></div>
+    </div>
+    <div class="panel" style="grid-column:1/-1"><div class="panel-head"><h3>Ses dosyaları</h3><button type="button" class="btn btn-ghost btn-sm" data-act="sfx-rescan">↻ Yeniden tara</button></div>
+      <p class="small muted" style="margin:0 0 4px">index.html'in bulunduğu yere <b>sesler</b> adında bir klasör açın ve istediğiniz sesleri aşağıdaki adlarla mp3 olarak koyun. Dosyası olmayan olay sessiz kalır. Dosya adına dokunarak kopyalayabilirsiniz. Kısa sesler (1–3 saniye) önerilir; yeni bir ses çalınca önceki susar.</p>
+      <div data-sfx-list="kasa,kurye"></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h3>Veri temizliği</h3></div>
+      <p class="small muted" style="margin:0 0 12px">Deneme amaçlı girilen gün sonlarını, siparişleri ve müşterileri kalıcı olarak siler. Neyin silineceğini bir sonraki ekranda seçersiniz.</p>
+      <button type="button" class="btn btn-danger" data-act="data-clean">🗑 Test verilerini temizle</button>
     </div>`;
   settingsDirty = false;
+  renderSfxLists();
+  loadSounds(["kurye"]);
 }
 async function saveSettings() {
   if (!$("setName")) return;
@@ -2209,12 +2444,17 @@ function renderCDone() {
     </div>
     <div class="panel"><div class="panel-head"><h3>Ödeme dökümü</h3><span class="muted small">Ort. teslim: ${s.avgMins ? durText(s.avgMins) : "–"}</span></div>${payBarsHTML(s)}</div>
     <div class="panel"><div class="panel-head"><h3>Bu telefon</h3></div>
-      <div class="switch-row"><div><b>Bildirim sesi</b><small>Havuza paket gelince ses ve titreşim</small></div><button type="button" class="so-toggle ${soundOn ? "" : "off"}" data-act="sound-toggle">${soundOn ? "Açık" : "Kapalı"}</button></div>
+      <div class="switch-row"><div><b>Sesler</b><small>Dosyası yüklenmiş olaylar çalar, diğerleri sessizdir</small></div><button type="button" class="so-toggle ${soundOn ? "" : "off"}" data-act="sound-toggle">${soundOn ? "Açık" : "Kapalı"}</button></div>
+      <div class="switch-row"><div><b>Titreşim</b><small>Havuza paket gelince ve size paket verilince</small></div><button type="button" class="so-toggle ${vibrateOn ? "" : "off"}" data-act="vibrate-toggle">${vibrateOn ? "Açık" : "Kapalı"}</button></div>
       <div class="switch-row"><div><b>Ekran bildirimleri</b><small>Uygulama arka plandayken uyarı</small></div><button type="button" class="so-toggle ${notif === "Açık" ? "" : "off"}" data-act="notif">${notif}</button></div>
       <div class="switch-row"><div><b>Ekran açık kalsın</b><small>Telefon kendiliğinden kararmaz</small></div><button type="button" class="so-toggle ${wantWake ? "" : "off"}" data-act="wakelock">${wantWake ? "Açık" : "Kapalı"}</button></div>
       <div class="switch-row"><div><b>Kurye kimliğim</b><small style="word-break:break-all">${esc(myUid())}</small></div><button type="button" class="btn btn-ghost btn-sm" data-act="copy" data-text="${esc(myUid())}">Kopyala</button></div>
     </div>
-    <div class="panel"><div class="panel-head"><h3>Teslim ettiklerim (${done.length})</h3></div><div class="tickets">${done.length ? done.map(o => ticketHTML(o, "done")).join("") : `<div class="empty">Henüz teslim ettiğiniz paket yok.</div>`}</div></div>`;
+    <div class="panel"><div class="panel-head"><h3>Teslim ettiklerim (${done.length})</h3></div><div class="tickets">${done.length ? done.map(o => ticketHTML(o, "done")).join("") : `<div class="empty">Henüz teslim ettiğiniz paket yok.</div>`}</div></div>
+    <div class="panel"><div class="panel-head"><h3>Sesler</h3><button type="button" class="btn btn-ghost btn-sm" data-act="sfx-rescan">↻ Yeniden tara</button></div>
+      <p class="small muted" style="margin:0 0 4px">Uygulamayı açtıktan sonra ekrana bir kez dokunun; tarayıcı dokunuş olmadan ses çaldırmaz. ▶ ile sesleri deneyebilirsiniz.</p>
+      <div data-sfx-list="kurye">${sfxListHTML(["kurye"])}</div>
+    </div>`;
 }
 
 /* =========================================================
@@ -2416,7 +2656,13 @@ const ACTIONS = {
   "set-width": el => { el.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === el)); settingsDirty = true; },
   "settings-save": el => withBusy(el, saveSettings),
   "test-print": () => { if (settingsDirty) toast("Kaydedilmemiş ayarlar var; test fişi kayıtlı ayarlarla basılır.", "warn"); printOrder(sampleOrder()); },
-  "print-default": () => { lsSet("hp_printOnCreate", !lsGet("hp_printOnCreate", true)); $("printOnCreate").checked = lsGet("hp_printOnCreate", true); renderSettings(); }
+  "print-default": () => { lsSet("hp_printOnCreate", !lsGet("hp_printOnCreate", true)); $("printOnCreate").checked = lsGet("hp_printOnCreate", true); renderSettings(); },
+  "vibrate-toggle": () => toggleVibrate(),
+  "sfx-test": el => { unlockAudio(); if (!playSfx(el.dataset.file, { test: true })) toast("Bu sesin dosyası yok.", "warn"); },
+  "sfx-rescan": el => withBusy(el, rescanSounds),
+  "audio-unlock": () => { unlockAudio(); setTimeout(updateAudioBar, 300); },
+  "eod-del": el => deleteEod(el.dataset.key),
+  "data-clean": () => openDataClean()
 };
 document.addEventListener("click", e => {
   const el = e.target.closest("[data-act]");
@@ -2468,9 +2714,22 @@ $("modalSave").addEventListener("click", modalSave);
 $("modal").addEventListener("click", e => { if (e.target === $("modal")) closeModal(); });
 
 /* ---------- Zamanlayıcı: geçen süreler ve saat ---------- */
+// 40 dakikayı geçip hâlâ teslim edilmeyen sipariş için tek seferlik uyarı (yalnızca kasada)
+function checkLate() {
+  if (!isAdmin || !currentUser || firstOrders) return;
+  const fresh = [];
+  for (const o of Object.values(orders)) {
+    if (!isActive(o) || minsSince(o.createdAt) < 40 || lateAlerted.has(o.id)) continue;
+    lateAlerted.add(o.id);
+    if (lateSeeded) fresh.push(o);
+  }
+  lateSeeded = true;
+  if (fresh.length) { playSfx("kasa-geciken-siparis"); toast(`⏰ ${fresh.map(orderNoText).join(", ")} 40 dakikayı geçti, hâlâ teslim edilmedi.`, "warn"); }
+}
 function tick() {
   document.querySelectorAll("[data-since]").forEach(el => { const m = minsSince(+el.dataset.since); el.textContent = durText(m); el.classList.remove("warn", "late"); const c = sinceCls(m); if (c) el.classList.add(c); });
   $("clock").textContent = new Date().toLocaleString("tr-TR", { weekday: "short", hour: "2-digit", minute: "2-digit" });
+  checkLate();
 }
 setInterval(tick, 30000); tick();
 renderSoundBtn();
