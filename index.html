@@ -412,73 +412,6 @@ kbd{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;background:var(--soft2
 .sfx-st.wait{background:var(--amber-l);color:var(--amber)}
 .sfx-row .icon-btn:disabled{opacity:.35}
 
-/* ---------- Harita ve mesafe ---------- */
-.geo-box{margin-top:12px;display:flex;flex-direction:column;gap:8px}
-.map-box{position:relative;z-index:0;isolation:isolate;width:100%;height:190px;border-radius:12px;overflow:hidden;border:1px solid var(--line2);background:#e9ecef}
-.map-box.map-md{height:240px}
-.map-box.map-lg{height:min(460px,58vh)}
-.map-box.map-xl{height:min(520px,56vh)}
-.map-box.map-set{height:320px}
-.map-ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:14px;color:var(--muted);font-size:12.5px;line-height:1.45}
-.leaflet-container{font:12px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-.leaflet-container .leaflet-control-attribution{font-size:10px;line-height:1.35;padding:1px 6px;background:rgba(255,255,255,.82)}
-.leaflet-container .leaflet-control-attribution a{color:#0b5cad}
-.leaflet-container a.leaflet-control-zoom-in,.leaflet-container a.leaflet-control-zoom-out{color:var(--ink)}
-.leaflet-tooltip{font:600 12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;border-radius:8px;padding:5px 8px}
-.leaflet-marker-draggable{touch-action:none}
-.hp-pin-wrap{background:none;border:0}
-.hp-pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--c,#e8590c);border:2.5px solid #fff;box-shadow:0 4px 10px rgba(21,24,29,.38);display:grid;place-items:center}
-.hp-pin>span{transform:rotate(45deg);color:#fff;font:800 12px/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;white-space:nowrap;letter-spacing:-.3px}
-.hp-pin.shop>span{font-size:15px}
-.hp-pin.dot>span{width:10px;height:10px;border-radius:50%;background:#fff}
-.hp-pin.ghost{opacity:.5}
-.leaflet-marker-draggable .hp-pin{cursor:grab}
-.z-near{--zc:var(--green);--zb:var(--green-l);--zl:#c6e8d2}
-.z-far{--zc:#b45309;--zb:var(--amber-l);--zl:#f3d79f}
-.z-out{--zc:var(--red);--zb:var(--red-l);--zl:#f6cbc6}
-.geo-bar{border:1px solid var(--zl,var(--line));background:var(--zb,var(--soft));border-radius:12px;padding:9px 12px;min-height:54px;display:flex;flex-direction:column;justify-content:center;gap:2px}
-.geo-bar-main{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.geo-bar-main .muted{font-weight:600;font-size:12.5px}
-.geo-km{font-size:23px;font-weight:900;letter-spacing:-.6px;line-height:1.1;color:var(--zc,var(--ink))}
-.geo-bar-sub{font-size:12px;color:var(--ink2);font-weight:600}
-.zone-chip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;padding:4px 8px;border-radius:8px;background:var(--zc,var(--ink2));color:#fff;white-space:nowrap}
-.geo-msg{font-size:12.5px;line-height:1.45;color:var(--ink2);display:flex;flex-direction:column;gap:3px}
-.geo-msg:empty{display:none}
-.geo-msg .warn{color:#8a4b06;font-weight:700}
-.geo-msg .geo-line{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:center}
-.geo-cands{display:flex;flex-direction:column;gap:4px}
-.geo-cand{display:block;width:100%;text-align:left;padding:7px 10px;border:1px solid var(--line2);border-radius:10px;background:#fff;font-size:12.5px;line-height:1.35}
-.geo-cand:hover,.geo-cand.on{border-color:var(--brand);background:var(--brand-l)}
-.geo-cand small{display:block;color:var(--muted);font-size:11.5px}
-.geo-warn{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:var(--amber-l);border:1px solid #f3d79f;color:#7a4a06;border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.4}
-.spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--line2);border-top-color:var(--brand);animation:spin .8s linear infinite;display:inline-block;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.geo-wait{display:flex;align-items:center;gap:8px}
-.cart-geo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;padding:8px 11px;border-radius:10px;border:1px solid var(--zl,var(--line));background:var(--zb,var(--soft));font-size:13px;font-weight:700;color:var(--zc,var(--ink2))}
-.cart-geo b{font-size:15px}
-.t-dist{display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;padding:5px 5px 5px 11px;border-radius:10px;border:1px solid var(--zl,var(--line));background:var(--zb,var(--soft));font-size:12.5px}
-.t-km{font-size:16px;font-weight:900;letter-spacing:-.3px;color:var(--zc,var(--ink))}
-.t-dsub{color:var(--ink2);font-weight:650}
-.t-mapbtn{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:4px 10px;border-radius:8px;background:#fff;border:1px solid var(--line2);font-size:12.5px;font-weight:750;white-space:nowrap}
-.t-mapbtn:hover{background:var(--soft)}
-.t-mapbtn.icon{padding:4px 9px;font-size:14px}
-.map-panel{margin-bottom:14px}
-.map-note{font-size:12.5px;color:var(--muted);margin:0 0 6px}
-.map-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin-top:6px}
-.map-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
-.btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.btn.on:hover:not(:disabled){background:var(--ink2)}
-.geo-save{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:var(--blue-l);border:1px solid #cfdcfb;border-radius:10px;padding:8px 10px;font-size:13px}
-.geo-set{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:14px;align-items:start}
-.geo-search{display:flex;gap:8px}
-.geo-search .control{flex:1;min-width:0}
-@media (max-width:860px){
-  .geo-set{grid-template-columns:minmax(0,1fr)}
-  .map-box{height:180px}
-  .map-box.map-md{height:220px}
-  .map-box.map-set{height:280px}
-}
-
 /* ---------- Duyarlı düzen ---------- */
 @media (max-width:1320px){
   .pos{grid-template-columns:340px minmax(0,1fr);grid-template-areas:"cust cat" "cart cat"}
@@ -641,13 +574,6 @@ body.role-courier .toasts{top:calc(var(--hh) + 10px);bottom:auto}
             <div class="field"><label for="custName">Ad soyad</label><input id="custName" autocomplete="off" placeholder="Müşteri adı"></div>
             <div class="field"><label for="custAddress">Teslimat adresi</label><textarea id="custAddress" rows="2" placeholder="Mahalle, cadde, sokak, bina ve daire no"></textarea></div>
             <div class="field mb0"><label for="custAddrNote">Adres tarifi</label><input id="custAddrNote" autocomplete="off" placeholder="Örn. eczanenin üstü, 3. kat, zil bozuk"></div>
-            <div id="posGeo" class="geo-box">
-              <div id="posShopWarn"></div>
-              <div id="posGeoBar" class="geo-bar"></div>
-              <div id="posMap" class="map-box"><div class="map-ph">Harita yükleniyor…</div></div>
-              <div id="posGeoMsg" class="geo-msg"></div>
-              <div id="posGeoCands" class="geo-cands hidden"></div>
-            </div>
             <div id="custInfo" class="cust-info hidden"></div>
           </div>
 
@@ -679,7 +605,6 @@ body.role-courier .toasts{top:calc(var(--hh) + 10px);bottom:auto}
               <div id="discRow" class="tot-row hidden"><span>İndirim</span><span id="discTotal">−₺0</span></div>
               <div class="tot-grand"><span>Toplam</span><strong id="grandTotal">₺0</strong></div>
             </div>
-            <div id="cartGeo" class="cart-geo hidden"></div>
             <div class="submit-row"><label class="check"><input type="checkbox" id="printOnCreate" checked> Fiş yazdır</label><span class="muted small" id="courierHint"></span></div>
             <button id="createOrder" type="button" class="btn btn-primary btn-xl btn-block" data-act="create-order">Siparişi onayla</button>
           </div>
@@ -690,10 +615,9 @@ body.role-courier .toasts{top:calc(var(--hh) + 10px);bottom:auto}
       <section id="page-live" class="page hidden">
         <div class="page-head">
           <div><h1 class="page-title">Canlı siparişler</h1><p class="page-sub">Havuzdaki paketleri kuryeler kendisi alır. İsterseniz buradan doğrudan kurye atayabilir veya paketi havuza geri alabilirsiniz.</p></div>
-          <div class="head-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="map-toggle" data-map="live" aria-pressed="false">🗺 Harita</button><div id="liveSeg" class="seg" role="tablist"></div></div>
+          <div id="liveSeg" class="seg" role="tablist"></div>
         </div>
         <div id="liveStats" class="mini-stats"></div>
-        <div id="liveMapBox" class="map-panel hidden"><p id="liveMapNote" class="map-note"></p><div id="liveMap" class="map-box map-lg"></div><div class="map-legend"><span><i style="background:#d97706"></i>Havuzda</span><span><i style="background:#6d28d9"></i>Kuryede</span><span><i style="background:#1d4ed8"></i>Yolda</span><span>Pine dokunarak siparişi açın</span></div></div>
         <div id="liveBoard" class="board"></div>
       </section>
 
@@ -770,17 +694,15 @@ body.role-courier .toasts{top:calc(var(--hh) + 10px);bottom:auto}
 
       <!-- KURYE: HAVUZ -->
       <section id="page-pool" class="page hidden">
-        <div class="page-head"><div><h1 class="page-title">Paket havuzu</h1><p class="page-sub" id="poolSub">Almak istediğiniz paketi üstünüze alın.</p></div><div class="head-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="map-toggle" data-map="pool" aria-pressed="false">🗺 Harita</button></div></div>
+        <div class="page-head"><div><h1 class="page-title">Paket havuzu</h1><p class="page-sub" id="poolSub">Almak istediğiniz paketi üstünüze alın.</p></div></div>
         <div class="courier-banner"></div>
-        <div id="poolMapBox" class="map-panel hidden"><p id="poolMapNote" class="map-note"></p><div id="poolMap" class="map-box map-lg"></div></div>
         <div id="poolList" class="tickets"></div>
       </section>
 
       <!-- KURYE: ÜZERİMDEKİLER -->
       <section id="page-mine" class="page hidden">
-        <div class="page-head"><div><h1 class="page-title">Üzerimdeki paketler</h1><p class="page-sub" id="mineSub">İstemediğiniz paketi havuza geri bırakabilirsiniz.</p></div><div class="head-actions"><span id="mineActions"></span><button type="button" class="btn btn-ghost btn-sm" data-act="map-toggle" data-map="mine" aria-pressed="false">🗺 Harita</button></div></div>
+        <div class="page-head"><div><h1 class="page-title">Üzerimdeki paketler</h1><p class="page-sub" id="mineSub">İstemediğiniz paketi havuza geri bırakabilirsiniz.</p></div><div id="mineActions" class="head-actions"></div></div>
         <div class="courier-banner"></div>
-        <div id="mineMapBox" class="map-panel hidden"><p id="mineMapNote" class="map-note"></p><div id="mineMap" class="map-box map-lg"></div></div>
         <div id="mineList" class="tickets"></div>
       </section>
 
@@ -849,13 +771,9 @@ const STATE = {
 };
 const NOTE_TAGS = ["Acılı", "Acısız", "Soğansız", "Bol limon", "Zili çalmayın", "Kapıya bırakın", "Gelmeden arayın", "Bozuk para getirin", "Islak mendil"];
 const CANCEL_REASONS = ["Müşteri vazgeçti", "Adres bulunamadı", "Müşteriye ulaşılamadı", "Yanlış sipariş", "Mükerrer kayıt"];
-// Dükkan: Fevzi Çakmak Mah. No:8/A, Bahçelievler. Sokak adı bilinmediği için başlangıç noktası mahalle içinde
-// yaklaşık bir noktadır; Ayarlar > Harita bölümünden pin dükkanın tam yerine taşınır (set: true olur).
-const DEFAULT_MAP = { lat: 40.9966, lng: 28.8317, label: "Fevzi Çakmak Mah. No:8/A, Bahçelievler, İstanbul", set: false, warnKm: 3, maxKm: 5 };
 const DEFAULT_SETTINGS = {
   shop: { name: "HAYAL PİDE", phone: "", address: "", city: "", footer: "Afiyet olsun! Bizi tercih ettiğiniz için teşekkürler." },
   receipt: { width: 80, copies: 1, kitchen: false, big: false },
-  map: { ...DEFAULT_MAP },
   catOrder: []
 };
 const defaultCatalog = {
@@ -928,12 +846,6 @@ let suggestIdx = -1;
 const selfOps = new Set();
 let wakeLock = null, wantWake = lsGet("hp_wake", false);
 const lateAlerted = new Set(); let lateSeeded = false;
-// Harita / mesafe durumu (yeni sipariş ekranı)
-let posGeo = null, posGeoPrev = null, posGeoKey = "", posGeoState = "idle", posCands = [], posCandsOpen = false;
-let posGeoTimer = null, posGeoSeq = 0, posGeoJob = null, posRouteJob = null;
-let posMap = null, posLayers = null, posNeedFit = false, lastShopKey = "";
-const pageMaps = {}, modalMaps = [];
-let detGeo = null, setMapRec = null, setDraft = null, setShopTouched = false;
 
 /* =========================================================
    YARDIMCILAR
@@ -977,14 +889,8 @@ function courierNameOf(uid) { return uid ? (couriers[uid]?.name || "") : ""; }
 function myUid() { return currentUser?.uid || ""; }
 function myName() { return couriers[myUid()]?.name || (currentUser?.email || "Kurye").split("@")[0]; }
 function withCity(a) { const city = (settings.shop.city || "").trim(); return city && !fold(a).includes(fold(city)) ? `${a}, ${city}` : a; }
-// Konum bina düzeyinde bulunduysa veya elle işaretlendiyse Google Haritalar'a koordinat, değilse adres metni verilir
-function geoPrecise(g) { return geoOk(g) && (g.acc === "bina" || g.acc === "elle"); }
-function gmapsTarget(o) {
-  if (o && typeof o === "object") return geoPrecise(o.geo) ? `${round5(o.geo.lat)},${round5(o.geo.lng)}` : encodeURIComponent(withCity(o.address || ""));
-  return encodeURIComponent(withCity(String(o || "")));
-}
-function navUrl(o) { return "https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + gmapsTarget(o); }
-function mapUrl(o) { return "https://www.google.com/maps/search/?api=1&query=" + gmapsTarget(o); }
+function navUrl(a) { return "https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=" + encodeURIComponent(withCity(a)); }
+function mapUrl(a) { return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(withCity(a)); }
 function isDesktop() { return window.matchMedia("(pointer:fine) and (min-width:861px)").matches; }
 
 function normalizeCatalog(raw) {
@@ -1048,7 +954,6 @@ function openModal({ title, body, saveText = "Kaydet", saveClass = "btn-primary"
 function closeModal() {
   if ($("modal").classList.contains("hidden")) return;
   const st = modalState; modalState = null;
-  destroyModalMaps(); detGeo = null;
   $("modal").classList.add("hidden"); $("modalBody").innerHTML = "";
   document.body.classList.remove("modal-open");
   if (st?.onClose) st.onClose();
@@ -1379,7 +1284,7 @@ function renderConn() {
   if (connected) $("offlineBar").classList.add("hidden");
   else connTimer = setTimeout(() => { if (!connected && currentUser) $("offlineBar").classList.remove("hidden"); }, everConnected ? 1500 : 6000);
 }
-window.addEventListener("online", () => { renderConn(); retryNetSounds(); if (currentUser && page === "new") { ensurePosMap(); if (posGeoState === "error") runPosGeocode(); } });
+window.addEventListener("online", () => { renderConn(); retryNetSounds(); });
 window.addEventListener("offline", () => { connected = false; renderConn(); });
 
 function onOrders(data) {
@@ -1449,15 +1354,10 @@ function trySetPresence() {
   onDisconnect(ref(db, base + "/lastSeen")).set(serverTimestamp()).catch(() => {});
   update(ref(db, base), { online: true, lastSeen: serverTimestamp() }).catch(e => console.warn("Çevrimiçi durumu yazılamadı", e));
 }
-let settingsSig = "";
 function onSettings(v) {
   v = v || {};
-  settings = { shop: { ...DEFAULT_SETTINGS.shop, ...(v.shop || {}) }, receipt: { ...DEFAULT_SETTINGS.receipt, ...(v.receipt || {}) }, map: normMap(v.map), catOrder: asArray(v.catOrder).map(String) };
-  // Sipariş sayacı da settings altında; yalnızca sayaç değiştiyse ayarlar formu yeniden çizilmez
-  const sig = JSON.stringify([settings.shop, settings.receipt, settings.map]);
-  const changed = sig !== settingsSig; settingsSig = sig;
-  onMapSettings();
-  if (page === "settings" && !settingsDirty && changed) renderSettings();
+  settings = { shop: { ...DEFAULT_SETTINGS.shop, ...(v.shop || {}) }, receipt: { ...DEFAULT_SETTINGS.receipt, ...(v.receipt || {}) }, catOrder: asArray(v.catOrder).map(String) };
+  if (page === "settings" && !settingsDirty) renderSettings();
   if (page === "new") { renderCategories(); renderCatalog(); }
   if (page === "menu") renderMenu();
 }
@@ -1527,7 +1427,6 @@ function showPage(pid) {
   if (pid === "settings") settingsDirty = false;
   closeSuggest();
   renderCurrent();
-  refreshMaps();
   window.scrollTo({ top: 0 });
 }
 function renderCurrent() {
@@ -1572,7 +1471,7 @@ function updateBadges() {
 /* =========================================================
    POS: KATALOG
    ========================================================= */
-function renderPOS() { renderCategories(); renderCatalog(); renderPayGrid(); renderNoteTags(); renderCourierSelect(); renderCart(); updateCustInfo(); renderPosGeo(); ensurePosMap(); }
+function renderPOS() { renderCategories(); renderCatalog(); renderPayGrid(); renderNoteTags(); renderCourierSelect(); renderCart(); updateCustInfo(); }
 function renderCategories() {
   const cats = ["Tümü", ...orderedCats()];
   const total = Object.values(catalog).reduce((n, l) => n + (l || []).length, 0);
@@ -1661,11 +1560,7 @@ function updateCartBar() {
   const show = isAdmin && page === "new" && cart.length > 0;
   $("cartBar").classList.toggle("hidden", !show);
   document.body.classList.toggle("has-cartbar", show);
-  if (show) {
-    const t = cartTotals(), g = posGeoCurrent();
-    $("cartBarCount").textContent = `${t.count} ürün` + (g ? ` · ${g.acc === "yaklasik" ? "≈" : ""}${kmText(geoDist(g))}${zoneOf(geoDist(g)) === "out" ? " ⚠" : ""}` : "");
-    $("cartBarTotal").textContent = money(t.total);
-  }
+  if (show) { const t = cartTotals(); $("cartBarCount").textContent = `${t.count} ürün`; $("cartBarTotal").textContent = money(t.total); }
 }
 function payGridHTML(selected, act) {
   return PAYMENTS.map(p => `<button type="button" class="pay-btn ${p.id === selected ? "on" : ""}" data-act="${act}" data-pay="${esc(p.id)}" role="radio" aria-checked="${p.id === selected}" style="--tone:${p.tone}">${p.icon ? `<span class="pay-ic" aria-hidden="true">${p.icon}</span>` : ""}<span>${esc(p.id)}</span></button>`).join("");
@@ -1728,7 +1623,7 @@ function fillCustomer(key) {
   const c = customers[key]; if (!c) return;
   $("custPhone").value = c.phone || key; $("custName").value = c.name || ""; $("custAddress").value = c.address || ""; $("custAddrNote").value = c.addressNote || "";
   ["custPhone", "custName", "custAddress"].forEach(id => $(id).classList.remove("invalid"));
-  closeSuggest(); updateCustInfo(); posGeoFromCustomer(c); saveDraft();
+  closeSuggest(); updateCustInfo(); saveDraft();
   if (isDesktop()) $("productSearch").focus();
 }
 function updateCustInfo() {
@@ -1770,7 +1665,7 @@ let draftTimer = null;
 function saveDraft() {
   if (!isAdmin) return;
   clearTimeout(draftTimer);
-  draftTimer = setTimeout(() => lsSet("hp_draft", { cart, phone: $("custPhone").value, name: $("custName").value, address: $("custAddress").value, addrNote: $("custAddrNote").value, note: $("orderNote").value, payment, discount: $("discount").value, cash: $("cashGiven").value, courier: $("courier").value, geo: posGeoDraft(), t: Date.now() }), 250);
+  draftTimer = setTimeout(() => lsSet("hp_draft", { cart, phone: $("custPhone").value, name: $("custName").value, address: $("custAddress").value, addrNote: $("custAddrNote").value, note: $("orderNote").value, payment, discount: $("discount").value, cash: $("cashGiven").value, courier: $("courier").value, t: Date.now() }), 250);
 }
 function restoreDraft() {
   const d = lsGet("hp_draft", null);
@@ -1780,7 +1675,6 @@ function restoreDraft() {
   $("custPhone").value = d.phone || ""; $("custName").value = d.name || ""; $("custAddress").value = d.address || ""; $("custAddrNote").value = d.addrNote || "";
   $("orderNote").value = d.note || ""; $("discount").value = d.discount || ""; $("cashGiven").value = d.cash || "";
   payment = PAYMENTS.some(p => p.id === d.payment) ? d.payment : "Nakit"; pendingCourier = d.courier || "";
-  restorePosGeo(d.geo);
   if (page === "new") renderPOS();
   toast("Yarım kalan sipariş geri yüklendi.");
 }
@@ -1789,7 +1683,6 @@ function resetPOS() {
   ["custPhone", "custName", "custAddress", "custAddrNote", "orderNote", "discount", "cashGiven", "productSearch"].forEach(id => { $(id).value = ""; $(id).classList.remove("invalid"); });
   $("courier").value = "";
   closeSuggest(); lsSet("hp_draft", null);
-  resetPosGeo();
   renderPOS();
 }
 
@@ -1808,7 +1701,6 @@ async function nextOrderNo() {
 }
 async function createOrder() {
   if (!isAdmin) return;
-  if ($("createOrder").disabled) return;   // Ctrl+Enter ile çift kayıt olmasın
   if (!cart.length) { toast("Sepete en az bir ürün ekleyin.", "err"); return; }
   const phone = $("custPhone").value.trim(), name = $("custName").value.trim(), address = $("custAddress").value.trim();
   const addressNote = $("custAddrNote").value.trim(), note = $("orderNote").value.trim();
@@ -1823,15 +1715,6 @@ async function createOrder() {
   const courierId = $("courier").value || null;
   const btn = $("createOrder"); btn.disabled = true; btn.textContent = "Kaydediliyor…";
   try {
-    // Adres yeni yazıldıysa konum/km hesabının bitmesini kısa süre bekle, km siparişe yazılsın
-    if (posGeoBusy()) { btn.textContent = "Mesafe hesaplanıyor…"; await posGeoSettle(4500); btn.textContent = "Kaydediliyor…"; }
-    const geo = posGeoForOrder();
-    if (geo && zoneOf(geoDist(geo)) === "out") {
-      btn.textContent = "Onay bekleniyor…";
-      const ok = await confirmBox(`Bu adres dükkana ${kmText(geoDist(geo))} uzaklıkta${geoIsRoad(geo) ? " (yol mesafesi)" : " (kuş uçuşu)"}. Teslimat sınırınız ${kmText(settings.map.maxKm)}. Yine de sipariş oluşturulsun mu?`, { title: "Teslimat sınırı dışında", okText: "Yine de oluştur", danger: true });
-      if (!ok) return;
-      btn.textContent = "Kaydediliyor…";
-    }
     const key = push(ref(db, "orders")).key;
     const no = await nextOrderNo();
     const now = Date.now();
@@ -1841,27 +1724,15 @@ async function createOrder() {
       items, subtotal: sub, discount: disc || null, total, payment,
       cashGiven: cashGiven > total ? cashGiven : null, note: note || null,
       status: "kurye_bekliyor", courierId, courierName: courierId ? (courierNameOf(courierId) || "Kurye") : null,
-      assignedAt: courierId ? now : null, createdAt: now, updatedAt: now, createdBy: myUid(), geo: geo || null
+      assignedAt: courierId ? now : null, createdAt: now, updatedAt: now, createdBy: myUid()
     });
     const ckey = findCustomerKey(phone) || phoneDigits;
     const prev = customers[ckey] || {};
-    // Müşterinin konumu adresle birlikte saklanır; adres değiştiyse eski konum silinir
-    const keepGeo = !geo && geoOk(prev.geo) && geoKey(prev.geo.addr || "") === geoKey(address) ? prev.geo : null;
     const custRec = clean({ ...prev, name, phone, address, addressNote: addressNote || null, updatedAt: now, lastOrderAt: now,
-      orderCount: num(prev.orderCount) + 1, totalSpent: round2(num(prev.totalSpent) + total), lastPayment: payment, lastItems: items,
-      geo: geo ? { ...geo, addr: address } : keepGeo });
+      orderCount: num(prev.orderCount) + 1, totalSpent: round2(num(prev.totalSpent) + total), lastPayment: payment, lastItems: items });
     if (!addressNote) delete custRec.addressNote;
     if (courierId) markSelf(key);
-    const send = () => commit(update(ref(db), { [`orders/${key}`]: order, [`customers/${ckey}`]: custRec }), "Sipariş sunucuya gönderilemedi!");
-    try { await send(); }
-    catch (e) {
-      if (!geo || !isPerm(e)) throw e;
-      // Firebase kuralları yeni "geo" alanına izin vermiyorsa sipariş yine de konumsuz kaydedilir
-      console.warn("Konum alanı reddedildi, sipariş konumsuz kaydediliyor:", e);
-      delete order.geo; delete custRec.geo;
-      await send();
-      toast("Sipariş kaydedildi ama km bilgisi kaydedilemedi. Firebase kurallarında siparişlere “geo” alanı için yazma izni verin.", "warn");
-    }
+    await commit(update(ref(db), { [`orders/${key}`]: order, [`customers/${ckey}`]: custRec }), "Sipariş sunucuya gönderilemedi!");
     const doPrint = $("printOnCreate").checked; lsSet("hp_printOnCreate", doPrint);
     if (doPrint) printOrder(order);
     resetPOS();
@@ -1874,960 +1745,11 @@ async function createOrder() {
 }
 
 /* =========================================================
-   HARİTA VE MESAFE
-   Harita: Leaflet + OpenStreetMap (API anahtarı gerekmez).
-   Adres → konum: Photon (yazarken aramaya uygun), Photon'a ulaşılamazsa Nominatim.
-   Yol mesafesi: OSRM (FOSSGIS sunucusu). Yol hesaplanamazsa kuş uçuşu mesafe kullanılır.
-   Bulunan konum siparişe (orders/{id}/geo) ve müşteriye (customers/{tel}/geo) yazılır;
-   aynı müşteri aynı adrese tekrar sipariş verdiğinde konum yeniden aranmaz.
-   ========================================================= */
-const LEAFLET_CDN = [
-  { css: "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css", js: "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" },
-  { css: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", js: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" }
-];
-const LEAFLET_SRI = { css: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", js: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" };
-const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-const MAP_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · <a href="https://www.openstreetmap.org/fixthemap" target="_blank" rel="noopener">Haritayı düzelt</a>';
-const PHOTON_URL = "https://photon.komoot.io/api/";
-const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
-const ROUTERS = ["https://routing.openstreetmap.de/routed-car/route/v1/driving", "https://router.project-osrm.org/route/v1/driving"];
-const SEARCH_KM = 25;   // dükkandan bundan uzak arama sonuçları yok sayılır
-const ZONES = {
-  near: { label: "Teslimat bölgesinde", color: "#15803d" },
-  far: { label: "Uzak adres", color: "#b45309" },
-  out: { label: "Teslimat sınırı dışında", color: "#d92d20" }
-};
-const STATE_COLOR = { pool: "#d97706", assigned: "#6d28d9", road: "#1d4ed8", done: "#15803d", cancel: "#6b7280" };
-const ACC_NOTE = { bina: "bina konumu", sokak: "sokak düzeyinde", yaklasik: "yaklaşık (mahalle)", elle: "elle işaretli" };
-
-/* ---------- Mesafe yardımcıları ---------- */
-function round5(n) { return Math.round(Number(n) * 1e5) / 1e5; }
-function sleep(ms) { return new Promise(r => setTimeout(r, Math.max(0, ms))); }
-function uniq(a) { return [...new Set(a)]; }
-function uniqFold(a) { const seen = new Set(); return a.filter(x => { const k = fold(x); if (!k || seen.has(k)) return false; seen.add(k); return true; }); }
-function geoOk(g) {
-  if (!g || typeof g !== "object") return false;
-  const a = Number(g.lat), b = Number(g.lng);
-  return Number.isFinite(a) && Number.isFinite(b) && Math.abs(a) <= 90 && Math.abs(b) <= 180 && !(a === 0 && b === 0);
-}
-function airKm(a, b) {
-  const R = 6371.0088, rad = Math.PI / 180;
-  const la1 = Number(a.lat) * rad, la2 = Number(b.lat) * rad, dLa = la2 - la1, dLo = (Number(b.lng) - Number(a.lng)) * rad;
-  const h = Math.sin(dLa / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLo / 2) ** 2;
-  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
-}
-function shopPt() { return { lat: settings.map.lat, lng: settings.map.lng }; }
-function geoIsRoad(g) { const k = Number(g?.km); return Number.isFinite(k) && k > 0; }
-// Yol mesafesi varsa o, yoksa kuş uçuşu (km)
-function geoDist(g) {
-  if (!geoOk(g)) return NaN;
-  if (geoIsRoad(g)) return Number(g.km);
-  const a = Number(g.air);
-  return Number.isFinite(a) && a >= 0 && g.air !== null && g.air !== "" ? a : airKm(shopPt(), g);
-}
-function kmText(km) {
-  km = Number(km);
-  if (!Number.isFinite(km)) return "–";
-  if (km < 1) return `${Math.max(10, Math.round(km * 100) * 10)} m`;
-  return km.toLocaleString("tr-TR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " km";
-}
-function minsText(m) { m = Number(m); return Number.isFinite(m) && m > 0 ? `≈ ${Math.max(1, Math.round(m))} dk` : ""; }
-function coordText(p) { return geoOk(p) ? `${Number(p.lat).toFixed(5)}, ${Number(p.lng).toFixed(5)}` : "–"; }
-function zoneOf(km) {
-  km = Number(km);
-  if (!Number.isFinite(km)) return "near";
-  const { warnKm, maxKm } = settings.map;
-  if (maxKm > 0 && km > maxKm) return "out";
-  if (warnKm > 0 && km > warnKm) return "far";
-  return "near";
-}
-function packGeo(g) {
-  return clean({
-    lat: round5(g.lat), lng: round5(g.lng), acc: g.acc || null,
-    km: geoIsRoad(g) ? round2(g.km) : null,
-    air: Number.isFinite(Number(g.air)) && g.air !== null ? round2(g.air) : round2(airKm(shopPt(), g)),
-    mins: Number(g.mins) > 0 ? Math.round(Number(g.mins)) : null
-  });
-}
-function normMap(m) {
-  m = m && typeof m === "object" ? m : {};
-  const ok = geoOk(m);
-  const km = (v, d) => (v === undefined || v === null || v === "") ? d : (num(v) > 0 ? round2(num(v)) : 0);
-  return {
-    lat: ok ? Number(m.lat) : DEFAULT_MAP.lat, lng: ok ? Number(m.lng) : DEFAULT_MAP.lng,
-    label: String(m.label || DEFAULT_MAP.label), set: ok && m.set === true,
-    warnKm: km(m.warnKm, DEFAULT_MAP.warnKm), maxKm: km(m.maxKm, DEFAULT_MAP.maxKm)
-  };
-}
-// Adisyon kartındaki mesafe satırı (yönetici ve kurye)
-function distRowHTML(o, compact = false) {
-  if (!geoOk(o?.geo)) return "";
-  const g = o.geo, d = geoDist(g), z = zoneOf(d);
-  const sub = [compact && geoIsRoad(g) ? "" : geoIsRoad(g) ? "yol" : "kuş uçuşu", minsText(g.mins), z === "out" ? "sınır dışı" : z === "far" ? "uzak" : ""].filter(Boolean).join(" · ");
-  return `<div class="t-dist z-${z}"><span class="t-km">${g.acc === "yaklasik" ? "≈ " : ""}${esc(kmText(d))}</span><span class="t-dsub">${esc(sub)}</span>${compact
-    ? `<button type="button" class="t-mapbtn icon" data-act="order-map" data-id="${esc(o.id)}" title="Haritada gör" aria-label="Haritada gör">🗺</button>`
-    : `<button type="button" class="t-mapbtn" data-act="order-map" data-id="${esc(o.id)}">🗺 Harita</button>`}</div>`;
-}
-function geoBarFill(el, g, { pending = false, routeWait = false } = {}) {
-  if (!el) return;
-  if (!geoOk(g)) { el.className = "geo-bar"; el.innerHTML = `<div class="geo-bar-main"><b>Konum kayıtlı değil</b></div>`; return; }
-  const d = geoDist(g), z = zoneOf(d);
-  el.className = "geo-bar z-" + z;
-  const sub = [geoIsRoad(g) ? "dükkandan yol mesafesi" : routeWait ? "kuş uçuşu · yol hesaplanıyor…" : "dükkandan kuş uçuşu", minsText(g.mins), ACC_NOTE[g.acc] || ""].filter(Boolean).join(" · ");
-  el.innerHTML = `<div class="geo-bar-main"><span class="geo-km">${g.acc === "yaklasik" ? "≈ " : ""}${esc(kmText(d))}</span><span class="zone-chip">${z === "out" ? "⚠ " : ""}${esc(ZONES[z].label)}</span></div><div class="geo-bar-sub">${pending ? "<b>Yeni konum</b> · " : ""}${esc(sub)}</div>`;
-}
-
-/* ---------- Leaflet (harita kütüphanesi) yükleme ---------- */
-let leafletP = null, leafletCssOk = false;
-function addAsset(tag, props) {
-  return new Promise((resolve, reject) => {
-    const el = document.createElement(tag);
-    Object.assign(el, props);
-    el.onload = () => resolve(el);
-    el.onerror = () => { el.remove(); reject(new Error(`${props.src || props.href} yüklenemedi`)); };
-    document.head.appendChild(el);
-  });
-}
-async function loadFirstAsset(kind) {
-  let err = null;
-  for (const cdn of LEAFLET_CDN) {
-    try {
-      if (kind === "css") await addAsset("link", { rel: "stylesheet", href: cdn.css, integrity: LEAFLET_SRI.css, crossOrigin: "anonymous" });
-      else await addAsset("script", { src: cdn.js, integrity: LEAFLET_SRI.js, crossOrigin: "anonymous" });
-      return;
-    } catch (e) { err = e; }
-  }
-  throw err || new Error("Harita kütüphanesi yüklenemedi");
-}
-function leafletReady() { return !!(window.L && typeof window.L.map === "function"); }
-function loadLeaflet() {
-  if (leafletReady() && leafletCssOk) return Promise.resolve(window.L);
-  if (leafletP) return leafletP;
-  leafletP = Promise.all([
-    leafletReady() ? null : loadFirstAsset("js"),
-    leafletCssOk ? null : loadFirstAsset("css").then(() => { leafletCssOk = true; })
-  ]).then(() => { if (!leafletReady()) throw new Error("Harita kütüphanesi bulunamadı"); return window.L; });
-  leafletP.catch(e => { console.warn("Harita yüklenemedi:", e?.message || e); leafletP = null; });
-  return leafletP;
-}
-function isTouch() { try { return window.matchMedia("(pointer:coarse)").matches; } catch { return false; } }
-function tapWord() { return isTouch() ? "dokunun" : "tıklayın"; }
-// Tıklamanın pin koyduğu haritalarda çift tıklama yakınlaştırmaz (yoksa yanlışlıkla pin taşınır)
-function makeMap(el, { drag = !isTouch(), wheel = false, keyboard = false, zoom = 14, dblZoom = true } = {}) {
-  const L = window.L;
-  el.innerHTML = "";
-  const map = L.map(el, { dragging: drag, scrollWheelZoom: wheel, doubleClickZoom: dblZoom, keyboard, zoomControl: true, attributionControl: true, zoomSnap: 0.5, minZoom: 8, maxZoom: 19 });
-  map.attributionControl.setPrefix(false);
-  L.tileLayer(TILE_URL, { maxZoom: 19, attribution: MAP_ATTR }).addTo(map);
-  map.setView([settings.map.lat, settings.map.lng], zoom);
-  return map;
-}
-function pinIcon(color, inner = "", cls = "") {
-  return window.L.divIcon({ className: "hp-pin-wrap", html: `<div class="hp-pin ${cls}" style="--c:${color}"><span>${inner}</span></div>`, iconSize: [30, 38], iconAnchor: [15, 36], tooltipAnchor: [0, -32] });
-}
-function shopIcon() { return pinIcon("#15181d", "🥙", "shop"); }
-function custIcon(z, cls = "") { return pinIcon(ZONES[z]?.color || "#e8590c", "", ("dot " + cls).trim()); }
-function zoneLayer(c = settings.map) {
-  const L = window.L, m = settings.map, ll = [Number(c.lat), Number(c.lng)], g = L.layerGroup();
-  if (m.warnKm > 0 && !(m.maxKm > 0 && m.warnKm >= m.maxKm)) L.circle(ll, { radius: m.warnKm * 1000, color: ZONES.far.color, weight: 1, opacity: .55, dashArray: "4 6", fill: false, interactive: false }).addTo(g);
-  if (m.maxKm > 0) L.circle(ll, { radius: m.maxKm * 1000, color: ZONES.out.color, weight: 1.5, opacity: .6, dashArray: "6 6", fill: false, interactive: false }).addTo(g);
-  return g;
-}
-function baseKey() { const m = settings.map; return [m.lat, m.lng, m.warnKm, m.maxKm, settings.shop.name].join("|"); }
-// Haritadaki dükkan pini ve teslimat çemberleri ayarlarla eşitlenir
-function syncBase(rec, zones = true) {
-  const L = window.L, m = settings.map, key = baseKey() + (zones ? "|z" : "");
-  if (rec.baseKey === key) return false;
-  rec.baseKey = key;
-  if (rec.shop) rec.shop.remove();
-  rec.shop = L.marker([m.lat, m.lng], { icon: shopIcon(), keyboard: false, zIndexOffset: 1000 }).bindTooltip(esc(settings.shop.name || "Dükkan"), { direction: "top" }).addTo(rec.map);
-  if (rec.zones) { rec.zones.remove(); rec.zones = null; }
-  if (zones) rec.zones = zoneLayer().addTo(rec.map);
-  return true;
-}
-function mapVisible(map) { const el = map && map.getContainer(); return !!el && el.isConnected && el.offsetWidth > 0 && el.offsetHeight > 0; }
-function fitPts(map, pts, maxZoom = 16) {
-  const L = window.L, ll = pts.filter(p => Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1]));
-  if (!ll.length || !mapVisible(map)) return false;
-  map.invalidateSize(false);
-  if (ll.length === 1) map.setView(ll[0], Math.min(maxZoom, 15));
-  else map.fitBounds(L.latLngBounds(ll), { padding: [28, 28], maxZoom });
-  return true;
-}
-function fitZones(map) {
-  if (!mapVisible(map)) return false;
-  const L = window.L, m = settings.map, r = Math.max(m.maxKm || 0, m.warnKm || 0) || 2;
-  map.invalidateSize(false);
-  map.fitBounds(L.latLng(m.lat, m.lng).toBounds(r * 2100), { padding: [6, 6] });
-  return true;
-}
-function drawLine(rec, g) {
-  const L = window.L;
-  if (rec.line) { rec.line.remove(); rec.line = null; }
-  if (!geoOk(g)) return;
-  const m = settings.map;
-  rec.line = Array.isArray(g.line) && g.line.length > 1
-    ? L.polyline(g.line, { color: "#1d4ed8", weight: 4.5, opacity: .75, interactive: false }).addTo(rec.map)
-    : L.polyline([[m.lat, m.lng], [Number(g.lat), Number(g.lng)]], { color: "#475467", weight: 2, opacity: .7, dashArray: "6 7", interactive: false }).addTo(rec.map);
-}
-// Sipariş ekranında Tab tuşu haritadaki düğmelere takılmasın
-function noTabStops(el) { el.querySelectorAll("a, [tabindex]").forEach(a => a.setAttribute("tabindex", "-1")); }
-function destroyModalMaps() { while (modalMaps.length) { const m = modalMaps.pop(); try { m.remove(); } catch { /* yok say */ } } }
-
-/* ---------- Adres ayrıştırma ----------
-   Türkçe adresteki mahalle, sokak/cadde ve bina no ayrılır; daire, kat, blok gibi
-   arama motorunu şaşırtan parçalar atılır. Örnek:
-   "Fevzi Çakmak Mah. Çınar Sk. No:5 D:3" → sokak "Çınar", mahalle "Fevzi Çakmak", no "5" */
-const ADDR_LETTERS = "A-Za-zÇĞİÖŞÜçğıöşüÂâÎîÛû";
-const RX_KEY_NUM = new RegExp(`([${ADDR_LETTERS}])[:.](?=\\d)`, "g");        // No:12 → No 12
-const RX_ORD_WORD = new RegExp(`(\\d)\\.(?=[${ADDR_LETTERS}])`, "g");        // 5.Sokak → 5. Sokak
-const RX_ABBR_WORD = new RegExp(`([${ADDR_LETTERS}]{2,})\\.(?=[${ADDR_LETTERS}])`, "g"); // Sk.No → Sk. No
-const ADDR_MAH = new Set(["mah", "mh", "mhl", "mahalle", "mahallesi", "mahalesi", "mahhallesi", "mahal"]);
-const ADDR_STREET = { sk: "Sokak", sok: "Sokak", sokak: "Sokak", sokagi: "Sokağı", cd: "Caddesi", cad: "Caddesi", cadde: "Caddesi", caddesi: "Caddesi",
-  bul: "Bulvarı", bulv: "Bulvarı", blv: "Bulvarı", bulvar: "Bulvarı", bulvari: "Bulvarı", yolu: "Yolu", cikmazi: "Çıkmazı", cikmaz: "Çıkmazı",
-  meydani: "Meydanı", meydan: "Meydanı", gecidi: "Geçidi" };
-const ADDR_NO = new Set(["no", "nu", "nr", "numara", "num"]);
-const ADDR_DOOR = new Set(["d", "da", "dr", "dai", "daire", "k", "kt", "kat"]);
-const ADDR_SKIP = new Set(["apt", "ap", "apart", "apartman", "apartmani", "bina", "binasi", "blok", "bl", "kat", "daire", "zil", "kapi", "istanbul", "ist", "turkiye", "tr", "il", "ilce",
-  "karsisi", "yani", "arkasi", "ustu", "alti", "kosesi", "bitisigi", "civari", "yakini", "onu"]);   // "eczane karşısı" gibi tarifler
-const ADDR_GENERIC = new Set(["merkez", "mahallesi", "sokak", "sokagi", "caddesi", "bulvari", "yolu", "sitesi", "site"]);
-function addrTokens(raw) {
-  let s = String(raw || "").replace(/[\r\n\t]+/g, " ");
-  s = s.replace(RX_KEY_NUM, "$1 ").replace(RX_ORD_WORD, "$1. ").replace(RX_ABBR_WORD, "$1. ");
-  s = s.replace(/[,;/\\()[\]{}"'`|+*#]+/g, " ");
-  const parts = s.split(/\s+/).filter(Boolean);
-  const keyOf = t => fold(t || "").replace(/^[.:\-]+|[.:\-]+$/g, "");
-  const out = [];
-  for (let i = 0; i < parts.length; i++) {
-    const t = parts[i], k = keyOf(t), nk = keyOf(parts[i + 1]);
-    let m;
-    if (!k) continue;
-    if (ADDR_MAH.has(k)) { out.push({ kind: "mah", t: "Mahallesi", k: "mahallesi" }); continue; }
-    if (ADDR_STREET[k]) { out.push({ kind: "street", t: ADDR_STREET[k], k: fold(ADDR_STREET[k]) }); continue; }
-    if ((k === "ic" || k === "dis") && nk === "kapi") {          // İç Kapı No: 3 atılır, Dış Kapı No: 12 bina no olarak kalır
-      i++;
-      if (k === "ic") { if (ADDR_NO.has(keyOf(parts[i + 1]))) i++; if (/^\d/.test(keyOf(parts[i + 1]))) i++; }
-      continue;
-    }
-    if ((m = k.match(/^(?:no|nu|nr)(\d+)/))) { out.push({ kind: "no", t: m[1], k: m[1] }); continue; }
-    if (ADDR_NO.has(k)) { if ((m = nk.match(/^\d+/))) { out.push({ kind: "no", t: m[0], k: m[0] }); i++; } continue; }
-    if (/^(?:d|k|kat|daire)\d+[a-z]?$/.test(k)) continue;
-    if (ADDR_DOOR.has(k) && /^\d+[a-z]?$/.test(nk)) { i++; continue; }
-    if ((k === "blok" || k === "bl") && /^[a-z0-9]{1,3}$/.test(nk)) { i++; continue; }
-    if (/^[a-z0-9]{1,3}$/.test(k) && (nk === "blok" || nk === "bl")) { i++; continue; }
-    if (ADDR_SKIP.has(k)) continue;
-    if (/^\d+$/.test(k)) { const ord = /\.$/.test(t); out.push({ kind: ord ? "ord" : "num", t: ord ? k + "." : k, k }); continue; }
-    if ((m = k.match(/^(\d+)(?:[a-z]|-\d+)$/))) { out.push({ kind: "num", t: m[1], k: m[1] }); continue; }
-    if (k.length === 1) continue;
-    if (k === "sit") { out.push({ kind: "word", t: "Sitesi", k: "sitesi" }); continue; }
-    out.push({ kind: "word", t: t.replace(/^[.:\-]+|[.:\-]+$/g, ""), k });
-  }
-  return out;
-}
-function parseAddr(raw) {
-  const T = addrTokens(raw);
-  const P = { mahW: [], stW: [], suffix: "", no: "", restW: [], queries: [], key: "", mahCore: [], stCore: [], freeCore: [] };
-  if (fold(raw).replace(/[^a-z0-9]/g, "").length < 5) return P;
-  const used = new Set();
-  const nameKind = x => x.kind === "word" || x.kind === "ord";
-  const mahIdx = T.findIndex(x => x.kind === "mah");
-  if (mahIdx > 0) for (let i = mahIdx - 1; i >= 0 && P.mahW.length < 3 && nameKind(T[i]); i--) { P.mahW.unshift(T[i]); used.add(i); }
-  let stIdx = T.findIndex((x, i) => x.kind === "street" && i > mahIdx);
-  if (stIdx < 0) stIdx = T.findIndex(x => x.kind === "street");
-  let stEnd = -1;
-  if (stIdx >= 0) {
-    for (let i = stIdx - 1; i >= 0 && P.stW.length < 4; i--) {
-      const x = T[i]; if (used.has(i) || !(nameKind(x) || x.kind === "num")) break;
-      P.stW.unshift(x); used.add(i);
-    }
-    if (P.stW.length) { P.suffix = T[stIdx].t; used.add(stIdx); stEnd = stIdx; }
-  } else if (mahIdx >= 0) {
-    // "Fevzi Çakmak Mah. Çınar 5" gibi sokak eki yazılmamışsa mahalleden sonraki kelimeler sokak adı sayılır
-    for (let i = mahIdx + 1; i < T.length && P.stW.length < 3 && nameKind(T[i]); i++) { P.stW.push(T[i]); used.add(i); stEnd = i; }
-  }
-  const noIdx = T.findIndex(x => x.kind === "no");
-  if (noIdx >= 0) { P.no = T[noIdx].t; used.add(noIdx); }
-  else if (stEnd >= 0) { const j = T.findIndex((x, i) => i > stEnd && x.kind === "num"); if (j >= 0) { P.no = T[j].t; used.add(j); } }
-  const seenK = new Set([...P.mahW, ...P.stW].map(x => x.k));
-  P.restW = T.filter((x, i) => !used.has(i) && x.kind === "word" && !seenK.has(x.k));
-  const join = a => a.map(x => x.t).join(" ");
-  const mah = join(P.mahW), st = join(P.stW), rest = P.restW.length <= 2 ? join(P.restW) : "";
-  // "1234 Sokak", "5. Sokak" gibi sayı adlı sokaklarda ek aramada kalır
-  const stQ = st && P.suffix && !P.stW.some(x => x.kind === "word") ? `${st} ${P.suffix}` : st;
-  const add = (q, kind, needMah = false) => {
-    q = q.replace(/\s+/g, " ").trim();
-    if (fold(q).replace(/[^a-z0-9]/g, "").length >= 3 && !P.queries.some(x => x.q === q)) P.queries.push({ q, kind, needMah });
-  };
-  if (st) {
-    add([stQ, P.no, mah, rest].filter(Boolean).join(" "), "street");
-    add([stQ, mah].filter(Boolean).join(" "), "street");
-    if (mah) add(stQ, "street", true);
-  }
-  if (mah) add(`${mah} Mahallesi`, "mah");
-  if (!st && !mah) {
-    const words = T.filter(nameKind).slice(0, 5);
-    if (words.length) add([join(words), P.no].filter(Boolean).join(" "), "free");
-  }
-  const core = a => uniq(a.map(x => x.k.replace(/[^a-z0-9]/g, "")).filter(k => k && !ADDR_GENERIC.has(k) && (k.length >= 3 || /^\d+$/.test(k))));
-  P.mahCore = core(P.mahW); P.stCore = core(P.stW);
-  P.freeCore = core(T.filter(x => x.kind === "word")).filter(k => k.length >= 4);
-  P.key = P.queries.map(x => fold(x.q)).join("|");
-  return P;
-}
-// Adresin konum açısından anlamlı kısmı (daire, kat vb. değişince aynı kalır)
-function geoKey(raw) { return parseAddr(raw).key; }
-
-/* ---------- Adres arama (Photon, yedek Nominatim) ---------- */
-const GEO_CACHE = new Map();
-let photonDownUntil = 0, nominatimNext = 0;
-function cacheGet(key, make) {
-  if (GEO_CACHE.has(key)) return GEO_CACHE.get(key);
-  const p = make();
-  GEO_CACHE.set(key, p);
-  p.catch(() => { if (GEO_CACHE.get(key) === p) GEO_CACHE.delete(key); });
-  if (GEO_CACHE.size > 400) GEO_CACHE.delete(GEO_CACHE.keys().next().value);
-  return p;
-}
-async function fetchJSON(url, ms = 7000) {
-  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), ms);
-  try {
-    const res = await fetch(url, { signal: ctl.signal, headers: { Accept: "application/json" } });
-    if (!res.ok) { const e = new Error("HTTP " + res.status); e.status = res.status; throw e; }
-    return await res.json();
-  } finally { clearTimeout(timer); }
-}
-// Dükkan çevresi yaklaşık ±22 km
-function searchBox() { const { lat, lng } = settings.map; return [lng - 0.27, lat - 0.2, lng + 0.27, lat + 0.2].map(v => v.toFixed(4)).join(","); }
-function extentKm(e) { return Array.isArray(e) && e.length === 4 ? airKm({ lat: e[1], lng: e[0] }, { lat: e[3], lng: e[2] }) : 0; }
-function photonCand(f) {
-  const co = f?.geometry?.coordinates;
-  if (!Array.isArray(co)) return null;
-  const lng = Number(co[0]), lat = Number(co[1]);
-  if (!geoOk({ lat, lng })) return null;
-  const p = f.properties || {}, type = String(p.type || ""), key = String(p.osm_key || ""), size = extentKm(p.extent);
-  if (size > 8 || type === "state" || type === "country") return null;   // ilçe/il gibi geniş alanlar işe yaramaz
-  const isStreet = type === "street" || key === "highway";
-  const isArea = !isStreet && (["city", "district", "locality", "county"].includes(type) || key === "place" || key === "boundary" || size > 1.2);
-  const acc = p.housenumber ? "bina" : isStreet ? "sokak" : isArea ? "yaklasik" : "bina";
-  let label;
-  if (isStreet) label = p.name || "Sokak";
-  else if (p.name) label = p.name + (p.street ? ` · ${p.street}${p.housenumber ? " No:" + p.housenumber : ""}` : "");
-  else label = [p.street, p.housenumber ? "No:" + p.housenumber : ""].filter(Boolean).join(" ") || "Konum";
-  const sub = uniqFold([p.district, p.locality, p.city, p.county].filter(Boolean).map(String)).filter(x => fold(x) !== fold(p.name || "")).slice(0, 3).join(", ");
-  return { lat, lng, acc, label, sub,
-    text: fold([p.name, p.street, p.housenumber, p.district, p.locality, p.city, p.county].filter(Boolean).join(" ")),
-    streetText: fold((isStreet ? p.name : p.street) || ""), hn: String(p.housenumber || "") };
-}
-function nomCand(r) {
-  const lat = Number(r?.lat), lng = Number(r?.lon);
-  if (!geoOk({ lat, lng })) return null;
-  const a = r.address || {}, t = String(r.addresstype || r.type || "");
-  const bb = (r.boundingbox || []).map(Number), size = bb.length === 4 ? airKm({ lat: bb[0], lng: bb[2] }, { lat: bb[1], lng: bb[3] }) : 0;
-  if (size > 8) return null;
-  const isStreet = t === "road" || r.category === "highway" || r.class === "highway";
-  const isArea = !isStreet && (["neighbourhood", "suburb", "quarter", "city_district", "town", "village", "city", "municipality", "district"].includes(t) || size > 1.2);
-  const acc = a.house_number ? "bina" : isStreet ? "sokak" : isArea ? "yaklasik" : "bina";
-  const road = a.road || (isStreet ? r.name : "");
-  const label = isStreet ? (r.name || road || "Sokak")
-    : r.name ? r.name + (road ? ` · ${road}${a.house_number ? " No:" + a.house_number : ""}` : "")
-    : [road, a.house_number ? "No:" + a.house_number : ""].filter(Boolean).join(" ") || "Konum";
-  const sub = uniqFold([a.neighbourhood, a.quarter, a.suburb, a.city_district, a.town, a.city].filter(Boolean).map(String)).filter(x => fold(x) !== fold(r.name || "")).slice(0, 3).join(", ");
-  return { lat, lng, acc, label, sub, text: fold(r.display_name || ""), streetText: fold(road || ""), hn: String(a.house_number || "") };
-}
-function photonSearch(q) {
-  if (Date.now() < photonDownUntil) return Promise.reject(new Error("Photon geçici olarak kullanılamıyor"));
-  const { lat, lng } = settings.map;
-  const url = `${PHOTON_URL}?q=${encodeURIComponent(q)}&limit=8&lat=${lat.toFixed(5)}&lon=${lng.toFixed(5)}&zoom=13&bbox=${searchBox()}`;
-  return cacheGet(url, () => fetchJSON(url, 6500)
-    .then(j => (Array.isArray(j?.features) ? j.features : []).map(photonCand).filter(Boolean))
-    .catch(e => { if (!e.status || e.status >= 429) photonDownUntil = Date.now() + 90000; throw e; }));
-}
-function nominatimSearch(q) {
-  const url = `${NOMINATIM_URL}?format=jsonv2&addressdetails=1&limit=6&countrycodes=tr&accept-language=tr&bounded=1&viewbox=${searchBox()}&q=${encodeURIComponent(q)}`;
-  return cacheGet(url, async () => {
-    const wait = nominatimNext - Date.now();
-    nominatimNext = Math.max(Date.now(), nominatimNext) + 1100;   // Nominatim kuralı: saniyede en fazla bir istek
-    if (wait > 0) await sleep(wait);
-    const arr = await fetchJSON(url, 8000);
-    return (Array.isArray(arr) ? arr : []).map(nomCand).filter(Boolean);
-  });
-}
-function coreHits(text, core) { let n = 0; for (const t of core) if (text.includes(t)) n++; return n; }
-function needHits(n) { return n <= 2 ? n : Math.ceil(n * 0.6); }
-function mahOk(c, P) { return !P.mahCore.length || coreHits(c.text, P.mahCore) >= needHits(P.mahCore.length); }
-function houseOk(c, P) { return !!P.no && !!c.hn && (c.hn.match(/^\d+/) || [""])[0] === P.no; }
-function scoreCand(c, P, rank) {
-  let s = 30 - rank * 2;
-  if (P.stCore.length) s += 30 * coreHits(c.streetText, P.stCore) / P.stCore.length;
-  if (P.mahCore.length && mahOk(c, P)) s += 18;
-  if (houseOk(c, P)) s += 14;
-  if (P.suffix && c.streetText.includes(fold(P.suffix).slice(0, 3))) s += 3;
-  if (c.acc === "bina") s += 4; else if (c.acc === "sokak") s += 3;
-  s -= Math.min(12, airKm(shopPt(), c) * 0.8);
-  return s;
-}
-function acceptCand(c, P, Q) {
-  if (Q.kind === "street") return P.stCore.length > 0 && coreHits(c.streetText, P.stCore) >= needHits(P.stCore.length) && (!Q.needMah || mahOk(c, P));
-  if (Q.kind === "mah") return P.mahCore.length > 0 && mahOk(c, P);
-  return P.freeCore.length > 0 && coreHits(c.text, P.freeCore) >= Math.min(2, P.freeCore.length);
-}
-function finalizeCand(c, P, Q) {
-  const f = { ...c };
-  if (Q.kind === "mah") f.acc = "yaklasik";
-  else if (Q.kind === "street" && f.acc === "bina" && !houseOk(f, P)) f.acc = "sokak";   // aynı sokakta başka bir bina/işyeri
-  f.warnMah = Q.kind !== "mah" && P.mahCore.length > 0 && !mahOk(f, P);
-  return f;
-}
-function dedupeCands(list) {
-  const seen = new Set(), out = [];
-  for (const c of list) {
-    if (!c) continue;
-    const k = `${c.lat.toFixed(4)},${c.lng.toFixed(4)}|${fold(c.label)}`;
-    if (seen.has(k)) continue;
-    seen.add(k); out.push(c);
-  }
-  return out;
-}
-// Adres → { best, cands, status: "ok" | "none" | "error" }
-async function geocodeAddress(raw) {
-  const P = parseAddr(raw);
-  if (!P.queries.length) return { best: null, cands: [], status: "none", P };
-  const shop = shopPt(), pool = [];
-  let failed = 0, answered = 0, nomUsed = 0;
-  for (const Q of P.queries.slice(0, 4)) {
-    let list = null;
-    try { list = await photonSearch(Q.q); }
-    catch {
-      failed++;
-      if (nomUsed >= 2) break;   // yedek servis az kullanılır (Nominatim kullanım kuralı)
-      nomUsed++;
-      try { list = await nominatimSearch(Q.q); } catch { list = null; }
-    }
-    if (!list) break;   // iki servise de ulaşılamadı
-    answered++;
-    const scored = list.filter(c => airKm(shop, c) <= SEARCH_KM).map((c, i) => ({ c, s: scoreCand(c, P, i) })).sort((a, b) => b.s - a.s);
-    const ok = scored.filter(x => acceptCand(x.c, P, Q)).map(x => finalizeCand(x.c, P, Q));
-    if (ok.length) return { best: ok[0], cands: dedupeCands([...ok, ...pool, ...scored.map(x => x.c)]).slice(0, 6), status: "ok", P };
-    pool.push(...scored.map(x => x.c));
-  }
-  return { best: null, cands: dedupeCands(pool).slice(0, 6), status: !answered && failed ? "error" : "none", P };
-}
-
-/* ---------- Yol mesafesi (OSRM) ---------- */
-const ROUTE_CACHE = new Map();
-let routeChain = Promise.resolve(), routeNext = 0;
-function routeBetween(a, b) {
-  if (!geoOk(a) || !geoOk(b)) return Promise.resolve(null);
-  const key = [a.lat, a.lng, b.lat, b.lng].map(v => Number(v).toFixed(5)).join(",");
-  if (ROUTE_CACHE.has(key)) return ROUTE_CACHE.get(key);
-  const coords = `${Number(a.lng).toFixed(6)},${Number(a.lat).toFixed(6)};${Number(b.lng).toFixed(6)},${Number(b.lat).toFixed(6)}`;
-  const job = routeChain.then(async () => {
-    const wait = routeNext - Date.now();
-    if (wait > 0) await sleep(wait);      // sunucu kuralı: saniyede en fazla bir istek
-    routeNext = Date.now() + 1100;
-    for (const base of ROUTERS) {
-      try {
-        const r = await fetchJSON(`${base}/${coords}?overview=simplified&geometries=geojson&alternatives=false&steps=false`, 8000);
-        const rt = r && r.code === "Ok" && Array.isArray(r.routes) ? r.routes[0] : null;
-        if (rt && Number.isFinite(rt.distance)) return { km: rt.distance / 1000, mins: Number(rt.duration) / 60, line: (rt.geometry?.coordinates || []).map(p => [p[1], p[0]]) };
-        if (r && r.code && r.code !== "Ok") return null;   // yol yok (NoRoute vb.), diğer sunucuyu denemeye gerek yok
-      } catch (e) { console.warn("Yol mesafesi alınamadı:", base, e?.message || e); }
-    }
-    return null;
-  });
-  routeChain = job.catch(() => null);
-  ROUTE_CACHE.set(key, job);
-  job.then(v => { if (!v) ROUTE_CACHE.delete(key); }, () => ROUTE_CACHE.delete(key));
-  if (ROUTE_CACHE.size > 300) ROUTE_CACHE.delete(ROUTE_CACHE.keys().next().value);
-  return job;
-}
-
-/* ---------- Yeni sipariş: adres yazıldıkça konum ve km ---------- */
-// Şu anki adrese ait geçerli konum (adres değiştiyse ve elle konmadıysa geçersiz)
-function posGeoCurrent() {
-  const g = posGeo;
-  if (!g || !geoOk(g)) return null;
-  if (g.src !== "manual" && g.key !== posGeoKey) return null;
-  return g;
-}
-function posGeoBusy() { return !!posGeoTimer || posGeoState === "searching" || !!(posGeo && !posGeo.routeDone); }
-function onAddressInput(force = false) {
-  const addr = $("custAddress").value, key = geoKey(addr);
-  if (!force && key === posGeoKey) return;   // yalnızca daire/kat değiştiyse yeniden aranmaz
-  posGeoKey = key;
-  clearTimeout(posGeoTimer); posGeoTimer = null;
-  if (!addr.trim()) { resetPosGeo(); return; }
-  if (!key) {
-    if (posGeo?.src !== "manual") { posGeo = null; posGeoState = "idle"; }
-    posCands = []; renderPosGeo(); drawPosMap(true); return;
-  }
-  if (posGeo?.src === "manual" && !force) { posGeoState = "stale"; renderPosGeo(); return; }
-  posGeoState = "searching"; renderPosGeo(); drawPosMap(false);
-  posGeoTimer = setTimeout(runPosGeocode, 700);
-}
-function runPosGeocode() {
-  clearTimeout(posGeoTimer); posGeoTimer = null;
-  const addr = $("custAddress").value, key = geoKey(addr);
-  posGeoKey = key;
-  if (!key) { posGeoState = "idle"; renderPosGeo(); return Promise.resolve(); }
-  const seq = ++posGeoSeq;
-  posGeoState = "searching"; renderPosGeo();
-  const job = (async () => {
-    let res;
-    try { res = await geocodeAddress(addr); }
-    catch (e) { console.warn("Adres aranamadı:", e); res = { best: null, cands: [], status: "error" }; }
-    if (seq !== posGeoSeq) return;   // bu arada adres değişti
-    posCands = res.cands || []; posCandsOpen = false;
-    if (res.best) { posGeoState = "ok"; setPosPoint(res.best, "auto", key); }
-    else {
-      if (posGeo?.src !== "manual") posGeo = null;
-      posGeoState = res.status === "error" ? "error" : "none";
-      renderPosGeo(); drawPosMap(true); updateCartBar(); saveDraft();
-    }
-  })();
-  posGeoJob = job;
-  return job;
-}
-function setPosPoint(pt, src, key = posGeoKey) {
-  if (src === "manual" && posGeo) posGeoPrev = { ...posGeo };   // "Geri al" için
-  else if (src !== "manual") posGeoPrev = null;
-  const lat = Number(pt.lat), lng = Number(pt.lng);
-  posGeo = {
-    lat, lng, acc: src === "manual" ? "elle" : (pt.acc || "sokak"), src, key,
-    label: pt.label || "", sub: pt.sub || "", warnMah: !!pt.warnMah,
-    air: airKm(shopPt(), { lat, lng }), km: Number(pt.km) > 0 ? Number(pt.km) : null, mins: Number(pt.mins) > 0 ? Number(pt.mins) : null,
-    line: null, routeDone: false
-  };
-  if (src === "manual" || src === "saved") posGeoState = "ok";
-  renderPosGeo(); drawPosMap(src !== "manual"); updateCartBar(); saveDraft();
-  updatePosRoute();
-}
-function updatePosRoute() {
-  const g = posGeo;
-  if (!g) return null;
-  const job = routeBetween(shopPt(), g).then(r => {
-    if (posGeo !== g) return;
-    if (r) { g.km = r.km; g.mins = r.mins; g.line = r.line; }
-    g.routeDone = true;
-    renderPosGeo(); drawPosMap(g.src !== "manual"); updateCartBar(); saveDraft();
-  }).catch(() => { if (posGeo === g) { g.routeDone = true; renderPosGeo(); } });
-  posRouteJob = job;
-  return job;
-}
-// Sipariş onaylanırken arama/yol hesabı sürüyorsa en fazla "ms" kadar beklenir
-async function posGeoSettle(ms = 4500) {
-  const end = Date.now() + ms;
-  const wait = p => p ? Promise.race([Promise.resolve(p).catch(() => {}), sleep(end - Date.now())]) : null;
-  if (posGeoTimer) runPosGeocode();
-  if (posGeoState === "searching") await wait(posGeoJob);
-  if (posGeo && !posGeo.routeDone) await wait(posRouteJob);
-}
-function posGeoForOrder() { const g = posGeoCurrent(); return g ? packGeo(g) : null; }
-function pickPosCand(i) {
-  const c = posCands[i]; if (!c) return;
-  posGeoState = "ok";
-  setPosPoint({ ...c, warnMah: false }, "auto", posGeoKey);
-}
-function undoPosGeo() {
-  const p = posGeoPrev; if (!p) return;
-  posGeoPrev = null; posGeo = { ...p }; posGeoState = "ok";
-  if (posGeo.src !== "manual") posGeo.key = posGeoKey;
-  renderPosGeo(); drawPosMap(true); updateCartBar(); saveDraft();
-  if (!posGeo.routeDone) updatePosRoute();
-}
-function resetPosGeo() {
-  clearTimeout(posGeoTimer); posGeoTimer = null; posGeoSeq++;
-  posGeo = null; posGeoPrev = null; posGeoKey = ""; posGeoState = "idle"; posCands = []; posCandsOpen = false; posGeoJob = null; posRouteJob = null;
-  renderPosGeo(); drawPosMap(true);
-}
-function posGeoDraft() {
-  const g = posGeo;
-  if (!g || !geoOk(g)) return null;
-  return { lat: g.lat, lng: g.lng, acc: g.acc, src: g.src, key: g.key, km: g.km, mins: g.mins, label: g.label, sub: g.sub };
-}
-function restorePosGeo(d) {
-  resetPosGeo();
-  posGeoKey = geoKey($("custAddress").value);
-  if (geoOk(d) && (d.src === "manual" || (posGeoKey && d.key === posGeoKey))) {
-    setPosPoint(d, d.src === "manual" ? "manual" : d.src === "saved" ? "saved" : "auto", posGeoKey);
-    posGeoPrev = null;
-    if (d.acc && d.src !== "manual") posGeo.acc = d.acc;
-    posGeoState = "ok"; renderPosGeo();
-  } else if (posGeoKey) { posGeoState = "searching"; renderPosGeo(); posGeoTimer = setTimeout(runPosGeocode, 300); }
-}
-// Kayıtlı müşteri seçilince konumu varsa doğrudan kullanılır, yoksa adresten aranır
-function posGeoFromCustomer(c) {
-  resetPosGeo();
-  posGeoKey = geoKey($("custAddress").value);
-  const g = c && c.geo;
-  if (posGeoKey && geoOk(g) && geoKey(g.addr || "") === posGeoKey) {
-    setPosPoint({ lat: g.lat, lng: g.lng, acc: g.acc, km: g.km, mins: g.mins, label: "Müşterinin kayıtlı konumu" }, "saved", posGeoKey);
-  } else if (posGeoKey) { posGeoState = "searching"; renderPosGeo(); posGeoTimer = setTimeout(runPosGeocode, 150); }
-}
-// Ayarlarda dükkan konumu veya sınırlar değişince
-let lastShopLL = "";
-function onMapSettings() {
-  const m = settings.map, ll = `${m.lat},${m.lng}`, bk = baseKey();
-  if (ll !== lastShopLL) {
-    lastShopLL = ll;
-    if (posGeo && geoOk(posGeo)) { posGeo.air = airKm(m, posGeo); posGeo.km = null; posGeo.mins = null; posGeo.line = null; posGeo.routeDone = false; updatePosRoute(); }
-  }
-  if (bk === lastShopKey) return;
-  lastShopKey = bk;
-  if (posMap) drawPosMap(!posGeoCurrent());
-  if (isAdmin && page === "new") { renderPosGeo(); updateCartBar(); }
-  for (const rec of Object.values(pageMaps)) rec.needFit = true;
-  if (["live", "pool", "mine"].includes(page)) renderPageMap(page);
-}
-function renderPosGeo() {
-  const bar = $("posGeoBar");
-  if (!bar) return;
-  const g = posGeoCurrent(), st = posGeoState, tap = tapWord();
-  $("posShopWarn").innerHTML = isAdmin && !settings.map.set
-    ? `<div class="geo-warn"><span>⚠ Dükkan konumu yaklaşık. Km'nin doğru çıkması için dükkanın yerini bir kez işaretleyin.</span><button type="button" class="btn btn-ghost btn-sm" data-act="nav" data-nav="settings">Konumu ayarla</button></div>` : "";
-  // Üstteki km çubuğu
-  if (g) {
-    const d = geoDist(g), z = zoneOf(d), road = geoIsRoad(g);
-    const sub = road ? ["yol mesafesi", minsText(g.mins), `kuş uçuşu ${kmText(g.air)}`].filter(Boolean).join(" · ")
-      : g.routeDone ? "kuş uçuşu (yol mesafesi hesaplanamadı)" : "kuş uçuşu · yol mesafesi hesaplanıyor…";
-    bar.className = "geo-bar z-" + z;
-    bar.innerHTML = `<div class="geo-bar-main"><span class="geo-km">${g.acc === "yaklasik" ? "≈ " : ""}${esc(kmText(d))}</span><span class="zone-chip">${z === "out" ? "⚠ " : z === "near" ? "✓ " : ""}${esc(ZONES[z].label)}</span></div>
-      <div class="geo-bar-sub">${esc(sub)}${z === "out" ? ` · sınır ${esc(kmText(settings.map.maxKm))}` : ""}</div>`;
-  } else {
-    bar.className = "geo-bar";
-    bar.innerHTML = st === "searching" ? `<div class="geo-wait"><span class="spin"></span><b>Konum aranıyor…</b></div>`
-      : st === "none" ? `<div class="geo-bar-main"><b>Adres haritada bulunamadı</b></div><div class="geo-bar-sub">Haritada evin olduğu yere ${tap}, km hemen hesaplanır.</div>`
-      : st === "error" ? `<div class="geo-bar-main"><b>Konum servisine ulaşılamadı</b><button type="button" class="link-btn" data-act="pos-retry">Tekrar dene</button></div><div class="geo-bar-sub">Haritada evin yerine ${tap}, km yine hesaplanır.</div>`
-      : `<div class="geo-bar-main"><b>Mesafe</b><span class="muted">Adresi yazdıkça harita ve km güncellenir</span></div>`;
-  }
-  // Konumun nereden geldiği ve düzeltme seçenekleri
-  const msg = [];
-  if (g) {
-    const where = [g.label, g.sub].filter(Boolean).join(" · ");
-    if (g.src === "manual") msg.push(`<div class="geo-line"><span>📌 Konum elle işaretlendi</span>${posGeoPrev ? `<button type="button" class="link-btn" data-act="pos-undo">↶ Geri al</button>` : ""}<button type="button" class="link-btn" data-act="pos-regeo">Adrese göre yeniden bul</button></div>`);
-    else if (g.src === "saved") msg.push(`<div class="geo-line"><span>⭐ Müşterinin kayıtlı konumu</span><button type="button" class="link-btn" data-act="pos-regeo">Adrese göre yeniden bul</button></div>`);
-    else msg.push(`<div>${g.acc === "bina" ? "🏠 Bina bulundu" : g.acc === "sokak" ? "🛣 Sokak bulundu" : "≈ Yalnızca mahalle bulundu"}${where ? `: <b>${esc(where)}</b>` : ""}</div>`);
-    if (st === "stale") msg.push(`<div class="warn">Adres değişti; pin hâlâ elle koyduğunuz yerde.</div>`);
-    if (g.src === "auto" && g.acc === "yaklasik") msg.push(`<div class="warn">Mesafe yaklaşık. Pini evin yerine taşırsanız kesinleşir.</div>`);
-    if (g.src === "auto" && g.warnMah) msg.push(`<div class="warn">⚠ Yazdığınız mahallede bulunamadı, başka mahallede çıktı. Kontrol edin.</div>`);
-    msg.push(`<div class="muted">Yanlışsa pini sürükleyin veya haritada doğru yere ${tap}.</div>`);
-  }
-  const others = posCands.filter(c => !(g && Math.abs(c.lat - g.lat) < 1e-6 && Math.abs(c.lng - g.lng) < 1e-6)).length;
-  if (posCands.length && others && (g?.src === "auto" || st === "none")) {
-    msg.push(`<div><button type="button" class="link-btn" data-act="pos-cands">${posCandsOpen ? "Sonuçları gizle" : g ? `Diğer sonuçlar (${others})` : `Benzer sonuçlar (${posCands.length})`}</button></div>`);
-  }
-  $("posGeoMsg").innerHTML = msg.join("");
-  const box = $("posGeoCands");
-  box.classList.toggle("hidden", !posCandsOpen || !posCands.length);
-  box.innerHTML = posCandsOpen ? posCands.map((c, i) => {
-    const on = g && Math.abs(c.lat - g.lat) < 1e-6 && Math.abs(c.lng - g.lng) < 1e-6;
-    return `<button type="button" class="geo-cand ${on ? "on" : ""}" data-act="pos-cand" data-i="${i}"><b>${esc(c.label)}</b> · ${esc(kmText(airKm(shopPt(), c)))}<small>${esc([c.sub, ACC_NOTE[c.acc]].filter(Boolean).join(" · "))}</small></button>`;
-  }).join("") : "";
-  // Sepet panelindeki özet (telefonda müşteri bölümü yukarıda kalır)
-  const cg = $("cartGeo");
-  if (g) {
-    const d = geoDist(g), z = zoneOf(d);
-    cg.className = "cart-geo z-" + z;
-    cg.innerHTML = `<span>📍 ${z === "out" ? `Teslimat sınırı (${esc(kmText(settings.map.maxKm))}) dışında` : esc(ZONES[z].label)}</span><b>${g.acc === "yaklasik" ? "≈ " : ""}${esc(kmText(d))}</b>`;
-  } else if (st === "searching") { cg.className = "cart-geo"; cg.innerHTML = `<span class="geo-wait"><span class="spin"></span>Mesafe hesaplanıyor…</span>`; }
-  else if (st === "none" || st === "error") { cg.className = "cart-geo"; cg.innerHTML = `<span>📍 Adres haritada işaretli değil</span><b>km yok</b>`; }
-  else { cg.className = "cart-geo hidden"; cg.innerHTML = ""; }
-}
-let posMapLoading = null;
-async function ensurePosMap() {
-  if (!isAdmin) return null;
-  if (posMap) { if (posNeedFit) drawPosMap(true); return posMap; }
-  const el = $("posMap");
-  if (!el) return null;
-  if (posMapLoading) return posMapLoading;
-  posMapLoading = (async () => {
-    try { await loadLeaflet(); }
-    catch { el.innerHTML = `<div class="map-ph">Harita yüklenemedi (internet bağlantısını kontrol edin). Km yine de hesaplanır.</div>`; return null; }
-    if (posMap) return posMap;
-    posMap = makeMap(el, { drag: !isTouch(), wheel: false, keyboard: false, zoom: 14, dblZoom: false });
-    posLayers = { map: posMap, shop: null, zones: null, cust: null, line: null, baseKey: "" };
-    posMap.on("click", e => setPosPoint({ lat: e.latlng.lat, lng: e.latlng.lng }, "manual"));
-    noTabStops(el);
-    drawPosMap(true);
-    return posMap;
-  })();
-  try { return await posMapLoading; } finally { posMapLoading = null; }
-}
-function drawPosMap(fit = false) {
-  if (!posMap || !window.L) return;
-  const L = window.L, rec = posLayers, cur = posGeoCurrent();
-  syncBase(rec, true);
-  const g = cur || (posGeo && posGeoState === "searching" && geoOk(posGeo) ? posGeo : null);   // aranırken eski pin soluk görünür
-  const ghost = !!g && !cur;
-  if (g) {
-    const icon = custIcon(zoneOf(geoDist(g)), ghost ? "ghost" : "");
-    if (!rec.cust) {
-      rec.cust = L.marker([g.lat, g.lng], { icon, draggable: true, keyboard: false, autoPan: true, zIndexOffset: 500 }).addTo(posMap);
-      rec.cust.on("dragend", e => { const ll = e.target.getLatLng(); setPosPoint({ lat: ll.lat, lng: ll.lng }, "manual"); });
-    } else { rec.cust.setLatLng([g.lat, g.lng]); rec.cust.setIcon(icon); }
-    drawLine(rec, ghost ? null : g);
-  } else {
-    if (rec.cust) { rec.cust.remove(); rec.cust = null; }
-    drawLine(rec, null);
-  }
-  if (fit || posNeedFit) {
-    const done = g ? fitPts(posMap, [[settings.map.lat, settings.map.lng], [g.lat, g.lng], ...(ghost ? [] : (g.line || []))], 17) : fitZones(posMap);
-    posNeedFit = !done;
-  }
-}
-
-/* ---------- Sipariş haritası (kurye ve detay penceresi) ---------- */
-async function mountOrderMap(el, o, { drag = true, wheel = true, editable = false } = {}) {
-  try { await loadLeaflet(); }
-  catch { if (el.isConnected) el.innerHTML = `<div class="map-ph">Harita yüklenemedi. İnternet bağlantınızı kontrol edin.</div>`; return null; }
-  if (!el.isConnected) return null;
-  const L = window.L, map = makeMap(el, { drag, wheel, keyboard: true, zoom: 15, dblZoom: !editable });
-  modalMaps.push(map);
-  const rec = { map, shop: null, zones: null, cust: null, line: null, baseKey: "", locked: false };
-  syncBase(rec, false);
-  const g = geoOk(o.geo) ? { ...o.geo, lat: Number(o.geo.lat), lng: Number(o.geo.lng) } : null;
-  const shop = [settings.map.lat, settings.map.lng];
-  if (g) {
-    rec.cust = L.marker([g.lat, g.lng], { icon: custIcon(zoneOf(geoDist(g))), draggable: editable, keyboard: false, autoPan: true, zIndexOffset: 500 })
-      .bindTooltip(esc(o.customerName || "Müşteri"), { direction: "top" }).addTo(map);
-    drawLine(rec, g);
-    fitPts(map, [shop, [g.lat, g.lng]], 17);
-    routeBetween(shopPt(), g).then(r => {
-      if (!r || !el.isConnected || rec.locked) return;
-      g.line = r.line; drawLine(rec, g);
-      fitPts(map, [shop, [g.lat, g.lng], ...r.line], 17);
-    });
-  } else fitZones(map);
-  return rec;
-}
-function openOrderMap(id) {
-  const o = findOrder(id);
-  if (!o) return toast("Sipariş bulunamadı.", "err");
-  if (!geoOk(o.geo)) return toast("Bu siparişin konumu kayıtlı değil.", "warn");
-  openModal({ title: `${orderNoText(o)} · ${o.customerName || "Müşteri"}`, wide: true, body: `
-    <div id="omBar" class="geo-bar"></div>
-    <div id="omMap" class="map-box map-xl"><div class="map-ph">Harita yükleniyor…</div></div>
-    <div class="t-addr">📍 ${esc(o.address || "Adres yok")}${o.addressNote ? `<small>${esc(o.addressNote)}</small>` : ""}</div>
-    <div class="t-links">${contactLinks(o)}</div>` });
-  geoBarFill($("omBar"), o.geo);
-  mountOrderMap($("omMap"), o, { drag: true, wheel: true });
-}
-function detGeoSectionHTML(o, editable) {
-  const has = geoOk(o.geo);
-  if (!has && !editable) return "";
-  return `<div class="det-sec"><h4>Konum ve mesafe</h4>
-    <div id="detGeoBar" class="geo-bar"></div>
-    <div id="detMap" class="map-box map-md" style="margin-top:8px"><div class="map-ph">Harita yükleniyor…</div></div>
-    <div id="detGeoSave" class="geo-save hidden" style="margin-top:8px"></div>
-    ${editable ? `<p class="hint">${has ? "Konum yanlışsa pini sürükleyin veya haritada" : "Bu siparişin konumu yok. Kuryeye doğru yol tarifi ve km için haritada"} evin yerine ${tapWord()}, sonra “Konumu kaydet”e basın.</p>` : ""}
-  </div>`;
-}
-function mountDetailMap(o, editable) {
-  const el = $("detMap");
-  if (!el) return;
-  geoBarFill($("detGeoBar"), o.geo);
-  const state = { id: o.id, orig: geoOk(o.geo) ? { ...o.geo } : null, pending: null, rec: null, place: null };
-  detGeo = state;
-  mountOrderMap(el, o, { drag: !isTouch(), wheel: false, editable }).then(rec => {
-    if (!rec || detGeo !== state) return;
-    state.rec = rec;
-    if (!editable) return;
-    state.place = ll => {
-      const g = { lat: Number(ll.lat), lng: Number(ll.lng), acc: "elle", air: airKm(shopPt(), ll), km: null, mins: null, line: null };
-      state.pending = g; rec.locked = true;
-      placeDetMarker(state, g); drawLine(rec, g);
-      geoBarFill($("detGeoBar"), g, { pending: true, routeWait: true });
-      renderDetGeoSave();
-      routeBetween(shopPt(), g).then(r => {
-        if (detGeo !== state || state.pending !== g) return;
-        if (r) { g.km = r.km; g.mins = r.mins; g.line = r.line; drawLine(rec, g); }
-        placeDetMarker(state, g);
-        geoBarFill($("detGeoBar"), g, { pending: true });
-        renderDetGeoSave();
-      });
-    };
-    rec.map.on("click", e => state.place(e.latlng));
-    if (rec.cust) rec.cust.on("dragend", e => state.place(e.target.getLatLng()));
-  });
-}
-function placeDetMarker(state, g) {
-  const L = window.L, rec = state.rec, icon = custIcon(zoneOf(geoDist(g)));
-  if (!rec) return;
-  if (!rec.cust) {
-    rec.cust = L.marker([g.lat, g.lng], { icon, draggable: true, keyboard: false, autoPan: true, zIndexOffset: 500 }).addTo(rec.map);
-    rec.cust.on("dragend", e => state.place(e.target.getLatLng()));
-  } else { rec.cust.setLatLng([g.lat, g.lng]); rec.cust.setIcon(icon); }
-}
-function renderDetGeoSave() {
-  const box = $("detGeoSave");
-  if (!box || !detGeo) return;
-  const g = detGeo.pending;
-  box.classList.toggle("hidden", !g);
-  box.innerHTML = g ? `<span>Yeni konum: <b>${esc(kmText(geoDist(g)))}</b> ${geoIsRoad(g) ? "yol" : "kuş uçuşu"}</span><span class="det-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="det-geo-cancel">Vazgeç</button><button type="button" class="btn btn-primary btn-sm" data-act="det-geo-save">Konumu kaydet</button></span>` : "";
-}
-async function saveDetailGeo() {
-  const st = detGeo;
-  if (!st?.pending) return;
-  const o = orders[st.id];
-  if (!o) return toast("Sipariş bulunamadı.", "err");
-  const geo = packGeo(st.pending), ups = { [`orders/${st.id}/geo`]: geo, [`orders/${st.id}/updatedAt`]: Date.now() };
-  // Müşterinin kayıtlı adresi bu siparişle aynıysa müşterinin konumu da düzeltilir
-  const ck = findCustomerKey(o.phone);
-  if (ck && customers[ck] && geoKey(customers[ck].address || "") === geoKey(o.address || "")) ups[`customers/${ck}/geo`] = { ...geo, addr: o.address || "" };
-  try {
-    await commit(update(ref(db), ups), "Konum sunucuya gönderilemedi.");
-    toast(`Konum kaydedildi: ${kmText(geoDist(geo))}.`, "ok");
-    openDetail(st.id);
-  } catch (e) { console.error(e); toast(isPerm(e) ? "Konum kaydedilemedi: yetki yok (Firebase kurallarında “geo” alanına izin verin)." : "Konum kaydedilemedi.", "err"); }
-}
-function cancelDetailGeo() {
-  const st = detGeo;
-  if (!st || !st.pending) return;
-  st.pending = null;
-  const rec = st.rec, g = st.orig;
-  if (rec) {
-    if (g) {
-      placeDetMarker(st, g); drawLine(rec, g);
-      routeBetween(shopPt(), g).then(r => { if (r && detGeo === st && !st.pending) { g.line = r.line; drawLine(rec, g); } });
-      fitPts(rec.map, [[settings.map.lat, settings.map.lng], [Number(g.lat), Number(g.lng)]], 17);
-    } else {
-      if (rec.cust) { rec.cust.remove(); rec.cust = null; }
-      drawLine(rec, null);
-    }
-  }
-  geoBarFill($("detGeoBar"), g); renderDetGeoSave();
-}
-
-/* ---------- Sayfa haritaları: canlı siparişler, havuz, üzerimdekiler ---------- */
-const pageMapLoading = {};
-function mapPref(key) { return lsGet("hp_map_" + key, false) === true; }
-function toggleMapPref(key) {
-  if (!["live", "pool", "mine"].includes(key)) return;
-  const on = !mapPref(key);
-  lsSet("hp_map_" + key, on);
-  if (pageMaps[key]) pageMaps[key].needFit = true;
-  renderPageMap(key);
-}
-function pageMapOrders(key) {
-  const all = Object.values(orders);
-  if (key === "live") return all.filter(isActive).filter(o => liveFilter === "all" || stateOf(o) === liveFilter);
-  if (key === "pool") return all.filter(isPool);
-  if (key === "mine") return all.filter(o => isActive(o) && o.courierId === myUid());
-  return [];
-}
-async function renderPageMap(key) {
-  const on = mapPref(key);
-  document.querySelectorAll(`[data-act="map-toggle"][data-map="${key}"]`).forEach(b => { b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); b.textContent = on ? "🗺 Haritayı gizle" : "🗺 Harita"; });
-  const box = $(key + "MapBox"), el = $(key + "Map");
-  if (!box || !el) return;
-  box.classList.toggle("hidden", !on);
-  if (!on) return;
-  if (!pageMaps[key]) {
-    if (pageMapLoading[key]) return;
-    pageMapLoading[key] = true;
-    try { await loadLeaflet(); }
-    catch { el.innerHTML = `<div class="map-ph">Harita yüklenemedi. İnternet bağlantınızı kontrol edin.</div>`; return; }
-    finally { pageMapLoading[key] = false; }
-    if (!pageMaps[key]) {
-      const map = makeMap(el, { drag: true, wheel: !isTouch(), keyboard: true, zoom: 13 });
-      pageMaps[key] = { map, layer: window.L.layerGroup().addTo(map), shop: null, zones: null, baseKey: "", idsKey: null, needFit: true };
-    }
-  }
-  drawPageMap(key);
-}
-function drawPageMap(key) {
-  const rec = pageMaps[key];
-  if (!rec || !mapPref(key)) return;
-  const L = window.L, list = pageMapOrders(key), withGeo = list.filter(o => geoOk(o.geo));
-  syncBase(rec, true);
-  rec.layer.clearLayers();
-  for (const o of withGeo) {
-    const st = stateOf(o), g = o.geo;
-    const mk = L.marker([Number(g.lat), Number(g.lng)], { icon: pinIcon(STATE_COLOR[st] || "#e8590c", o.no ? String(o.no) : "•"), keyboard: false, riseOnHover: true });
-    mk.bindTooltip(`<b>${esc(orderNoText(o))}</b> · ${esc(o.customerName || "Müşteri")}<br>${esc(kmText(geoDist(g)))} · ${esc(STATE[st].label)}${isAdmin && o.courierName ? " · " + esc(o.courierName) : ""}`, { direction: "top" });
-    mk.on("click", () => openDetail(o.id));
-    rec.layer.addLayer(mk);
-  }
-  const note = $(key + "MapNote"), missing = list.length - withGeo.length;
-  if (note) note.textContent = !list.length ? "Şu an gösterilecek paket yok." : missing ? `${withGeo.length} paket haritada · ${missing} paketin konumu kayıtlı değil.` : `${withGeo.length} paket haritada.`;
-  const idsKey = withGeo.map(o => o.id).sort().join(",");
-  if (rec.needFit || idsKey !== rec.idsKey) {
-    const ok = withGeo.length ? fitPts(rec.map, [[settings.map.lat, settings.map.lng], ...withGeo.map(o => [Number(o.geo.lat), Number(o.geo.lng)])], 16) : fitZones(rec.map);
-    rec.needFit = !ok;
-    if (ok) rec.idsKey = idsKey;
-  } else if (mapVisible(rec.map)) rec.map.invalidateSize(false);
-}
-// Gizli sayfadaki harita görünür olunca boyutu yeniden hesaplanır
-function refreshMaps() {
-  requestAnimationFrame(() => {
-    if (page === "new" && posMap) { if (mapVisible(posMap)) posMap.invalidateSize(false); if (posNeedFit) drawPosMap(true); }
-    const rec = pageMaps[page];
-    if (rec && mapPref(page) && mapVisible(rec.map)) { rec.map.invalidateSize(false); if (rec.needFit) drawPageMap(page); }
-    if (page === "settings" && setMapRec && mapVisible(setMapRec.map)) setMapRec.map.invalidateSize(false);
-  });
-}
-
-/* ---------- Ayarlar: dükkan konumu ---------- */
-function destroySettingsMap() { if (setMapRec) { try { setMapRec.map.remove(); } catch { /* yok say */ } setMapRec = null; } }
-async function mountSettingsMap() {
-  const el = $("setMap");
-  if (!el) return;
-  setDraft = { lat: settings.map.lat, lng: settings.map.lng };
-  try { await loadLeaflet(); }
-  catch { if (el.isConnected) el.innerHTML = `<div class="map-ph">Harita yüklenemedi. İnternet bağlantınızı kontrol edin.</div>`; return; }
-  if (!el.isConnected || $("setMap") !== el) return;   // bu arada sayfa yeniden çizildi
-  destroySettingsMap();
-  const L = window.L, map = makeMap(el, { drag: !isTouch(), wheel: false, keyboard: true, zoom: 16, dblZoom: false });
-  const rec = { map, zones: zoneLayer(setDraft).addTo(map), shop: null };
-  rec.shop = L.marker([setDraft.lat, setDraft.lng], { icon: shopIcon(), draggable: true, keyboard: false, autoPan: true, zIndexOffset: 1000 }).addTo(map);
-  rec.shop.on("dragend", e => moveShopDraft(e.target.getLatLng()));
-  map.on("click", e => moveShopDraft(e.latlng));
-  map.setView([setDraft.lat, setDraft.lng], 16);
-  setMapRec = rec;
-}
-function moveShopDraft(ll, { pan = false, zoom = 17 } = {}) {
-  setDraft = { lat: Number(ll.lat), lng: Number(ll.lng) };
-  setShopTouched = true; settingsDirty = true;
-  if (setMapRec) {
-    setMapRec.shop.setLatLng([setDraft.lat, setDraft.lng]);
-    setMapRec.zones.remove(); setMapRec.zones = zoneLayer(setDraft).addTo(setMapRec.map);
-    if (pan) setMapRec.map.setView([setDraft.lat, setDraft.lng], zoom);
-  }
-  const c = $("setShopCoord");
-  if (c) c.innerHTML = `Konum: ${esc(coordText(setDraft))} · <b style="color:var(--brand-d)">kaydedilmedi</b>, sağ üstteki “Ayarları kaydet”e basın.`;
-}
-async function shopSearch() {
-  const q = ($("setShopSearch")?.value || "").trim();
-  if (q.length < 4) return toast("Aramak için dükkanın adresini yazın.", "warn");
-  const res = await geocodeAddress(q);
-  const c = res.best || res.cands[0];
-  if (!c) return toast(res.status === "error" ? "Konum servisine ulaşılamadı. Pini haritada elle taşıyın." : "Adres bulunamadı. Pini haritada elle taşıyın.", "warn");
-  moveShopDraft(c, { pan: true, zoom: c.acc === "yaklasik" ? 15 : 17 });
-  toast(`${c.acc === "yaklasik" ? "Mahalle bulundu" : "Konum bulundu"}: ${c.label}. Pini dükkanın kapısına taşıyıp kaydedin.`, "ok");
-}
-function shopGps(btn) {
-  if (!("geolocation" in navigator)) return toast("Bu cihaz konum bilgisi vermiyor. Pini haritada elle taşıyın.", "warn");
-  const label = btn?.textContent;
-  if (btn) { btn.disabled = true; btn.textContent = "Konum alınıyor…"; }
-  const done = () => { if (btn && btn.isConnected) { btn.disabled = false; btn.textContent = label; } };
-  navigator.geolocation.getCurrentPosition(pos => {
-    done();
-    const { latitude: lat, longitude: lng, accuracy } = pos.coords;
-    if (airKm(settings.map, { lat, lng }) > 60) return toast("Bulunan konum dükkandan çok uzak görünüyor. Dükkandayken tekrar deneyin veya pini elle taşıyın.", "warn");
-    moveShopDraft({ lat, lng }, { pan: true, zoom: 18 });
-    toast(accuracy > 150 ? `Konum hassas değil (±${Math.round(accuracy)} m). Pini dükkanın kapısına sürükleyip kaydedin.` : `Konumunuz alındı (±${Math.round(accuracy)} m). “Ayarları kaydet”e basmayı unutmayın.`, accuracy > 150 ? "warn" : "ok");
-  }, err => {
-    done();
-    toast(err?.code === 1 ? "Konum izni verilmedi. Tarayıcıdan izin verin veya pini elle taşıyın." : "Konum alınamadı. Pini haritada elle taşıyın.", "warn");
-  }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
-}
-
-/* =========================================================
    ADİSYON KARTI
    ========================================================= */
 function contactLinks(o) {
   const out = [];
-  if (o.address || geoOk(o.geo)) out.push(`<a class="lnk" href="${esc(navUrl(o))}" target="_blank" rel="noopener noreferrer">🧭 Yol tarifi</a>`);
+  if (o.address) out.push(`<a class="lnk" href="${esc(navUrl(o.address))}" target="_blank" rel="noopener noreferrer">🧭 Yol tarifi</a>`);
   const d = digits(o.phone); if (d) out.push(`<a class="lnk" href="tel:${esc(d)}">📞 Ara</a>`);
   const wa = waPhone(o.phone); if (wa) out.push(`<a class="lnk" href="https://wa.me/${wa}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>`);
   return out.join("");
@@ -2866,7 +1788,6 @@ function ticketHTML(o, ctx) {
       <div class="t-head"><div class="t-cust">${esc(o.customerName || "Müşteri")}</div><div class="t-amt">${esc(money(o.total))}</div></div>
       <div class="t-pills"><span class="pill st-${st}">${STATE[st].icon} ${esc(stLabel)}</span><span class="pill pay" style="--tone:${p.tone}">${esc(p.id)}</span>${courierPill}</div>
       <div class="t-addr">📍 ${esc(o.address || "Adres yok")}${o.addressNote ? `<small>${esc(o.addressNote)}</small>` : ""}</div>
-      ${distRowHTML(o, ctx === "admin")}
       ${ctx !== "admin" && o.phone ? `<div class="t-phone">📞 ${esc(o.phone)}</div>` : ""}
       ${itemsHtml}
       ${cashLine}
@@ -2893,7 +1814,6 @@ function openDetail(id) {
   const o = findOrder(id); if (!o) return toast("Sipariş bulunamadı.", "err");
   const st = stateOf(o), p = payInfo(o.payment), items = normalizeItems(o.items), live = !!orders[id];
   const sub = num(o.subtotal) || items.reduce((s, i) => s + i.price * i.qty, 0);
-  const geoEditable = isAdmin && live && active(st);
   let adminHtml = "";
   if (isAdmin && live) {
     const btns = [`<button type="button" class="btn btn-ghost btn-sm" data-act="print" data-id="${esc(id)}">🖨 Fişi yazdır</button>`];
@@ -2909,8 +1829,7 @@ function openDetail(id) {
   } else if (isAdmin) adminHtml = `<div class="det-sec"><div class="det-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="print" data-id="${esc(id)}">🖨 Fişi yazdır</button><span class="muted small">Bu sipariş gün sonu arşivinde.</span></div></div>`;
   const body = `
     <div class="det-head"><span class="det-no">${esc(orderNoText(o))}</span><span class="pill st-${st}">${STATE[st].icon} ${esc(STATE[st].label)}</span><span class="pill pay" style="--tone:${p.tone}">${esc(p.id)}</span><span class="muted small">${esc(fmtDateTime(o.createdAt))}</span></div>
-    <div class="det-sec"><h4>Müşteri</h4><div><b>${esc(o.customerName || "Müşteri")}</b> · ${esc(o.phone || "telefon yok")}</div><div class="t-addr" style="margin-top:4px">📍 ${esc(o.address || "Adres yok")}${o.addressNote ? `<small>${esc(o.addressNote)}</small>` : ""}</div><div class="t-links" style="margin-top:8px">${contactLinks(o)}${o.address || geoOk(o.geo) ? `<a class="lnk" href="${esc(mapUrl(o))}" target="_blank" rel="noopener noreferrer">🗺 Google Haritalar</a>` : ""}</div></div>
-    ${detGeoSectionHTML(o, geoEditable)}
+    <div class="det-sec"><h4>Müşteri</h4><div><b>${esc(o.customerName || "Müşteri")}</b> · ${esc(o.phone || "telefon yok")}</div><div class="t-addr" style="margin-top:4px">📍 ${esc(o.address || "Adres yok")}${o.addressNote ? `<small>${esc(o.addressNote)}</small>` : ""}</div><div class="t-links" style="margin-top:8px">${contactLinks(o)}${o.address ? `<a class="lnk" href="${esc(mapUrl(o.address))}" target="_blank" rel="noopener noreferrer">🗺 Haritada gör</a>` : ""}</div></div>
     <div class="det-sec"><h4>Ürünler</h4><table class="det-items">${items.map(i => `<tr><td><b>${i.qty}×</b> ${esc(i.name)}${i.note ? `<em>${esc(i.note)}</em>` : ""}</td><td class="num">${esc(money(i.price * i.qty))}</td></tr>`).join("")}
       <tr><td colspan="2" style="border-top:1px dashed var(--line2)"></td></tr>
       <tr><td class="muted">Ara toplam</td><td class="num">${esc(money(sub))}</td></tr>
@@ -2921,7 +1840,6 @@ function openDetail(id) {
     <div class="det-sec"><h4>Süreç</h4>${timelineHTML(o)}</div>
     ${adminHtml}`;
   openModal({ title: "Sipariş detayı", body, wide: true });
-  mountDetailMap(o, geoEditable);
 }
 function active(st) { return st === "pool" || st === "assigned" || st === "road"; }
 
@@ -3053,7 +1971,6 @@ function renderLive() {
   $("liveBoard").className = "board" + (shown.length === 1 ? " single" : "");
   $("liveBoard").innerHTML = shown.map(c => `<div class="col"><div class="col-head"><div><h3>${c.title}</h3><p>${esc(c.hint)}</p></div><span class="col-count">${c.list.length}</span></div>
     <div class="col-body">${c.list.length ? c.list.map(o => ticketHTML(o, "admin")).join("") : `<div class="empty">Burada paket yok.</div>`}</div></div>`).join("");
-  renderPageMap("live");
 }
 
 /* =========================================================
@@ -3074,7 +1991,7 @@ function renderHistory() {
   $("historySum").textContent = `${list.length} sipariş listeleniyor · teslim edilenlerin toplamı ${money(doneSum)}`;
   $("historyList").innerHTML = list.length
     ? `<div class="h-row h-head"><span>No</span><span>Saat</span><span>Müşteri</span><span>Kurye</span><span class="h-pay">Ödeme</span><span class="h-amt">Tutar</span><span>Durum</span></div>` +
-      list.map(o => { const st = stateOf(o); return `<button type="button" class="h-row" data-act="detail" data-id="${esc(o.id)}"><span class="h-no">${esc(orderNoText(o))}</span><span class="h-time">${fmtTime(o.createdAt)}</span><span class="h-cust"><b>${esc(o.customerName || "Müşteri")}</b><small>${geoOk(o.geo) ? esc(kmText(geoDist(o.geo))) + " · " : ""}${esc(o.phone || "")} · ${esc(o.address || "")}</small></span><span class="h-courier">${esc(o.courierName || (o.courierId ? courierNameOf(o.courierId) : "Havuz"))}</span><span class="h-pay">${esc(o.payment || "–")}</span><span class="h-amt">${esc(money(o.total))}</span><span class="h-st"><span class="pill st-${st}">${esc(STATE[st].label)}</span></span></button>`; }).join("")
+      list.map(o => { const st = stateOf(o); return `<button type="button" class="h-row" data-act="detail" data-id="${esc(o.id)}"><span class="h-no">${esc(orderNoText(o))}</span><span class="h-time">${fmtTime(o.createdAt)}</span><span class="h-cust"><b>${esc(o.customerName || "Müşteri")}</b><small>${esc(o.phone || "")} · ${esc(o.address || "")}</small></span><span class="h-courier">${esc(o.courierName || (o.courierId ? courierNameOf(o.courierId) : "Havuz"))}</span><span class="h-pay">${esc(o.payment || "–")}</span><span class="h-amt">${esc(money(o.total))}</span><span class="h-st"><span class="pill st-${st}">${esc(STATE[st].label)}</span></span></button>`; }).join("")
     : `<div class="empty"><b>Sipariş yok</b>${q || pv || historyFilter !== "all" ? "Filtreleri değiştirerek tekrar deneyin." : "Gün sonundan bu yana sipariş alınmadı."}</div>`;
 }
 
@@ -3089,7 +2006,7 @@ function renderCustomers() {
   const shown = list.slice(0, 200);
   $("customerList").innerHTML = shown.length ? shown.map(([k, c]) => `<article class="card">
       <div class="card-top"><div style="min-width:0"><div class="card-title">${esc(c.name || "İsimsiz müşteri")}</div><div class="card-sub">📞 ${esc(c.phone || k)}</div></div>${num(c.orderCount) >= 10 ? `<span class="pill st-done">Sadık müşteri</span>` : ""}</div>
-      <div class="card-meta">📍 ${esc(c.address || "Adres kayıtlı değil")}${geoOk(c.geo) ? ` <span class="pill z-${zoneOf(geoDist(c.geo))}" style="background:var(--zb);color:var(--zc)">${esc(kmText(geoDist(c.geo)))}</span>` : ""}${c.addressNote ? `<br><span class="muted">${esc(c.addressNote)}</span>` : ""}</div>
+      <div class="card-meta">📍 ${esc(c.address || "Adres kayıtlı değil")}${c.addressNote ? `<br><span class="muted">${esc(c.addressNote)}</span>` : ""}</div>
       ${c.note ? `<div class="t-note">⚠ ${esc(c.note)}</div>` : ""}
       <div class="card-stats" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div><small>Sipariş</small><b>${num(c.orderCount)}</b></div><div><small>Toplam</small><b>${esc(money(c.totalSpent))}</b></div><div><small>Son sipariş</small><b style="font-size:12.5px">${esc(c.lastOrderAt ? agoText(c.lastOrderAt) : "–")}</b></div></div>
       <div class="card-actions"><button type="button" class="btn btn-primary btn-sm" data-act="cust-order" data-key="${esc(k)}">Siparişe aktar</button>${digits(c.phone || k) ? `<a class="btn btn-ghost btn-sm" href="tel:${esc(digits(c.phone || k))}">📞 Ara</a>` : ""}<button type="button" class="btn btn-ghost btn-sm" data-act="cust-edit" data-key="${esc(k)}">Düzenle</button><button type="button" class="btn btn-danger btn-sm" data-act="cust-del" data-key="${esc(k)}">Sil</button></div>
@@ -3113,7 +2030,6 @@ function openCustomerModal(key) {
       const rec = clean({ ...(c || {}), ...(customers[newKey] || {}), name, phone, address, addressNote: $("mcAddrNote").value.trim() || null, note: $("mcNote").value.trim() || null, updatedAt: Date.now() });
       if (!$("mcAddrNote").value.trim()) delete rec.addressNote;
       if (!$("mcNote").value.trim()) delete rec.note;
-      if (rec.geo && geoKey(rec.geo.addr || "") !== geoKey(address)) delete rec.geo;   // adres değiştiyse kayıtlı konum geçersiz
       const ups = { [`customers/${newKey}`]: rec };
       if (key && key !== newKey) ups[`customers/${key}`] = null;
       await commit(update(ref(db), ups));
@@ -3129,7 +2045,7 @@ function customerToOrder(key) {
   const c = customers[key]; if (!c) return;
   showPage("new");
   $("custPhone").value = c.phone || key; $("custName").value = c.name || ""; $("custAddress").value = c.address || ""; $("custAddrNote").value = c.addressNote || "";
-  updateCustInfo(); posGeoFromCustomer(c); saveDraft();
+  updateCustInfo(); saveDraft();
   toast(`${c.name || "Müşteri"} sipariş ekranına aktarıldı.`);
 }
 
@@ -3139,11 +2055,8 @@ function customerToOrder(key) {
 function courierStats(uid) {
   const mine = Object.values(orders).filter(o => o.courierId === uid);
   const delivered = mine.filter(o => o.status === "teslim_edildi");
-  const s = { onHand: mine.filter(isActive).length, delivered: delivered.length, amount: 0, cash: 0, card: 0, meal: 0, other: 0, km: 0, kmN: 0 };
-  for (const o of delivered) {
-    const g = payInfo(o.payment).group; s.amount += num(o.total); s[g] += num(o.total);
-    const k = geoDist(o.geo); if (Number.isFinite(k)) { s.km += k; s.kmN++; }
-  }
+  const s = { onHand: mine.filter(isActive).length, delivered: delivered.length, amount: 0, cash: 0, card: 0, meal: 0, other: 0 };
+  for (const o of delivered) { const g = payInfo(o.payment).group; s.amount += num(o.total); s[g] += num(o.total); }
   return s;
 }
 function renderCouriers() {
@@ -3154,7 +2067,7 @@ function renderCouriers() {
       <div class="card-top"><div style="display:flex;gap:11px;min-width:0"><div class="avatar">${esc((c.name || "K").trim().charAt(0).toLocaleUpperCase("tr-TR"))}<span class="dot ${on ? "on" : ""}"></span></div><div style="min-width:0"><div class="card-title">${esc(c.name || "Kurye")}</div><div class="card-sub">${c.active === false ? "Pasif" : on ? "Çevrimiçi" : "Çevrimdışı, son görülme " + esc(agoText(c.lastSeen))}${c.email ? " · " + esc(c.email) : ""}</div></div></div>
         <button type="button" class="so-toggle ${c.active === false ? "off" : ""}" data-act="courier-toggle" data-uid="${esc(uid)}">${c.active === false ? "Pasif" : "Aktif"}</button></div>
       <div class="card-stats"><div><small>Üzerinde</small><b>${s.onHand}</b></div><div><small>Teslim</small><b>${s.delivered}</b></div><div><small>Tutar</small><b>${esc(money(s.amount))}</b></div><div><small>Nakit (kasaya)</small><b>${esc(money(s.cash))}</b></div></div>
-      ${s.card || s.meal || s.kmN ? `<div class="muted small">${[s.card || s.meal ? `Kart: ${esc(money(s.card))} · Yemek kartı: ${esc(money(s.meal))}${s.other ? " · Diğer: " + esc(money(s.other)) : ""}` : "", s.kmN ? `Yol: ${esc(kmText(s.km))} (${s.kmN} teslimat, tek yön)` : ""].filter(Boolean).join(" · ")}</div>` : ""}
+      ${s.card || s.meal ? `<div class="muted small">Kart: ${esc(money(s.card))} · Yemek kartı: ${esc(money(s.meal))}${s.other ? " · Diğer: " + esc(money(s.other)) : ""}</div>` : ""}
       <div class="card-actions"><button type="button" class="btn btn-ghost btn-sm" data-act="courier-edit" data-uid="${esc(uid)}">Düzenle</button>${c.phone ? `<a class="btn btn-ghost btn-sm" href="tel:${esc(digits(c.phone))}">📞 Ara</a>` : ""}<button type="button" class="btn btn-ghost btn-sm" data-act="copy" data-text="${esc(uid)}">UID kopyala</button><button type="button" class="btn btn-danger btn-sm" data-act="courier-del" data-uid="${esc(uid)}">Kaldır</button></div>
     </article>`;
   }).join("") : `<div class="empty"><b>Henüz kurye yok</b>“Kurye ekle” ile hesap açın.</div>`)
@@ -3230,24 +2143,21 @@ function summarize(list) {
   list = list.filter(Boolean);
   const delivered = list.filter(o => o.status === "teslim_edildi"), cancelled = list.filter(o => o.status === "iptal"), act = list.filter(isActive);
   const pay = {}, cour = {}, prod = {}, groups = { cash: 0, card: 0, meal: 0, other: 0 };
-  let revenue = 0, dSum = 0, dN = 0, kmSum = 0, kmN = 0;
+  let revenue = 0, dSum = 0, dN = 0;
   for (const o of delivered) {
     const t = num(o.total); revenue += t;
     const pi = payInfo(o.payment), pk = safeKey(pi.id);
     pay[pk] = pay[pk] || { name: pi.id, count: 0, amount: 0 }; pay[pk].count++; pay[pk].amount = round2(pay[pk].amount + t);
     groups[pi.group] = round2(groups[pi.group] + t);
     const ck = safeKey(o.courierId || "_havuz");
-    const c = cour[ck] = cour[ck] || { name: o.courierName || courierNameOf(o.courierId) || "Kurye atanmadı", count: 0, amount: 0, cash: 0, card: 0, meal: 0, other: 0, mins: 0, minsN: 0, km: 0, kmN: 0 };
+    const c = cour[ck] = cour[ck] || { name: o.courierName || courierNameOf(o.courierId) || "Kurye atanmadı", count: 0, amount: 0, cash: 0, card: 0, meal: 0, other: 0, mins: 0, minsN: 0 };
     c.count++; c.amount = round2(c.amount + t); c[pi.group] = round2(c[pi.group] + t);
-    const k = geoDist(o.geo);   // dükkandan adrese tek yön mesafe
-    if (Number.isFinite(k)) { kmSum += k; kmN++; c.km = round2(c.km + k); c.kmN++; }
     if (o.deliveredAt && o.createdAt) { const m = (num(o.deliveredAt) - num(o.createdAt)) / 60000; if (m > 0 && m < 600) { dSum += m; dN++; c.mins += m; c.minsN++; } }
     for (const it of normalizeItems(o.items)) { const k = safeKey(it.name); prod[k] = prod[k] || { name: it.name, qty: 0, amount: 0 }; prod[k].qty += it.qty; prod[k].amount = round2(prod[k].amount + it.qty * it.price); }
   }
   revenue = round2(revenue);
   return { delivered, cancelled, act, revenue, deliveredCount: delivered.length, cancelledCount: cancelled.length, activeAmount: round2(act.reduce((s, o) => s + num(o.total), 0)),
-    cancelledAmount: round2(cancelled.reduce((s, o) => s + num(o.total), 0)), avgBasket: delivered.length ? revenue / delivered.length : 0, avgMins: dN ? dSum / dN : 0,
-    kmSum: round2(kmSum), kmN, avgKm: kmN ? kmSum / kmN : 0, pay, cour, prod, groups };
+    cancelledAmount: round2(cancelled.reduce((s, o) => s + num(o.total), 0)), avgBasket: delivered.length ? revenue / delivered.length : 0, avgMins: dN ? dSum / dN : 0, pay, cour, prod, groups };
 }
 function payBarsHTML(s) {
   const rows = PAYMENTS.map(p => s.pay[safeKey(p.id)] || { name: p.id, count: 0, amount: 0 });
@@ -3259,7 +2169,7 @@ function payBarsHTML(s) {
 function courierTableHTML(s) {
   const rows = Object.values(s.cour).sort((a, b) => b.amount - a.amount);
   if (!rows.length) return `<div class="empty">Henüz teslim edilmiş sipariş yok.</div>`;
-  return `<table class="tbl"><thead><tr><th>Kurye</th><th class="num">Paket</th><th class="num">Tutar</th><th class="num">Nakit</th><th class="num">Kart</th><th class="num">Yemek kartı</th><th class="num">Ort. süre</th><th class="num" title="Dükkandan adreslere tek yön mesafelerin toplamı">Toplam km</th></tr></thead><tbody>${rows.map(c => `<tr><td><b>${esc(c.name)}</b></td><td class="num">${c.count}</td><td class="num"><b>${esc(money(c.amount))}</b></td><td class="num">${esc(money(c.cash))}</td><td class="num">${esc(money(c.card))}</td><td class="num">${esc(money(c.meal))}</td><td class="num">${c.minsN ? durText(c.mins / c.minsN) : "–"}</td><td class="num">${num(c.kmN) ? esc(kmText(c.km)) : "–"}</td></tr>`).join("")}</tbody></table>`;
+  return `<table class="tbl"><thead><tr><th>Kurye</th><th class="num">Paket</th><th class="num">Tutar</th><th class="num">Nakit</th><th class="num">Kart</th><th class="num">Yemek kartı</th><th class="num">Ort. süre</th></tr></thead><tbody>${rows.map(c => `<tr><td><b>${esc(c.name)}</b></td><td class="num">${c.count}</td><td class="num"><b>${esc(money(c.amount))}</b></td><td class="num">${esc(money(c.cash))}</td><td class="num">${esc(money(c.card))}</td><td class="num">${esc(money(c.meal))}</td><td class="num">${c.minsN ? durText(c.mins / c.minsN) : "–"}</td></tr>`).join("")}</tbody></table>`;
 }
 function productsHTML(s, limit = 10) {
   const rows = Object.values(s.prod).sort((a, b) => b.qty - a.qty || b.amount - a.amount).slice(0, limit);
@@ -3270,7 +2180,7 @@ function productsHTML(s, limit = 10) {
 function tilesHTML(s, archive = false) {
   return `<div class="tile hero"><small>Ciro</small><strong>${esc(money(s.revenue))}</strong><span>${s.deliveredCount} teslim edilen sipariş</span></div>
     <div class="tile"><small>Ortalama sepet</small><strong>${esc(money(Math.round(s.avgBasket)))}</strong><span>teslim edilenlere göre</span></div>
-    <div class="tile"><small>Ortalama teslim süresi</small><strong>${s.avgMins ? durText(s.avgMins) : "–"}</strong><span>siparişten kapıya${s.kmN ? ` · ort. ${esc(kmText(s.avgKm))}` : ""}</span></div>
+    <div class="tile"><small>Ortalama teslim süresi</small><strong>${s.avgMins ? durText(s.avgMins) : "–"}</strong><span>siparişten kapıya</span></div>
     ${archive ? "" : `<div class="tile"><small>Aktif sipariş</small><strong>${s.act.length}</strong><span>${esc(money(s.activeAmount))} bekliyor</span></div>`}
     <div class="tile"><small>Yemek kartları</small><strong>${esc(money(s.groups.meal))}</strong><span>Multinet, Pluxxe, Edenred, Setcard, Metropol</span></div>
     <div class="tile"><small>İptal</small><strong>${s.cancelledCount}</strong><span>${esc(money(s.cancelledAmount))}</span></div>`;
@@ -3460,24 +2370,8 @@ async function toggleSoldOut(idx) {
    AYARLAR
    ========================================================= */
 function renderSettings() {
-  const s = settings.shop, r = settings.receipt, m = settings.map;
-  destroySettingsMap();
+  const s = settings.shop, r = settings.receipt;
   $("settingsBody").innerHTML = `
-    <div class="panel" style="grid-column:1/-1"><div class="panel-head"><h3>Harita ve teslimat mesafesi</h3><span class="pill ${m.set ? "st-done" : "st-pool"}">${m.set ? "✓ Dükkan konumu kaydedildi" : "⚠ Dükkan konumu yaklaşık, lütfen işaretleyin"}</span></div>
-      <div class="geo-set">
-        <div>
-          <div class="field"><label for="setShopSearch">Dükkan adresi</label><div class="geo-search"><input id="setShopSearch" class="control" maxlength="140" value="${esc(m.label)}" autocomplete="off"><button type="button" class="btn btn-ghost" data-act="shop-search">Bul</button></div><p class="hint">Sokak adını da yazarsanız daha doğru bulunur. En kesin yol: dükkandayken aşağıdaki düğmeye basmak.</p></div>
-          <button type="button" class="btn btn-soft btn-block" data-act="shop-gps">📍 Şu an dükkandayım, konumumu kullan</button>
-          <div class="field-row" style="margin-top:12px">
-            <div class="field"><label for="setWarnKm">Uyarı mesafesi (km)</label><input id="setWarnKm" class="control" type="number" min="0" step="0.5" inputmode="decimal" value="${m.warnKm || ""}" placeholder="Örn. 3"></div>
-            <div class="field"><label for="setMaxKm">Teslimat sınırı (km)</label><input id="setMaxKm" class="control" type="number" min="0" step="0.5" inputmode="decimal" value="${m.maxKm || ""}" placeholder="Örn. 5"></div>
-          </div>
-          <p class="hint" style="margin-top:0">Uyarı mesafesini geçen adresler <b style="color:#b45309">sarı</b>, teslimat sınırını geçenler <b style="color:var(--red)">kırmızı</b> görünür; sınır dışı bir adrese sipariş alırken onay istenir. Boş bırakılan sınır uygulanmaz. Mesafe, dükkandan adrese yol mesafesidir; yol hesaplanamazsa kuş uçuşu kullanılır.</p>
-          <p class="hint" id="setShopCoord">Konum: ${esc(coordText(m))}</p>
-        </div>
-        <div><div id="setMap" class="map-box map-set"><div class="map-ph">Harita yükleniyor…</div></div><p class="hint">Pini sürükleyin veya haritada dükkanın kapısına dokunun, sonra sağ üstteki “Ayarları kaydet”e basın.</p></div>
-      </div>
-    </div>
     <div class="panel"><div class="panel-head"><h3>İşletme bilgileri</h3></div>
       <div class="field"><label for="setName">Fiş başlığı</label><input id="setName" class="control" maxlength="40" value="${esc(s.name)}"></div>
       <div class="field"><label for="setPhone">Telefon</label><input id="setPhone" class="control" inputmode="tel" maxlength="30" value="${esc(s.phone)}"></div>
@@ -3509,34 +2403,17 @@ function renderSettings() {
       <p class="small muted" style="margin:0 0 12px">Deneme amaçlı girilen gün sonlarını, siparişleri ve müşterileri kalıcı olarak siler. Neyin silineceğini bir sonraki ekranda seçersiniz.</p>
       <button type="button" class="btn btn-danger" data-act="data-clean">🗑 Test verilerini temizle</button>
     </div>`;
-  settingsDirty = false; setShopTouched = false;
+  settingsDirty = false;
   renderSfxLists();
   loadSounds(["kurye"]);
-  mountSettingsMap();
 }
 async function saveSettings() {
   if (!$("setName")) return;
   const shop = { name: $("setName").value.trim() || "HAYAL PİDE", phone: $("setPhone").value.trim(), address: $("setAddr").value.trim(), city: $("setCity").value.trim(), footer: $("setFooter").value.trim() };
   const width = $("setWidth").querySelector(".on")?.dataset.w === "58" ? 58 : 80;
   const receipt = { width, copies: num($("setCopies").value) || 1, kitchen: $("setKitchen").checked, big: $("setBig").checked };
-  const warnKm = round2(Math.max(0, num($("setWarnKm")?.value))), maxKm = round2(Math.max(0, num($("setMaxKm")?.value)));
-  if (warnKm && maxKm && warnKm >= maxKm) { $("setWarnKm").classList.add("invalid"); toast("Uyarı mesafesi teslimat sınırından küçük olmalı.", "err"); return; }
-  $("setWarnKm")?.classList.remove("invalid");
-  const d = setDraft || settings.map;
-  const map = { lat: round5(d.lat), lng: round5(d.lng), label: ($("setShopSearch")?.value || "").trim() || DEFAULT_MAP.label, set: settings.map.set || setShopTouched, warnKm, maxKm };
-  try {
-    let mapSaved = true;
-    try { await commit(update(ref(db, "settings"), { shop, receipt, map })); }
-    catch (e) {
-      if (!isPerm(e)) throw e;
-      // Kurallar yeni "map" alanına izin vermiyorsa diğer ayarlar yine kaydedilsin
-      await commit(update(ref(db, "settings"), { shop, receipt })); mapSaved = false;
-    }
-    settings.shop = shop; settings.receipt = receipt; if (mapSaved) settings.map = normMap(map); settingsDirty = false;
-    onMapSettings(); renderSettings();
-    toast(mapSaved ? "Ayarlar kaydedildi." : "Ayarlar kaydedildi ama dükkan konumu kaydedilemedi: Firebase kurallarında “settings/map” için yazma izni verin.", mapSaved ? "ok" : "warn");
-  }
-  catch (e) { console.error(e); toast(isPerm(e) ? "Ayarlar kaydedilemedi: yetki yok." : "Ayarlar kaydedilemedi.", "err"); }
+  try { await commit(update(ref(db, "settings"), { shop, receipt })); settings.shop = shop; settings.receipt = receipt; settingsDirty = false; toast("Ayarlar kaydedildi.", "ok"); }
+  catch (e) { console.error(e); toast("Ayarlar kaydedilemedi.", "err"); }
 }
 
 /* =========================================================
@@ -3548,7 +2425,6 @@ function renderPool() {
   const mine = Object.values(orders).filter(o => isActive(o) && o.courierId === myUid()).length;
   $("poolSub").textContent = list.length ? `${list.length} paket kurye bekliyor${mine ? `, sizde ${mine} paket var` : ""}. En eski paket en üstte.` : "Almak istediğiniz paketi üstünüze alın.";
   $("poolList").innerHTML = list.length ? list.map(o => ticketHTML(o, "pool")).join("") : (ordersError ? "" : `<div class="panel empty"><b>Havuz boş</b>Yeni paket geldiğinde sesli uyarı alırsınız.</div>`);
-  renderPageMap("pool");
 }
 function renderMine() {
   document.querySelectorAll(".courier-banner").forEach(b => b.innerHTML = courierProblemHTML());
@@ -3558,7 +2434,6 @@ function renderMine() {
   $("mineSub").textContent = list.length ? `${list.length} paket${cash ? `, tahsil edilecek nakit ${money(cash)}` : ""}. İstemediğiniz paketi havuza bırakabilirsiniz.` : "Üzerinizde paket yok.";
   $("mineActions").innerHTML = waiting > 1 ? `<button type="button" class="btn btn-primary" data-act="bulk-road">🛵 ${waiting} paketle yola çıktım</button>` : "";
   $("mineList").innerHTML = list.length ? list.map(o => ticketHTML(o, "mine")).join("") : (ordersError ? "" : `<div class="panel empty"><b>Üzerinizde paket yok</b>Havuzdan paket alın.<div style="margin-top:12px"><button type="button" class="btn btn-primary" data-act="nav" data-nav="pool">Havuza git</button></div></div>`);
-  renderPageMap("mine");
 }
 function renderCDone() {
   const mine = Object.values(orders).filter(o => o.courierId === myUid());
@@ -3568,7 +2443,7 @@ function renderCDone() {
   $("cdoneBody").innerHTML = `${courierProblemHTML()}
     <div class="tiles">
       <div class="tile hero"><small>Kasaya teslim edilecek nakit</small><strong>${esc(money(s.groups.cash))}</strong><span>${done.filter(o => o.payment === "Nakit").length} nakit sipariş</span></div>
-      <div class="tile"><small>Teslim edilen</small><strong>${s.deliveredCount}</strong><span>${esc(money(s.revenue))} toplam${s.kmN ? ` · ${esc(kmText(s.kmSum))} yol` : ""}</span></div>
+      <div class="tile"><small>Teslim edilen</small><strong>${s.deliveredCount}</strong><span>${esc(money(s.revenue))} toplam</span></div>
       <div class="tile"><small>Kredi kartı</small><strong>${esc(money(s.groups.card))}</strong></div>
       <div class="tile"><small>Yemek kartları</small><strong>${esc(money(s.groups.meal))}</strong></div>
     </div>
@@ -3625,7 +2500,6 @@ function customerReceipt(o) {
     <div><b>Tel:</b> ${esc(o.phone || "-")}</div>
     <div style="word-break:break-word"><b>Adres:</b> ${esc(o.address || "-")}</div>
     ${o.addressNote ? `<div style="word-break:break-word"><b>Tarif:</b> ${esc(o.addressNote)}</div>` : ""}
-    ${geoOk(o.geo) ? `<div><b>Mesafe:</b> ${o.geo.acc === "yaklasik" ? "~" : ""}${esc(kmText(geoDist(o.geo)))}${geoIsRoad(o.geo) ? "" : " (kuş uçuşu)"}</div>` : ""}
     <hr>
     <table>${items.map(i => `<tr><td><b>${i.qty} x</b> ${esc(i.name)}${i.qty > 1 ? `<div class="note">(${esc(money(i.price))})</div>` : ""}${i.note ? `<div class="note">* ${esc(i.note)}</div>` : ""}</td><td class="a">${esc(money(i.price * i.qty))}</td></tr>`).join("")}</table>
     <hr>
@@ -3662,7 +2536,7 @@ function reportReceipt(s, title, dateStr) {
     <div class="kv b"><span>Kredi kartı</span><span>${esc(money(s.groups.card))}</span></div>
     <div class="kv b"><span>Yemek kartları</span><span>${esc(money(s.groups.meal))}</span></div><hr>
     <div class="b">KURYELER</div>
-    ${Object.values(s.cour).length ? Object.values(s.cour).map(c => `<div class="kv"><span>${esc(c.name)} (${c.count})</span><span>${esc(money(c.amount))}</span></div><div class="kv s"><span>&nbsp; nakit</span><span>${esc(money(c.cash))}</span></div>${num(c.kmN) ? `<div class="kv s"><span>&nbsp; yol</span><span>${esc(kmText(c.km))}</span></div>` : ""}`).join("") : "<div>-</div>"}
+    ${Object.values(s.cour).length ? Object.values(s.cour).map(c => `<div class="kv"><span>${esc(c.name)} (${c.count})</span><span>${esc(money(c.amount))}</span></div><div class="kv s"><span>&nbsp; nakit</span><span>${esc(money(c.cash))}</span></div>`).join("") : "<div>-</div>"}
     <hr><div class="b">ÜRÜNLER</div>
     ${prods.length ? prods.map(p => `<div class="kv"><span>${p.qty} x ${esc(p.name)}</span><span>${esc(money(p.amount))}</span></div>`).join("") : "<div>-</div>"}
     <hr><div class="c s">Yazdırma: ${esc(fmtDateTime(Date.now()))}</div>`;
@@ -3798,19 +2672,7 @@ const ACTIONS = {
   "sfx-rescan": el => withBusy(el, rescanSounds),
   "audio-unlock": () => { unlockAudio(); setTimeout(updateAudioBar, 300); },
   "eod-del": el => deleteEod(el.dataset.key),
-  "data-clean": () => openDataClean(),
-  // Harita ve mesafe
-  "order-map": el => openOrderMap(el.dataset.id),
-  "map-toggle": el => toggleMapPref(el.dataset.map),
-  "pos-cand": el => pickPosCand(+el.dataset.i),
-  "pos-cands": () => { posCandsOpen = !posCandsOpen; renderPosGeo(); },
-  "pos-regeo": () => { posGeo = null; posGeoState = "idle"; onAddressInput(true); },
-  "pos-undo": () => undoPosGeo(),
-  "pos-retry": () => runPosGeocode(),
-  "det-geo-save": el => withBusy(el, saveDetailGeo),
-  "det-geo-cancel": () => cancelDetailGeo(),
-  "shop-search": el => withBusy(el, shopSearch),
-  "shop-gps": el => shopGps(el)
+  "data-clean": () => openDataClean()
 };
 document.addEventListener("click", e => {
   const el = e.target.closest("[data-act]");
@@ -3834,7 +2696,7 @@ document.addEventListener("input", e => {
   const id = e.target.id;
   if (id === "productSearch") renderCatalog();
   else if (id === "custPhone") onCustPhoneInput();
-  else if (["custName", "custAddress", "custAddrNote", "orderNote"].includes(id)) { e.target.classList.remove("invalid"); if (id === "custAddress") onAddressInput(); saveDraft(); }
+  else if (["custName", "custAddress", "custAddrNote", "orderNote"].includes(id)) { e.target.classList.remove("invalid"); saveDraft(); }
   else if (id === "discount" || id === "cashGiven") renderCart();
   else if (id === "historySearch") renderHistory();
   else if (id === "customerSearch") renderCustomers();
@@ -3847,7 +2709,6 @@ document.addEventListener("keydown", e => {
   if (modalOpen && e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "checkbox" && !e.isComposing) { e.preventDefault(); modalSave(); return; }
   if ((e.key === "Enter" || e.key === " ") && e.target.matches?.('[role="button"][data-act]')) { e.preventDefault(); e.target.click(); return; }
   if (!isAdmin || !currentUser) return;
-  if (e.key === "Enter" && e.target.id === "setShopSearch") { e.preventDefault(); withBusy(document.querySelector('[data-act="shop-search"]'), shopSearch); return; }
   if (e.target.id === "custPhone" && !$("suggestions").classList.contains("hidden")) {
     const opts = [...$("suggestions").querySelectorAll(".sug")];
     if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); suggestIdx = (suggestIdx + (e.key === "ArrowDown" ? 1 : -1) + opts.length) % opts.length; opts.forEach((o, i) => o.classList.toggle("on", i === suggestIdx)); opts[suggestIdx]?.scrollIntoView({ block: "nearest" }); return; }
